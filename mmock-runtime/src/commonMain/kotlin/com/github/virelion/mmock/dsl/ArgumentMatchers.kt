@@ -1,12 +1,12 @@
 package com.github.virelion.mmock.dsl
 
 import com.github.virelion.mmock.backend.stack.ArgumentStackElement
-import com.github.virelion.mmock.backend.unsafe.createUnsafe
+import com.github.virelion.mmock.backend.unsafe.defaultInstance
 
 @MMockDSL
 inline fun <reified T> MMockContext.any(): T {
     eventStack?.add(ArgumentStackElement { true })
-    return createUnsafe()
+    return defaultInstance()
 }
 
 @MMockDSL
@@ -18,5 +18,5 @@ inline fun <reified T> MMockContext.eq(item: T): T {
 @MMockDSL
 inline fun <reified T> MMockContext.instanceOf(): T {
     eventStack?.add(ArgumentStackElement { it is T })
-    return createUnsafe()
+    return defaultInstance()
 }

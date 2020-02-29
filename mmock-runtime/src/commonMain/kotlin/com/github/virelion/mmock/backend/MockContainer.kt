@@ -2,7 +2,7 @@ package com.github.virelion.mmock.backend
 
 import com.github.virelion.mmock.NoMethodStubException
 import com.github.virelion.mmock.backend.stack.MethodElement
-import com.github.virelion.mmock.backend.unsafe.createUnsafe
+import com.github.virelion.mmock.backend.unsafe.defaultInstance
 import com.github.virelion.mmock.dsl.MMockContext
 
 class MockContainer(
@@ -18,7 +18,7 @@ class MockContainer(
         when (context.state) {
             MMockContext.State.RECORDING -> {
                 context.eventStack?.add(MethodElement(name, objectMock))
-                return createUnsafe()
+                return defaultInstance()
             }
             MMockContext.State.INVOKING -> {
                 return regular[name]
@@ -33,7 +33,7 @@ class MockContainer(
         when (context.state) {
             MMockContext.State.RECORDING -> {
                 context.eventStack?.add(MethodElement(name, objectMock))
-                return createUnsafe()
+                return defaultInstance()
             }
             MMockContext.State.INVOKING -> {
                 return suspend[name]
