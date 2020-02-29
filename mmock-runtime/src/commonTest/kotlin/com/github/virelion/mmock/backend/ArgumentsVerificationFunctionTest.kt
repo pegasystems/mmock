@@ -7,25 +7,25 @@ import kotlin.test.assertTrue
 class ArgumentsVerificationFunctionTest {
     @Test
     fun validArguments() {
-        val arguments: Arguments = arrayOf(2, "", 3)
-        val verificationFunction: Array<ArgumentsVerificationFunction> = arrayOf(
+        val args: Array<out Any?> = arrayOf(2, "", 3)
+        val verificationFunction: ArgumentsConstraints = mutableListOf(
                 { element: Any? -> element == 2 },
                 { element: Any? -> element == "" },
                 { element: Any? -> element == 3 }
         )
 
-        assertTrue { arguments.verify(verificationFunction) }
+        assertTrue { verificationFunction.verify(args) }
     }
 
     @Test
     fun invalidArguments() {
-        val arguments: Arguments = arrayOf(2, "", 3)
-        val verificationFunction: Array<ArgumentsVerificationFunction> = arrayOf(
+        val args: Array<out Any?> = arrayOf(2, "", 3)
+        val verificationFunction: ArgumentsConstraints = mutableListOf(
                 { element: Any? -> element == 2 },
-                { element: Any? -> element == 2 },
+                { element: Any? -> element == 2},
                 { element: Any? -> element == 3 }
         )
 
-        assertFalse { arguments.verify(verificationFunction) }
+        assertFalse { verificationFunction.verify(args) }
     }
 }

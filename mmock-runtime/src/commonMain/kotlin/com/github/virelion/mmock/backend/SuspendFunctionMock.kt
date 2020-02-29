@@ -1,10 +1,10 @@
 package com.github.virelion.mmock.backend
 
-class FunctionMock<R>(
+class SuspendFunctionMock<R>(
         val verificationFunction: ArgumentsConstraints,
-        val body: ((Array<out Any?>) -> R)
+        val body: suspend (Array<out Any?>) -> R
 ) {
-    operator fun invoke(vararg args: Any?): R {
+    suspend operator fun invoke(vararg args: Any?): R {
         return body(args)
     }
 }

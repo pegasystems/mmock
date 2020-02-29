@@ -1,11 +1,12 @@
 package com.github.virelion.mmock.backend
 
 typealias ArgumentsVerificationFunction = (Any?) -> Boolean
+typealias ArgumentsConstraints = MutableList<ArgumentsVerificationFunction>
 
-fun Arguments.verify(constraint: Array<ArgumentsVerificationFunction>): Boolean {
+fun ArgumentsConstraints.verify(constraint: Array<out Any?>): Boolean {
     var result = true
     for(i in this.indices) {
-        result = result && constraint[i].invoke(this[i])
+        result = result && this[i].invoke(constraint[i])
     }
     return result
 }

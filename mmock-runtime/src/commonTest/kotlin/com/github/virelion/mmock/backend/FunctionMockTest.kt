@@ -1,12 +1,13 @@
 package com.github.virelion.mmock.backend
 
+import com.github.virelion.mmock.backend.unsafe.createUnsafe
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class FunctionMockTest {
     @Test
     fun canBeInvoked() = runSuspend {
-        val functionMock = FunctionMock {
+        val functionMock = FunctionMock(createUnsafe()) {
             (it[0] as Int) * 2
         }
 
