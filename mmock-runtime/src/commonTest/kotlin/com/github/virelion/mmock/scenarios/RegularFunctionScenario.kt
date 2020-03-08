@@ -1,4 +1,4 @@
-package com.github.virelion.mmock.backend
+package com.github.virelion.mmock.scenarios
 
 import com.github.virelion.mmock.NoMethodStubException
 import com.github.virelion.mmock.dsl.*
@@ -8,7 +8,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class StubbingTest {
+class RegularFunctionScenario {
+
     @Test
     fun simpleStub() = withMMock {
         val exampleInterface: ExampleInterface = mmock()

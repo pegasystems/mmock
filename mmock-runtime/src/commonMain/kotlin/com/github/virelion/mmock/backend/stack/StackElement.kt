@@ -12,7 +12,6 @@ class ArgumentStackElement(private val argumentsVerificationFunction: ArgumentsV
         currentInvocation.args.add(argumentsVerificationFunction)
     }
 }
-
 class MethodElement(
         private val name: String,
         private val objectMock: ObjectMock

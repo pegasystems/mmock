@@ -2,6 +2,7 @@ package com.github.virelion.mmock.dsl
 
 typealias InvocationMatcher = (Int) -> Boolean
 
+@MMockDSL
 fun VerificationContext.times(amount: Int): InvocationMatcher {
     return { it == amount }
 }

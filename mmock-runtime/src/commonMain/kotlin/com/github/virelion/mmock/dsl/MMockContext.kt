@@ -1,5 +1,6 @@
 package com.github.virelion.mmock.dsl
 
+import com.github.virelion.mmock.MMockVerificationException
 import com.github.virelion.mmock.backend.*
 import com.github.virelion.mmock.backend.stack.Invocation
 import com.github.virelion.mmock.backend.stack.MethodElement

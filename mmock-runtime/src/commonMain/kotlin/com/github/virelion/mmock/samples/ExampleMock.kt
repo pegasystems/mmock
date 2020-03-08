@@ -7,7 +7,9 @@ import com.github.virelion.mmock.dsl.MMockContext
 interface ExampleInterface {
     fun noargsFunction(): Int
     fun function(arg1: Int): Int
-    fun functionAny(arg1: Any)
+    fun functionAny(arg1: Any): Any
+
+    fun multipleArgs(arg1: Any, arg2: Any, arg3: Any): Any
 
     suspend fun suspendFun(arg1: Int): Int
 }
@@ -23,8 +25,12 @@ class ExampleMock(override val mMockContext: MMockContext): ObjectMock, ExampleI
         return mocks.invoke<Int>("function", arg1)
     }
 
-    override fun functionAny(arg1: Any) {
+    override fun functionAny(arg1: Any): Any {
         return mocks.invoke("functionAny", arg1)
+    }
+
+    override fun multipleArgs(arg1: Any, arg2: Any, arg3: Any): Any {
+        return mocks.invoke("multipleArgs", arg1, arg2, arg3)
     }
 
     override suspend fun suspendFun(arg1: Int): Int {
