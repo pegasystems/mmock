@@ -1,11 +1,13 @@
 package com.github.virelion.mmock.backend
 
+import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class FunctionMockTest {
     @Test
-    fun canBeInvoked() {
+    @JsName("Can_be_invoked")
+    fun `Can be invoked`() {
         val functionMock = FunctionMock(mutableListOf({ _: Any? -> true })) {
             (it[0] as Int) * 2
         }

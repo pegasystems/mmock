@@ -3,6 +3,8 @@ package com.github.virelion.mmock.backend.unsafe
 @UseExperimental(ExperimentalUnsignedTypes::class)
 inline fun <reified T> defaultInstance(): T {
     return when(T::class) {
+        Boolean::class -> false as T
+
         Int::class -> 0 as T
         Short::class -> 0.toShort() as T
         Long::class -> 0L as T

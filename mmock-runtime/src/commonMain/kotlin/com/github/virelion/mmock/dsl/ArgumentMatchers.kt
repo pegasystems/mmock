@@ -5,18 +5,18 @@ import com.github.virelion.mmock.backend.unsafe.defaultInstance
 
 @MMockDSL
 inline fun <reified T> MMockContext.any(): T {
-    eventStack?.add(ArgumentStackElement { true })
+    recordingStack?.add(ArgumentStackElement { true })
     return defaultInstance()
 }
 
 @MMockDSL
 inline fun <reified T> MMockContext.eq(item: T): T {
-    eventStack?.add(ArgumentStackElement { it == item })
+    recordingStack?.add(ArgumentStackElement { it == item })
     return item
 }
 
 @MMockDSL
 inline fun <reified T> MMockContext.instanceOf(): T {
-    eventStack?.add(ArgumentStackElement { it is T })
+    recordingStack?.add(ArgumentStackElement { it is T })
     return defaultInstance()
 }

@@ -1,17 +1,23 @@
 package com.github.virelion.mmock.dsl
 
-typealias InvocationMatcher = (Int) -> Unit
+typealias InvocationMatcher = (Int) -> Boolean
 
-fun times(amount: Int): InvocationMatcher {
+@MMockDSL
+fun VerificationContext.times(amount: Int): InvocationMatcher {
     return { it == amount }
 }
 
 @MMockDSL
-val once: (Int) -> Unit = times(1)
+val VerificationContext.once: InvocationMatcher get() {
+    return times(1)
+}
 
 @MMockDSL
-val twice: (Int) -> Unit = times(2)
+val VerificationContext.twice: InvocationMatcher get() {
+    return times(2)
+}
 
 @MMockDSL
-val never: (Int) -> Unit = times(0)
-
+val VerificationContext.never: InvocationMatcher  get() {
+    return times(0)
+}

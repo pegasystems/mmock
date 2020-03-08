@@ -17,12 +17,21 @@ class MockContainer(
     inline fun <reified T> invoke(name: String, vararg args: Any? = arrayOf()): T {
         when (context.state) {
             MMockContext.State.RECORDING -> {
-                context.eventStack?.add(MethodElement(name, objectMock))
+                context.recordingStack?.add(MethodElement(name, objectMock))
                 return defaultInstance()
             }
             MMockContext.State.INVOKING -> {
                 return regular[name]
                         .firstOrNull { it.verificationFunction.verify(args) }
+                        ?.apply {
+                            context.invocationLogRecord.add(
+                                    InvocationLogRecord(
+                                            objectMock = objectMock,
+                                            methodName = name,
+                                            args = args
+                                    )
+                            )
+                        }
                         ?.invoke(args) as? T
                         ?: throw NoMethodStubException()
             }
@@ -32,7 +41,7 @@ class MockContainer(
     suspend inline fun <reified T> invokeSuspend(name: String, vararg args: Any? = arrayOf()): T {
         when (context.state) {
             MMockContext.State.RECORDING -> {
-                context.eventStack?.add(MethodElement(name, objectMock))
+                context.recordingStack?.add(MethodElement(name, objectMock))
                 return defaultInstance()
             }
             MMockContext.State.INVOKING -> {

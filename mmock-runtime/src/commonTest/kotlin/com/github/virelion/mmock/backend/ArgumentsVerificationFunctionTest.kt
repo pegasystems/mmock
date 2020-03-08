@@ -1,12 +1,14 @@
 package com.github.virelion.mmock.backend
 
+import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class ArgumentsVerificationFunctionTest {
     @Test
-    fun validArguments() {
+    @JsName("Valid_arguments")
+    fun `Valid arguments`() {
         val args: Array<out Any?> = arrayOf(2, "", 3)
         val verificationFunction: ArgumentsConstraints = mutableListOf(
                 { element: Any? -> element == 2 },
@@ -18,7 +20,8 @@ class ArgumentsVerificationFunctionTest {
     }
 
     @Test
-    fun invalidArguments() {
+    @JsName("Invalid_arguments")
+    fun `Invalid arguments`() {
         val args: Array<out Any?> = arrayOf(2, "", 3)
         val verificationFunction: ArgumentsConstraints = mutableListOf(
                 { element: Any? -> element == 2 },
