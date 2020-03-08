@@ -7,4 +7,5 @@ class Invocation<ReturnType> {
     var args: MutableList<ArgumentsVerificationFunction> = mutableListOf()
     var objectMock: ObjectMock? = null
     var name: String? = null
+    var invocationConstraint: ((Int) -> Boolean)? = null
 }

@@ -7,6 +7,7 @@ import com.github.virelion.mmock.dsl.MMockContext
 interface ExampleInterface {
     fun noargsFunction(): Int
     fun function(arg1: Int): Int
+    fun functionAny(arg1: Any)
 
     suspend fun suspendFun(arg1: Int): Int
 }
@@ -22,7 +23,11 @@ class ExampleMock(override val mMockContext: MMockContext): ObjectMock, ExampleI
         return mocks.invoke<Int>("function", arg1)
     }
 
+    override fun functionAny(arg1: Any) {
+        return mocks.invoke("functionAny", arg1)
+    }
+
     override suspend fun suspendFun(arg1: Int): Int {
-        return mocks.invokeSuspend<Int>("function", arg1)
+        return mocks.invokeSuspend<Int>("suspendFun", arg1)
     }
 }
