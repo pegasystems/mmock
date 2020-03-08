@@ -1,5 +1,6 @@
 package com.github.virelion.mmock.scenarios
 
+import com.github.virelion.mmock.MMockRecordingException
 import com.github.virelion.mmock.NoMethodStubException
 import com.github.virelion.mmock.dsl.*
 import com.github.virelion.mmock.samples.ExampleInterface
@@ -165,5 +166,40 @@ class ArgumentMatcherScenarios {
         verifyFailed { exampleInterface.multipleArgs(instanceOf<String>(), instanceOf<String>(), any()) called never }
         verifyFailed { exampleInterface.multipleArgs(instanceOf<String>(), instanceOf<String>(), instanceOf<String>()) called once }
         verifyFailed { exampleInterface.multipleArgs(any(), any(), eq(false)) called never }
+    }
+
+    @Test
+    @JsName("Implicit_equals_argument_matcher_during_recording")
+    fun `Implicit equals argument matcher during recording`() = withMMock {
+        val exampleInterface = mmock<ExampleInterface>()
+
+        every { exampleInterface.multipleArgs(1, 2, 3) } returns 1
+
+        assertEquals(1, exampleInterface.multipleArgs(1, 2, 3))
+        assertFailsWith<NoMethodStubException> { exampleInterface.multipleArgs(0, 0, 0) }
+
+        verify {
+            exampleInterface.multipleArgs(1, 2, 3) called once
+            exampleInterface.multipleArgs(3, 2, 1) called never
+        }
+
+        verifyFailed { exampleInterface.multipleArgs(1, 2, 3) called never }
+        verifyFailed { exampleInterface.multipleArgs(3, 2, 1) called once }
+    }
+
+    @Test
+    @JsName("Error_is_thrown_in_case_of_mixed_matcher_usage")
+    fun `Error is thrown in case of mixed matcher usage`() = withMMock {
+        val exampleInterface = mmock<ExampleInterface>()
+
+        assertFailsWith<MMockRecordingException> {
+            every { exampleInterface.multipleArgs(1, any(), 3) } returns 1
+        }
+
+        assertFailsWith<MMockRecordingException> {
+            verify {
+                exampleInterface.multipleArgs(any(), 2, 3) called once
+            }
+        }
     }
 }

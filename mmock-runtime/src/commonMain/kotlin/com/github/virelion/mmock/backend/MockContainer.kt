@@ -17,7 +17,7 @@ class MockContainer(
     inline fun <reified T> invoke(name: String, vararg args: Any? = arrayOf()): T {
         when (context.state) {
             MMockContext.State.RECORDING -> {
-                context.recordingStack?.add(MethodElement(name, objectMock))
+                context.recordingStack?.add(MethodElement(name, objectMock, args))
                 return defaultInstance()
             }
             MMockContext.State.INVOKING -> {
@@ -41,7 +41,7 @@ class MockContainer(
     suspend inline fun <reified T> invokeSuspend(name: String, vararg args: Any? = arrayOf()): T {
         when (context.state) {
             MMockContext.State.RECORDING -> {
-                context.recordingStack?.add(MethodElement(name, objectMock))
+                context.recordingStack?.add(MethodElement(name, objectMock, args))
                 return defaultInstance()
             }
             MMockContext.State.INVOKING -> {
