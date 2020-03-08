@@ -1,63 +1,30 @@
 package com.github.virelion.mmock.scenarios
 
-import com.github.virelion.mmock.NoMethodStubException
+import com.github.virelion.mmock.MMockStubbingException
 import com.github.virelion.mmock.dsl.*
 import com.github.virelion.mmock.samples.ExampleInterface
-import com.github.virelion.mmock.verifyFailed
+import kotlin.js.JsName
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 class RegularFunctionScenario {
-
     @Test
-    fun simpleStub() = withMMock {
+    @JsName("Multiple_recordings_in_every_block_are_throwing_exception")
+    fun `Multiple recordings in every block are throwing exception`() = withMMock {
         val exampleInterface: ExampleInterface = mmock()
-
-        every {
-            exampleInterface.function(eq(1))
-            exampleInterface.noargsFunction()
-        } returns 1
-        every { exampleInterface.function(eq(2)) } returns 2
-        every { exampleInterface.function(eq(3)) } returns 3
-
-        assertEquals(1, exampleInterface.function(1))
-        assertEquals(1, exampleInterface.noargsFunction())
-        assertEquals(2, exampleInterface.function(2))
-        assertEquals(3, exampleInterface.function(3))
-        assertFailsWith<NoMethodStubException> { exampleInterface.function(4) }
-
-        every { exampleInterface.function(any()) } returns 4
-        assertEquals(4, exampleInterface.function(42))
+        assertFailsWith<MMockStubbingException> {
+            every {
+                exampleInterface.function(eq(1))
+                exampleInterface.function(eq(1))
+            } returns 1
+        }
     }
 
     @Test
-    fun simpleVerification() = withMMock {
-        val exampleInterface = mmock<ExampleInterface>()
-
-        every { exampleInterface.functionAny(any()) } returns Unit
-
-        exampleInterface.functionAny(1)
-        exampleInterface.functionAny(2)
-        exampleInterface.functionAny("String")
-
-        verify {
-            exampleInterface.functionAny(eq(1)) called once
-            exampleInterface.functionAny(eq(2)) called once
-            exampleInterface.functionAny(eq("String")) called once
-            exampleInterface.functionAny(instanceOf<Int>()) called twice
-            exampleInterface.functionAny(instanceOf<String>()) called once
-            exampleInterface.noargsFunction() called never
+    @JsName("No_recordings_in_every_block_are_throwing_exception")
+    fun `No recordings in every block are throwing exception`() = withMMock {
+        assertFailsWith<MMockStubbingException> {
+            every {} returns Unit
         }
-
-        verifyFailed { exampleInterface.functionAny(eq(1)) called twice }
-        verifyFailed { exampleInterface.functionAny(eq(2)) called twice }
-        verifyFailed { exampleInterface.functionAny(eq("String")) called twice }
-        verifyFailed { exampleInterface.functionAny(instanceOf<Int>()) called once }
-        verifyFailed { exampleInterface.functionAny(instanceOf<String>()) called twice }
-        verifyFailed { exampleInterface.noargsFunction() called once }
     }
-
-
-
 }

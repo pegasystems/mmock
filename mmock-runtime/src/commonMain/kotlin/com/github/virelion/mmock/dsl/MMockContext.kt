@@ -1,5 +1,6 @@
 package com.github.virelion.mmock.dsl
 
+import com.github.virelion.mmock.MMockStubbingException
 import com.github.virelion.mmock.MMockVerificationException
 import com.github.virelion.mmock.backend.*
 import com.github.virelion.mmock.backend.stack.Invocation
@@ -47,7 +48,10 @@ class MMockContext: VerificationContext {
 
     @MMockDSL
     fun <R> every(block: MMockContext.() -> R): StubbingContext<R> {
-        return StubbingContext(record(block))
+        val recording = record(block)
+        if(recording.isEmpty()) throw MMockStubbingException("""No methods recorded in "every" block""")
+        if(recording.size > 1) throw MMockStubbingException("""Multiple invocations in "every" block""")
+        return StubbingContext(recording[0])
     }
 
     @MMockDSL
@@ -66,12 +70,10 @@ class MMockContext: VerificationContext {
 
     @MMockDSL
     infix fun <R> StubbingContext<R>.returns(value: R) {
-        invocations.forEach {invocation ->
-            val objectMock = requireNotNull(invocation.objectMock)
-            val name = requireNotNull(invocation.name)
+        val objectMock = requireNotNull(invocation.objectMock)
+        val name = requireNotNull(invocation.name)
 
-            objectMock.mocks.regular[name].add(FunctionMock(invocation.args) { value })
-        }
+        objectMock.mocks.regular[name].add(FunctionMock(invocation.args) { value })
     }
 }
 

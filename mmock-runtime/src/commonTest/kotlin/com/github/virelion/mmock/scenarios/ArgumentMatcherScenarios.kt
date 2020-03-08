@@ -4,12 +4,14 @@ import com.github.virelion.mmock.NoMethodStubException
 import com.github.virelion.mmock.dsl.*
 import com.github.virelion.mmock.samples.ExampleInterface
 import com.github.virelion.mmock.verifyFailed
+import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 class ArgumentMatcherScenarios {
     @Test
+    @JsName("Equals_matcher_in_mock")
     fun `Equals matcher in mock`() = withMMock {
         val exampleInterface = mmock<ExampleInterface>()
 
@@ -22,6 +24,7 @@ class ArgumentMatcherScenarios {
     }
 
     @Test
+    @JsName("Any_matcher_in_mock")
     fun `Any matcher in mock`() = withMMock {
         val exampleInterface = mmock<ExampleInterface>()
 
@@ -33,6 +36,7 @@ class ArgumentMatcherScenarios {
     }
 
     @Test
+    @JsName("InstanceOf_matcher_in_mock")
     fun `InstanceOf matcher in mock`() = withMMock {
         val exampleInterface = mmock<ExampleInterface>()
 
@@ -41,10 +45,11 @@ class ArgumentMatcherScenarios {
 
         assertEquals("String", exampleInterface.functionAny(""))
         assertEquals("Int", exampleInterface.functionAny(1))
-        assertFailsWith<NoMethodStubException> { exampleInterface.functionAny(3.0) }
+        assertFailsWith<NoMethodStubException> { exampleInterface.functionAny(false) }
     }
 
     @Test
+    @JsName("Equals_matcher_in_verification")
     fun `Equals matcher in verification`() = withMMock {
         val exampleInterface = mmock<ExampleInterface>()
 
@@ -69,6 +74,7 @@ class ArgumentMatcherScenarios {
     }
 
     @Test
+    @JsName("Any_matcher_in_verification")
     fun `Any matcher in verification`() = withMMock {
         val exampleInterface = mmock<ExampleInterface>()
 
@@ -90,6 +96,7 @@ class ArgumentMatcherScenarios {
     }
 
     @Test
+    @JsName("InstanceOf_matcher_in_verification")
     fun `InstanceOf matcher in verification`() = withMMock {
         val exampleInterface = mmock<ExampleInterface>()
 
@@ -113,7 +120,8 @@ class ArgumentMatcherScenarios {
     }
 
     @Test
-    fun `Multiple matchers - complex mock scenario`() = withMMock {
+    @JsName("Multiple_argument_matchers___complex_mock_scenario")
+    fun `Multiple argument matchers - complex mock scenario`() = withMMock {
         val exampleInterface = mmock<ExampleInterface>()
 
         every { exampleInterface.multipleArgs(eq(1), eq(2), eq(3)) } returns 1
@@ -130,7 +138,8 @@ class ArgumentMatcherScenarios {
     }
 
     @Test
-    fun `Multiple matchers - complex verification scenario`() = withMMock {
+    @JsName("Multiple_argument_matchers___complex_verification_scenario")
+    fun `Multiple argument matchers - complex verification scenario`() = withMMock {
         val exampleInterface = mmock<ExampleInterface>()
 
         every { exampleInterface.multipleArgs(any(), any(), any()) } returns 1
