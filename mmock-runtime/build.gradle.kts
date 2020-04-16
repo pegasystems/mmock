@@ -5,6 +5,8 @@ plugins {
     `maven-publish`
 }
 
+val coroutinesVersion: String by project
+
 kotlin {
     jvm()
     js {
@@ -21,7 +23,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-common"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.3.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutinesVersion")
             }
         }
 
@@ -36,7 +38,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
                 implementation(kotlin("reflect"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
             }
         }
 
@@ -49,7 +51,7 @@ kotlin {
 
         val jsMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.3.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$coroutinesVersion")
             }
         }
 
@@ -61,7 +63,7 @@ kotlin {
 
         val nativeMain by creating {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$coroutinesVersion")
             }
         }
 
@@ -83,28 +85,6 @@ kotlin {
 
         val iosArm64Main by getting {
             dependsOn(nativeMain)
-        }
-    }
-}
-
-tasks {
-    val iosX64Test by creating {
-        onlyIf { Os.isFamily(Os.FAMILY_MAC) }
-
-        val device = project.findProperty("iosDevice")?.toString() ?: "iPhone 8"
-        val testExecutable = kotlin.targets
-                .getByName<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget>("iosX64")
-                .binaries
-                .getTest("DEBUG")
-
-        dependsOn(testExecutable.linkTaskName)
-        group = JavaBasePlugin.VERIFICATION_GROUP
-        description = "Runs tests for target 'ios' on an iOS simulator"
-
-        doLast {
-            exec {
-                commandLine("xcrun", "simctl", "spawn", "--standalone", device, testExecutable.outputFile.absolutePath)
-            }
         }
     }
 }

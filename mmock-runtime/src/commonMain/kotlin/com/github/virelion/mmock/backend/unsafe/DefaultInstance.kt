@@ -1,6 +1,6 @@
 package com.github.virelion.mmock.backend.unsafe
 
-@UseExperimental(ExperimentalUnsignedTypes::class)
+@OptIn(ExperimentalUnsignedTypes::class)
 inline fun <reified T> defaultInstance(): T {
     return when(T::class) {
         Boolean::class -> false as T
