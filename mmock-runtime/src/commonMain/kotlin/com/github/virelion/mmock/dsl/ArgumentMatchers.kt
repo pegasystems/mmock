@@ -17,6 +17,8 @@ inline fun <reified T> MMockContext.eq(item: T): T {
 
 @MMockDSL
 inline fun <reified T> MMockContext.instanceOf(): T {
+    println("Pre stack add")
     recordingStack?.add(ArgumentStackElement { it is T })
+    println("Post stack add")
     return defaultInstance()
 }

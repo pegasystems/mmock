@@ -2,6 +2,6 @@ package com.github.virelion.mmock.backend
 
 import kotlinx.coroutines.runBlocking
 
-actual fun <T> runSuspend(block: suspend () -> T): T = runBlocking {
+actual fun runSuspend(block: suspend () -> Unit) = runBlocking {
     block()
 }

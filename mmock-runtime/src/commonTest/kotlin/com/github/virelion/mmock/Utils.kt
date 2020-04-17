@@ -4,7 +4,7 @@ import com.github.virelion.mmock.dsl.MMockContext
 import com.github.virelion.mmock.dsl.VerificationContext
 import kotlin.test.assertFailsWith
 
-fun MMockContext.verifyFailed(block: VerificationContext.() -> Unit) {
+suspend fun MMockContext.verifyFailed(block: suspend VerificationContext.() -> Unit) {
     assertFailsWith<MMockVerificationException> {
         verify(block)
     }

@@ -5,6 +5,7 @@ import com.github.virelion.mmock.NoMethodStubException
 import com.github.virelion.mmock.dsl.*
 import com.github.virelion.mmock.samples.ExampleInterface
 import com.github.virelion.mmock.verifyFailed
+import com.github.virelion.mmock.withMMock
 import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -62,16 +63,16 @@ class ArgumentMatcherScenarios {
         exampleInterface.function(3)
 
         verify {
-            exampleInterface.function(eq(1)) called twice
-            exampleInterface.function(eq(2)) called once
-            exampleInterface.function(eq(3)) called once
-            exampleInterface.function(eq(4)) called never
+            invocation { exampleInterface.function(eq(1)) } called twice
+            invocation { exampleInterface.function(eq(2)) } called once
+            invocation { exampleInterface.function(eq(3)) } called once
+            invocation { exampleInterface.function(eq(4)) } called never
         }
 
-        verifyFailed { exampleInterface.function(eq(1)) called once }
-        verifyFailed { exampleInterface.function(eq(2)) called twice }
-        verifyFailed { exampleInterface.function(eq(2)) called twice }
-        verifyFailed { exampleInterface.function(eq(4)) called once }
+        verifyFailed { invocation { exampleInterface.function(eq(1)) } called once }
+        verifyFailed { invocation { exampleInterface.function(eq(2)) } called twice }
+        verifyFailed { invocation { exampleInterface.function(eq(2)) } called twice }
+        verifyFailed { invocation { exampleInterface.function(eq(4)) } called once }
     }
 
     @Test
@@ -87,13 +88,13 @@ class ArgumentMatcherScenarios {
         exampleInterface.function(3)
 
         verify {
-            exampleInterface.function(any()) called times(4)
+            invocation {  exampleInterface.function(any()) } called times(4)
         }
 
-        verifyFailed { exampleInterface.function(any()) called times(3) }
-        verifyFailed { exampleInterface.function(any()) called times(2) }
-        verifyFailed { exampleInterface.function(any()) called times(1) }
-        verifyFailed { exampleInterface.function(any()) called times(0) }
+        verifyFailed { invocation { exampleInterface.function(any()) } called times(3) }
+        verifyFailed { invocation { exampleInterface.function(any()) } called times(2) }
+        verifyFailed { invocation { exampleInterface.function(any()) } called times(1) }
+        verifyFailed { invocation { exampleInterface.function(any()) } called times(0) }
     }
 
     @Test
@@ -111,13 +112,13 @@ class ArgumentMatcherScenarios {
         exampleInterface.functionAny(false)
 
         verify {
-            exampleInterface.functionAny(instanceOf<Int>()) called times(3)
-            exampleInterface.functionAny(instanceOf<String>()) called twice
-            exampleInterface.functionAny(instanceOf<Boolean>()) called once
+            invocation { exampleInterface.functionAny(instanceOf<Int>()) } called times(3)
+            invocation { exampleInterface.functionAny(instanceOf<String>()) } called twice
+            invocation { exampleInterface.functionAny(instanceOf<Boolean>()) } called once
         }
-        verifyFailed { exampleInterface.functionAny(instanceOf<Int>()) called times(4) }
-        verifyFailed { exampleInterface.functionAny(instanceOf<String>()) called once }
-        verifyFailed { exampleInterface.functionAny(instanceOf<Boolean>()) called twice }
+        verifyFailed { invocation { exampleInterface.functionAny(instanceOf<Int>()) } called times(4) }
+        verifyFailed { invocation { exampleInterface.functionAny(instanceOf<String>()) } called once }
+        verifyFailed { invocation { exampleInterface.functionAny(instanceOf<Boolean>()) } called twice }
     }
 
     @Test
@@ -152,20 +153,20 @@ class ArgumentMatcherScenarios {
         exampleInterface.multipleArgs(1, "", false)
 
         verify {
-            exampleInterface.multipleArgs(any(), any(), any()) called times(5)
-            exampleInterface.multipleArgs(instanceOf<Int>(), any(), any()) called times(3)
-            exampleInterface.multipleArgs(instanceOf<String>(), any(), any()) called times(2)
-            exampleInterface.multipleArgs(instanceOf<String>(), instanceOf<String>(), any()) called once
-            exampleInterface.multipleArgs(instanceOf<String>(), instanceOf<String>(), instanceOf<String>()) called never
-            exampleInterface.multipleArgs(any(), any(), eq(false)) called once
+            invocation { exampleInterface.multipleArgs(any(), any(), any()) } called times(5)
+            invocation { exampleInterface.multipleArgs(instanceOf<Int>(), any(), any()) } called times(3)
+            invocation { exampleInterface.multipleArgs(instanceOf<String>(), any(), any()) } called times(2)
+            invocation { exampleInterface.multipleArgs(instanceOf<String>(), instanceOf<String>(), any()) } called once
+            invocation { exampleInterface.multipleArgs(instanceOf<String>(), instanceOf<String>(), instanceOf<String>()) } called never
+            invocation { exampleInterface.multipleArgs(any(), any(), eq(false)) } called once
         }
 
-        verifyFailed { exampleInterface.multipleArgs(any(), any(), any()) called once }
-        verifyFailed { exampleInterface.multipleArgs(instanceOf<Int>(), any(), any()) called times(2) }
-        verifyFailed { exampleInterface.multipleArgs(instanceOf<String>(), any(), any()) called times(3) }
-        verifyFailed { exampleInterface.multipleArgs(instanceOf<String>(), instanceOf<String>(), any()) called never }
-        verifyFailed { exampleInterface.multipleArgs(instanceOf<String>(), instanceOf<String>(), instanceOf<String>()) called once }
-        verifyFailed { exampleInterface.multipleArgs(any(), any(), eq(false)) called never }
+        verifyFailed { invocation { exampleInterface.multipleArgs(any(), any(), any()) } called once }
+        verifyFailed { invocation { exampleInterface.multipleArgs(instanceOf<Int>(), any(), any()) } called times(2) }
+        verifyFailed { invocation { exampleInterface.multipleArgs(instanceOf<String>(), any(), any()) } called times(3) }
+        verifyFailed { invocation { exampleInterface.multipleArgs(instanceOf<String>(), instanceOf<String>(), any()) } called never }
+        verifyFailed { invocation { exampleInterface.multipleArgs(instanceOf<String>(), instanceOf<String>(), instanceOf<String>()) } called once }
+        verifyFailed { invocation { exampleInterface.multipleArgs(any(), any(), eq(false)) } called never }
     }
 
     @Test
@@ -179,12 +180,12 @@ class ArgumentMatcherScenarios {
         assertFailsWith<NoMethodStubException> { exampleInterface.multipleArgs(0, 0, 0) }
 
         verify {
-            exampleInterface.multipleArgs(1, 2, 3) called once
-            exampleInterface.multipleArgs(3, 2, 1) called never
+            invocation { exampleInterface.multipleArgs(1, 2, 3) } called once
+            invocation { exampleInterface.multipleArgs(3, 2, 1) } called never
         }
 
-        verifyFailed { exampleInterface.multipleArgs(1, 2, 3) called never }
-        verifyFailed { exampleInterface.multipleArgs(3, 2, 1) called once }
+        verifyFailed { invocation { exampleInterface.multipleArgs(1, 2, 3) } called never }
+        verifyFailed { invocation { exampleInterface.multipleArgs(3, 2, 1) } called once }
     }
 
     @Test
@@ -198,7 +199,7 @@ class ArgumentMatcherScenarios {
 
         assertFailsWith<MMockRecordingException> {
             verify {
-                exampleInterface.multipleArgs(any(), 2, 3) called once
+                invocation { exampleInterface.multipleArgs(any(), 2, 3) } called once
             }
         }
     }

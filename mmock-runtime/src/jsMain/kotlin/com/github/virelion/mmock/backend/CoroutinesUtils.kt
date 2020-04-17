@@ -1,5 +1,10 @@
 package com.github.virelion.mmock.backend
 
-actual fun <T> runSuspend(block: suspend () -> T): T {
-    TODO()
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.promise
+
+actual fun runSuspend(block: suspend () -> Unit): dynamic {
+    return GlobalScope.promise {
+        block()
+    }
 }

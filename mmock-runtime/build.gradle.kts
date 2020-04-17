@@ -11,7 +11,9 @@ kotlin {
     jvm()
     js {
         nodejs {
-            testTask { }
+            testTask {
+                useMocha()
+            }
         }
     }
     mingwX64()
