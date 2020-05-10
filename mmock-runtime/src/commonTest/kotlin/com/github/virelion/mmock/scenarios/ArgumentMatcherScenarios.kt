@@ -15,7 +15,7 @@ class ArgumentMatcherScenarios {
     @Test
     @JsName("Equals_matcher_in_mock")
     fun `Equals matcher in mock`() = withMMock {
-        val exampleInterface = mmock<ExampleInterface>()
+        val exampleInterface = mock.ExampleInterface()
 
         every { exampleInterface.function(eq(1)) } returns 1
         every { exampleInterface.function(eq(2)) } returns 2
@@ -28,7 +28,7 @@ class ArgumentMatcherScenarios {
     @Test
     @JsName("Any_matcher_in_mock")
     fun `Any matcher in mock`() = withMMock {
-        val exampleInterface = mmock<ExampleInterface>()
+        val exampleInterface = mock.ExampleInterface()
 
         every { exampleInterface.function(any()) } returns 1
 
@@ -40,7 +40,7 @@ class ArgumentMatcherScenarios {
     @Test
     @JsName("InstanceOf_matcher_in_mock")
     fun `InstanceOf matcher in mock`() = withMMock {
-        val exampleInterface = mmock<ExampleInterface>()
+        val exampleInterface = mock.ExampleInterface()
 
         every { exampleInterface.functionAny(instanceOf<String>()) } returns "String"
         every { exampleInterface.functionAny(instanceOf<Int>()) } returns "Int"
@@ -53,7 +53,7 @@ class ArgumentMatcherScenarios {
     @Test
     @JsName("Equals_matcher_in_verification")
     fun `Equals matcher in verification`() = withMMock {
-        val exampleInterface = mmock<ExampleInterface>()
+        val exampleInterface = mock.ExampleInterface()
 
         every { exampleInterface.function(any()) } returns 1
 
@@ -78,7 +78,7 @@ class ArgumentMatcherScenarios {
     @Test
     @JsName("Any_matcher_in_verification")
     fun `Any matcher in verification`() = withMMock {
-        val exampleInterface = mmock<ExampleInterface>()
+        val exampleInterface = mock.ExampleInterface()
 
         every { exampleInterface.function(any()) } returns 1
 
@@ -88,7 +88,7 @@ class ArgumentMatcherScenarios {
         exampleInterface.function(3)
 
         verify {
-            invocation {  exampleInterface.function(any()) } called times(4)
+            invocation { exampleInterface.function(any()) } called times(4)
         }
 
         verifyFailed { invocation { exampleInterface.function(any()) } called times(3) }
@@ -100,7 +100,7 @@ class ArgumentMatcherScenarios {
     @Test
     @JsName("InstanceOf_matcher_in_verification")
     fun `InstanceOf matcher in verification`() = withMMock {
-        val exampleInterface = mmock<ExampleInterface>()
+        val exampleInterface = mock.ExampleInterface()
 
         every { exampleInterface.functionAny(any()) } returns Unit
 
@@ -124,7 +124,7 @@ class ArgumentMatcherScenarios {
     @Test
     @JsName("Multiple_argument_matchers___complex_mock_scenario")
     fun `Multiple argument matchers - complex mock scenario`() = withMMock {
-        val exampleInterface = mmock<ExampleInterface>()
+        val exampleInterface = mock.ExampleInterface()
 
         every { exampleInterface.multipleArgs(eq(1), eq(2), eq(3)) } returns 1
         every { exampleInterface.multipleArgs(eq(1), eq(2), eq(4)) } returns 2
@@ -142,7 +142,7 @@ class ArgumentMatcherScenarios {
     @Test
     @JsName("Multiple_argument_matchers___complex_verification_scenario")
     fun `Multiple argument matchers - complex verification scenario`() = withMMock {
-        val exampleInterface = mmock<ExampleInterface>()
+        val exampleInterface = mock.ExampleInterface()
 
         every { exampleInterface.multipleArgs(any(), any(), any()) } returns 1
 
@@ -172,7 +172,7 @@ class ArgumentMatcherScenarios {
     @Test
     @JsName("Implicit_equals_argument_matcher_during_recording")
     fun `Implicit equals argument matcher during recording`() = withMMock {
-        val exampleInterface = mmock<ExampleInterface>()
+        val exampleInterface = mock.ExampleInterface()
 
         every { exampleInterface.multipleArgs(1, 2, 3) } returns 1
 
@@ -191,7 +191,7 @@ class ArgumentMatcherScenarios {
     @Test
     @JsName("Error_is_thrown_in_case_of_mixed_matcher_usage")
     fun `Error is thrown in case of mixed matcher usage`() = withMMock {
-        val exampleInterface = mmock<ExampleInterface>()
+        val exampleInterface = mock.ExampleInterface()
 
         assertFailsWith<MMockRecordingException> {
             every { exampleInterface.multipleArgs(1, any(), 3) } returns 1

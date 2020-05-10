@@ -3,6 +3,7 @@ package com.github.virelion.mmock.samples
 import com.github.virelion.mmock.backend.MockContainer
 import com.github.virelion.mmock.backend.ObjectMock
 import com.github.virelion.mmock.dsl.MMockContext
+import com.github.virelion.mmock.dsl.MockInitializer
 
 interface ExampleInterface {
     fun noArgsFunction(): Int
@@ -14,6 +15,10 @@ interface ExampleInterface {
     suspend fun suspendFunction(arg1: Int): Int
     suspend fun suspendFunctionAny(arg1: Any): Any
     suspend fun suspendMultipleArgs(arg1: Any, arg2: Any, arg3: Any): Any
+}
+
+fun MockInitializer.ExampleInterface(): ExampleInterface {
+    return ExampleMock(context)
 }
 
 class ExampleMock(override val mMockContext: MMockContext): ObjectMock, ExampleInterface {

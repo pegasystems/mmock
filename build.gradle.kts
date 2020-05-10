@@ -5,8 +5,6 @@ plugins {
 allprojects {
     repositories {
         mavenCentral()
+        jcenter()
     }
-
-    group = "com.github.virelion.mmock"
-    version = "0.0.1-SNAPSHOT"
 }

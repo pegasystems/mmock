@@ -1,5 +1,3 @@
-import org.apache.tools.ant.taskdefs.condition.Os
-
 plugins {
     kotlin("multiplatform")
     `maven-publish`
@@ -26,6 +24,8 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-common"))
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutinesVersion")
+
+                api(project(":mmock-annotations"))
             }
         }
 

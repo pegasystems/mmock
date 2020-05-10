@@ -13,7 +13,7 @@ class MockContainer(
 
     val regular: FunctionRegistry<FunctionMock<*>> = FunctionRegistry()
 
-    inline fun <reified T> invoke(name: String, vararg args: Any? = arrayOf()): T {
+    fun <T> invoke(name: String, vararg args: Any? = arrayOf()): T {
         when (context.state) {
             MMockContext.State.RECORDING -> {
                 context.recordingStack?.add(MethodElement(name, objectMock, args))
@@ -31,7 +31,7 @@ class MockContainer(
                                     )
                             )
                         }
-                        ?.invoke() as? T
+                        ?.invoke() as T
                         ?: throw NoMethodStubException()
             }
         }

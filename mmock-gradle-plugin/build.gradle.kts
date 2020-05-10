@@ -7,9 +7,6 @@ plugins {
     `maven-publish`
 }
 
-group = "com.github.virelion.autojsname"
-version = "0.0.1-SNAPSHOT"
-
 repositories {
     mavenCentral()
 }
@@ -18,7 +15,7 @@ gradlePlugin {
     plugins {
         creating {
             id = "com.github.virelion.mmock"
-            implementationClass = "com.github.virelion.mmock.gradle.MmockPlugin"
+            implementationClass = "com.github.virelion.mmock.gradle.MMockPlugin"
         }
     }
 }
@@ -26,6 +23,7 @@ gradlePlugin {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("gradle-plugin-api"))
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72")
     compileOnly("com.google.auto.service:auto-service:1.0-rc6")
     kapt("com.google.auto.service:auto-service:1.0-rc6")
 }

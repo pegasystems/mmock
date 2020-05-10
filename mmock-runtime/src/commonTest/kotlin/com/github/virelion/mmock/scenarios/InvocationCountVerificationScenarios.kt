@@ -1,6 +1,5 @@
 package com.github.virelion.mmock.scenarios
 
-import com.github.virelion.mmock.dsl.mmock
 import com.github.virelion.mmock.dsl.twice
 import com.github.virelion.mmock.samples.ExampleInterface
 import com.github.virelion.mmock.verifyFailed
@@ -12,7 +11,7 @@ class InvocationCountVerificationScenarios {
     @Test
     @JsName("Assumed_called_once_when_not_specified")
     fun `Assumed called once when not specified`() = withMMock {
-        val mock = mmock<ExampleInterface>()
+        val mock = mock.ExampleInterface()
         every { mock.function(1) } returns 1
 
         mock.function(1)
