@@ -1,6 +1,7 @@
 plugins {
     kotlin("multiplatform")
     `maven-publish`
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 val coroutinesVersion: String by project

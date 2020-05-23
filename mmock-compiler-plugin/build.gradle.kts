@@ -4,6 +4,7 @@ plugins {
     kotlin("jvm")
     kotlin("kapt")
     `maven-publish`
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 version = "1.3.72"

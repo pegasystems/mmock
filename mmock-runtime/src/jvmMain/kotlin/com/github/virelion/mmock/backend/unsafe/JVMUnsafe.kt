@@ -3,7 +3,6 @@ package com.github.virelion.mmock.backend.unsafe
 import sun.misc.Unsafe
 import java.lang.reflect.Field
 
-
 object JVMUnsafe {
     val unsafe: Unsafe
 

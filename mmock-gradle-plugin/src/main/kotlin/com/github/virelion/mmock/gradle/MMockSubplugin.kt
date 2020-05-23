@@ -10,7 +10,7 @@ import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
 import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 
 @AutoService(KotlinGradleSubplugin::class)
-class MMockSubplugin: KotlinGradleSubplugin<AbstractCompile> {
+class MMockSubplugin : KotlinGradleSubplugin<AbstractCompile> {
     override fun apply(
         project: Project,
         kotlinCompile: AbstractCompile,
@@ -34,5 +34,4 @@ class MMockSubplugin: KotlinGradleSubplugin<AbstractCompile> {
         )
 
     override fun isApplicable(project: Project, task: AbstractCompile): Boolean = true
-
 }

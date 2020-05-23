@@ -5,6 +5,7 @@ plugins {
     id("java-gradle-plugin")
     kotlin("kapt")
     `maven-publish`
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 repositories {

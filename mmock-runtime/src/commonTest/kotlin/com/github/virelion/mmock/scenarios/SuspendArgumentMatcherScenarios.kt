@@ -2,7 +2,13 @@ package com.github.virelion.mmock.scenarios
 
 import com.github.virelion.mmock.MMockRecordingException
 import com.github.virelion.mmock.NoMethodStubException
-import com.github.virelion.mmock.dsl.*
+import com.github.virelion.mmock.dsl.any
+import com.github.virelion.mmock.dsl.eq
+import com.github.virelion.mmock.dsl.instanceOf
+import com.github.virelion.mmock.dsl.never
+import com.github.virelion.mmock.dsl.once
+import com.github.virelion.mmock.dsl.times
+import com.github.virelion.mmock.dsl.twice
 import com.github.virelion.mmock.samples.ExampleInterface
 import com.github.virelion.mmock.verifyFailed
 import com.github.virelion.mmock.withMMock

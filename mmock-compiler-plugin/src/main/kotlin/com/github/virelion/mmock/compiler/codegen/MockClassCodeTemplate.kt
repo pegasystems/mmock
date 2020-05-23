@@ -3,12 +3,12 @@ package com.github.virelion.mmock.compiler.codegen
 import com.github.virelion.mmock.compiler.codegen.utils.CodeBuilder
 
 internal data class MockClassCodeTemplate(
-        val pkg: String,
-        val imports: List<String>,
-        val typeParameters: List<TypeParameterCodeTemplate>,
-        val originalName: String,
-        val methods: List<CodeTemplate>,
-        val properties: List<PropertyTemplate>
+    val pkg: String,
+    val imports: List<String>,
+    val typeParameters: List<TypeParameterCodeTemplate>,
+    val originalName: String,
+    val methods: List<CodeTemplate>,
+    val properties: List<PropertyTemplate>
 ) : CodeTemplate {
     val mockName: String
         get() = "${originalName}_Mock"
@@ -42,7 +42,7 @@ internal data class MockClassCodeTemplate(
     }
 
     fun typeParametersNames(): String {
-        return if(typeParameters.isNotEmpty()) {
+        return if (typeParameters.isNotEmpty()) {
             typeParameters.joinToString(prefix = "<", postfix = ">", separator = ", ") { it.name }
         } else {
             ""
@@ -50,11 +50,10 @@ internal data class MockClassCodeTemplate(
     }
 
     fun typeParametersNamesWithVariance(): String {
-        return if(typeParameters.isNotEmpty()) {
+        return if (typeParameters.isNotEmpty()) {
             typeParameters.joinToString(prefix = "<", postfix = ">", separator = ", ") { it.toString() }
         } else {
             ""
         }
     }
-
 }

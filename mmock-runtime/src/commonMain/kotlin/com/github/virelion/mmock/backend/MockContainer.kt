@@ -6,7 +6,7 @@ import com.github.virelion.mmock.backend.stack.MethodElement
 import com.github.virelion.mmock.dsl.MMockContext
 
 class MockContainer(
-        val objectMock: ObjectMock
+    val objectMock: ObjectMock
 ) {
     val context: MMockContext
         get() = objectMock.mMockContext
@@ -36,6 +36,4 @@ class MockContainer(
             }
         }
     }
-
-
 }

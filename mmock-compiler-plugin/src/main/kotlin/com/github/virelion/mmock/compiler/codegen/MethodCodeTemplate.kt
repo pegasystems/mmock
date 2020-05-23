@@ -3,11 +3,11 @@ package com.github.virelion.mmock.compiler.codegen
 import com.github.virelion.mmock.compiler.codegen.utils.CodeBuilder
 
 internal class MethodCodeTemplate(
-        val name: String,
-        val returnType: String,
-        val typeParameters: List<String>,
-        val parameters: List<ParameterCodeTemplate>,
-        val suspend: Boolean
+    val name: String,
+    val returnType: String,
+    val typeParameters: List<String>,
+    val parameters: List<ParameterCodeTemplate>,
+    val suspend: Boolean
 ) : CodeTemplate {
     override fun generate(builder: CodeBuilder): String {
         return builder.build {
@@ -30,7 +30,7 @@ internal class MethodCodeTemplate(
     internal fun generateSuspend() = if (suspend) "suspend" else ""
 
     internal fun generateTypeParametersCode(): String {
-        if(typeParameters.isEmpty()) return ""
+        if (typeParameters.isEmpty()) return ""
 
         return typeParameters.joinToString(
                 separator = ", ",

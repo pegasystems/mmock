@@ -1,3 +1,3 @@
 package com.github.virelion.mmock
 
-class RecordingDoneMarker(): RuntimeException()
+class RecordingDoneMarker() : RuntimeException()

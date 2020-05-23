@@ -1,9 +1,9 @@
 package com.github.virelion.mmock.backend
 
 class InvocationLogRecord(
-        val objectMock: ObjectMock,
-        val methodName: String,
-        val args: Array<out Any?>
+    val objectMock: ObjectMock,
+    val methodName: String,
+    val args: Array<out Any?>
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

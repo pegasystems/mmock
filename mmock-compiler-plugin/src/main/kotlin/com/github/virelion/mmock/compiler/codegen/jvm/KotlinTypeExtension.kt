@@ -10,20 +10,20 @@ fun KotlinType?.generateCode(): String {
 
     val typeParametrAnnotation = annotations.findAnnotation(Annotations.TYPE_PARAMETER)
 
-    if(typeParametrAnnotation != null) {
+    if (typeParametrAnnotation != null) {
         return typeParametrAnnotation.allValueArguments[Name.identifier("name")]
                 ?.value as? String
                 ?: throw IllegalStateException("TypeParameter with empty name")
     }
 
     val fqString = getJetTypeFqName(false)!!
-    val typeArguments = if(arguments.isNotEmpty()) {
+    val typeArguments = if (arguments.isNotEmpty()) {
         arguments.joinToString(separator = ", ", prefix = "<", postfix = ">") { it.type.generateCode() }
     } else {
         ""
     }
 
-    val nullableIndicator = if(isMarkedNullable) "?" else ""
+    val nullableIndicator = if (isMarkedNullable) "?" else ""
 
     return fqString + typeArguments + nullableIndicator
 }

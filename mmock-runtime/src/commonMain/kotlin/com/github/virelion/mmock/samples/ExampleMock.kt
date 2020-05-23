@@ -24,7 +24,7 @@ fun MockInitializer.ExampleInterface(): ExampleInterface {
     return ExampleMock(context)
 }
 
-class ExampleMock(override val mMockContext: MMockContext): ObjectMock, ExampleInterface {
+class ExampleMock(override val mMockContext: MMockContext) : ObjectMock, ExampleInterface {
     override val mocks: MockContainer = MockContainer(this)
 
     override val property: Int?

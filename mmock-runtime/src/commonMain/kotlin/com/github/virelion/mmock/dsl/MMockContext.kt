@@ -11,7 +11,7 @@ import com.github.virelion.mmock.backend.stack.MethodElement
 import com.github.virelion.mmock.backend.stack.StackElement
 import com.github.virelion.mmock.backend.verify
 
-class MMockContext: VerificationContext {
+class MMockContext : VerificationContext {
     enum class State {
         RECORDING, INVOKING
     }
@@ -27,7 +27,7 @@ class MMockContext: VerificationContext {
     @MMockDSL
     val mock = MockInitializer(this)
 
-    private suspend fun <R> record(block:  suspend MMockContext.() -> R): List<Invocation<R>> {
+    private suspend fun <R> record(block: suspend MMockContext.() -> R): List<Invocation<R>> {
         try {
             state = State.RECORDING
             val finalEventStack = mutableListOf<StackElement>()
@@ -44,7 +44,7 @@ class MMockContext: VerificationContext {
 
             finalEventStack.forEach {
                 it.visit(invocation, invocations)
-                if(it is MethodElement) {
+                if (it is MethodElement) {
                     invocations.add(invocation)
                     invocation = Invocation()
                 }
@@ -60,8 +60,8 @@ class MMockContext: VerificationContext {
     @MMockDSL
     suspend fun <R> every(block: suspend MMockContext.() -> R): StubbingContext<R> {
         val recording = record(block)
-        if(recording.isEmpty()) throw MMockStubbingException("""No methods recorded in "every" block""")
-        if(recording.size > 1) throw MMockStubbingException("""Multiple invocations in "every" block""")
+        if (recording.isEmpty()) throw MMockStubbingException("""No methods recorded in "every" block""")
+        if (recording.size > 1) throw MMockStubbingException("""Multiple invocations in "every" block""")
 
         return StubbingContext(recording[0])
     }
@@ -76,7 +76,7 @@ class MMockContext: VerificationContext {
                 invocation.args.verify(it.args)
             }
             val rule = invocation.invocationConstraint ?: times(1)
-            if(!rule(invocationAmount)) throw MMockVerificationException("Function ${invocation.name} invoked $invocationAmount times")
+            if (!rule(invocationAmount)) throw MMockVerificationException("Function ${invocation.name} invoked $invocationAmount times")
         }
     }
 

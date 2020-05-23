@@ -19,8 +19,7 @@ interface VerificationContext {
     suspend fun invocation(block: suspend () -> Unit): InvocationVerification {
         try {
             block()
-        } catch(e: RecordingDoneMarker) {
-
+        } catch (e: RecordingDoneMarker) {
         }
         return invocationVerificationMarker
     }

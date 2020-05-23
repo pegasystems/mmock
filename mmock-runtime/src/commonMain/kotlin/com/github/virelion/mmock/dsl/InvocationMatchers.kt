@@ -18,6 +18,6 @@ val VerificationContext.twice: InvocationMatcher get() {
 }
 
 @MMockDSL
-val VerificationContext.never: InvocationMatcher  get() {
+val VerificationContext.never: InvocationMatcher get() {
     return times(0)
 }

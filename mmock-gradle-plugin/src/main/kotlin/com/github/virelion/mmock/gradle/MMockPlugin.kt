@@ -20,7 +20,7 @@ class MMockPlugin : Plugin<Project> {
                 it.platformType == KotlinPlatformType.jvm || it.platformType == KotlinPlatformType.androidJvm
             }.firstOrNull()?.compilations?.getByName("main")?.compileKotlinTask?.name
 
-            if(jvmMainClassesName != null) {
+            if (jvmMainClassesName != null) {
                 multiplatformExtension.targets
                         .fold(mutableListOf<KotlinCompilation<*>>()) { acc, next ->
                             acc += next.compilations

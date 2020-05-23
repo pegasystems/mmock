@@ -18,9 +18,9 @@ class MMockCommandLineProcessor : CommandLineProcessor {
             CliOption("codegenDir", "<String>", "output directory"))
 
     override fun processOption(
-            option: AbstractCliOption,
-            value: String,
-            configuration: CompilerConfiguration
+        option: AbstractCliOption,
+        value: String,
+        configuration: CompilerConfiguration
     ) = when (option.optionName) {
         "codegenDir" -> configuration.put(CODEGEN_DIR, value)
         else -> error("Unexpected config option ${option.optionName}")
