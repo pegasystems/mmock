@@ -2,9 +2,12 @@ package com.github.virelion.mmock.demo
 
 import com.github.virelion.mmock.dsl.any
 import com.github.virelion.mmock.dsl.once
+import com.github.virelion.mmock.dsl.times
+import com.github.virelion.mmock.dsl.twice
 import com.github.virelion.mmock.withMMock
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 import kotlin.test.assertSame
 
 class ExampleInterfaceTest {
@@ -53,5 +56,32 @@ class ExampleInterfaceTest {
         every { myMock.functionWithTypeOutsideOfProject(any()) } returns myMock
         assertSame(myMock, myMock.functionWithTypeOutsideOfProject(myMock))
         verify { invocation { myMock.functionWithTypeOutsideOfProject(any()) } called once }
+    }
+
+    @Test
+    fun testMutableProperty() = withMMock {
+        val myMock: ExampleInterface = mock.ExampleInterface()
+        every { myMock.mutableProperty = any() } returns Unit
+        every { myMock.mutableProperty } returns myMock
+
+        assertSame(myMock.mutableProperty, myMock)
+        myMock.mutableProperty = null
+        assertSame(myMock.mutableProperty, myMock)
+
+        verify {
+            invocation { myMock.mutableProperty } called twice
+            invocation { myMock.mutableProperty = any() } called once
+        }
+    }
+
+    @Test
+    fun testImmutable() = withMMock {
+        val myMock: ExampleInterface = mock.ExampleInterface()
+        every { myMock.property } returns myMock
+        assertSame(myMock.property, myMock)
+
+        verify {
+            invocation { myMock.property } called once
+        }
     }
 }

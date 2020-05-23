@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 class InterfaceWithGenericsTest {
     @Test
     fun function() = withMMock {
-        val mock = mock.InterfaceWithGenerics<Int, Int>()
+        val mock = mock.InterfaceWithGenerics<Int, Int, Int>()
         every { mock.function(1) } returns 1
         every { mock.function(2) } returns 2
 

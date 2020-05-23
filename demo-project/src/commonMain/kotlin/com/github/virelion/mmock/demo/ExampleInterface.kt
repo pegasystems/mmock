@@ -5,6 +5,9 @@ import com.github.virelion.mmock.TypeParameter
 
 @GenerateMock
 interface ExampleInterface : BaseInterface {
+    val property: BaseInterface?
+    var mutableProperty: BaseInterface?
+
     fun simple()
     fun function(arg: Int): Int?
     suspend fun suspendFunction(arg: Int?): Int?

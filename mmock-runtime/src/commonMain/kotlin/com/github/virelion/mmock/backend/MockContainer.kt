@@ -20,20 +20,22 @@ class MockContainer(
                 throw RecordingDoneMarker()
             }
             MMockContext.State.INVOKING -> {
-                return regular[name]
+                val functionMock = regular[name]
                         .firstOrNull { it.verificationFunction.verify(args) }
-                        ?.apply {
-                            context.invocationLogRecord.add(
-                                    InvocationLogRecord(
-                                            objectMock = objectMock,
-                                            methodName = name,
-                                            args = args
-                                    )
-                            )
-                        }
-                        ?.invoke() as T
                         ?: throw NoMethodStubException()
+
+                context.invocationLogRecord.add(
+                        InvocationLogRecord(
+                                objectMock = objectMock,
+                                methodName = name,
+                                args = args
+                        )
+                )
+
+                return functionMock.invoke() as T
             }
         }
     }
+
+
 }

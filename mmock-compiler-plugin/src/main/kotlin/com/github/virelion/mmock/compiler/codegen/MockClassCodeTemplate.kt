@@ -7,7 +7,8 @@ internal data class MockClassCodeTemplate(
         val imports: List<String>,
         val typeParameters: List<TypeParameterCodeTemplate>,
         val originalName: String,
-        val methods: List<CodeTemplate>
+        val methods: List<CodeTemplate>,
+        val properties: List<PropertyTemplate>
 ) : CodeTemplate {
     val mockName: String
         get() = "${originalName}_Mock"
@@ -26,6 +27,12 @@ internal data class MockClassCodeTemplate(
             indent {
                 builder.appendln("override val mocks: MockContainer = MockContainer(this)")
                 appendln()
+
+                properties.forEach {
+                    it.generate(builder)
+                }
+                appendln()
+
                 methods.forEach {
                     it.generate(builder)
                 }

@@ -3,6 +3,7 @@ package com.github.virelion.mmock.compiler.codegen.jvm
 import com.github.virelion.mmock.compiler.codegen.MockClassCodeTemplate
 import org.jetbrains.kotlin.backend.common.serialization.findPackage
 import org.jetbrains.kotlin.descriptors.ClassDescriptor
+import org.jetbrains.kotlin.descriptors.PropertyDescriptor
 import org.jetbrains.kotlin.descriptors.SimpleFunctionDescriptor
 
 internal fun ClassDescriptor.toCodeTemplate(): MockClassCodeTemplate {
@@ -19,6 +20,10 @@ internal fun ClassDescriptor.toCodeTemplate(): MockClassCodeTemplate {
             methods = unsubstitutedMemberScope
                     .getContributedDescriptors()
                     .filterIsInstance<SimpleFunctionDescriptor>()
+                    .map { it.toCodeTemplate() },
+            properties = unsubstitutedMemberScope
+                    .getContributedDescriptors()
+                    .filterIsInstance<PropertyDescriptor>()
                     .map { it.toCodeTemplate() }
     )
 }

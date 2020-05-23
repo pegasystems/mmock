@@ -10,6 +10,7 @@ import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertNull
 
 class ArgumentMatcherScenarios {
     @Test
@@ -201,6 +202,43 @@ class ArgumentMatcherScenarios {
             verify {
                 invocation { exampleInterface.multipleArgs(any(), 2, 3) } called once
             }
+        }
+    }
+
+    @Test
+    @JsName("Mocked_null_values")
+    fun `Mocked null values`() = withMMock {
+        val myMock = mock.ExampleInterface()
+        every { myMock.mutableProperty } returns null
+        assertNull(myMock.mutableProperty)
+    }
+
+    @Test
+    @JsName("Test_mutable_property")
+    fun `Test mutable property`() = withMMock {
+        val myMock: ExampleInterface = mock.ExampleInterface()
+        every { myMock.mutableProperty = any() } returns Unit
+        every { myMock.mutableProperty } returns 1
+
+        assertEquals(1, myMock.mutableProperty)
+        myMock.mutableProperty = null
+        assertEquals(1, myMock.mutableProperty)
+
+        verify {
+            invocation { myMock.mutableProperty } called twice
+            invocation { myMock.mutableProperty = any() } called once
+        }
+    }
+
+    @Test
+    @JsName("Test_immutable_property")
+    fun `Test immutable property`() = withMMock {
+        val myMock: ExampleInterface = mock.ExampleInterface()
+        every { myMock.property } returns 1
+        assertEquals(1, myMock.property)
+
+        verify {
+            invocation { myMock.property } called once
         }
     }
 }
