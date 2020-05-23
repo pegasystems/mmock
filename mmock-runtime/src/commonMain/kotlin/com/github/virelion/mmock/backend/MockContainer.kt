@@ -32,6 +32,7 @@ class MockContainer(
                         )
                 )
 
+                @Suppress("unchecked_cast")
                 return functionMock.invoke() as T
             }
         }

@@ -1,18 +1,21 @@
 package com.github.virelion.mmock.backend.unsafe
 
 import com.github.virelion.mmock.backend.runSuspend
-import kotlinx.coroutines.delay
 import kotlin.js.JsName
 import kotlin.test.Test
+import kotlinx.coroutines.delay
 
+@OptIn(ExperimentalUnsignedTypes::class)
 class DefaultInstanceTest {
     private interface A
     private class B
 
+    @Suppress("unused_parameter")
     fun regularFunction(arg: Any) {
         // empty body
     }
 
+    @Suppress("unused_parameter")
     suspend fun suspendFunction(arg: Any) {
         delay(1)
     }

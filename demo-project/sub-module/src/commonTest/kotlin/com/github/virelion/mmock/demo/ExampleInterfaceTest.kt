@@ -6,6 +6,5 @@ class ExampleInterfaceTest {
 
     @Test
     fun simpleScenario() {
-
     }
 }

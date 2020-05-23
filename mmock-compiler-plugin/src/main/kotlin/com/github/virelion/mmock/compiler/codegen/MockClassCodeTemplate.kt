@@ -16,22 +16,22 @@ internal data class MockClassCodeTemplate(
     override fun generate(builder: CodeBuilder): String {
         return builder.build {
             appendln("package $pkg")
-            appendln()
-            imports.forEach {
+            emptyLine()
+            imports.sorted().forEach {
                 appendln("import $it")
             }
-            appendln()
+            emptyLine()
             lineOf("fun", typeParametersNames(), "MockInitializer.$originalName():", originalName + typeParametersNames(), "=", "$mockName(context)")
-            appendln()
+            emptyLine()
             appendln("class ${mockName}${typeParametersNamesWithVariance()}(override val mMockContext: MMockContext) : $originalName${typeParametersNames()}, ObjectMock { ")
             indent {
                 builder.appendln("override val mocks: MockContainer = MockContainer(this)")
-                appendln()
+                emptyLine()
 
                 properties.forEach {
                     it.generate(builder)
                 }
-                appendln()
+                emptyLine()
 
                 methods.forEach {
                     it.generate(builder)

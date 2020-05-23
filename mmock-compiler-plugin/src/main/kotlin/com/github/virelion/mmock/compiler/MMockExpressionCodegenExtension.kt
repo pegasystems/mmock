@@ -2,10 +2,10 @@ package com.github.virelion.mmock.compiler
 
 import com.github.virelion.mmock.compiler.codegen.jvm.toCodeTemplate
 import com.github.virelion.mmock.compiler.codegen.utils.CodeBuilder
-import org.jetbrains.kotlin.codegen.ImplementationBodyCodegen
-import org.jetbrains.kotlin.codegen.extensions.ExpressionCodegenExtension
 import java.io.File
 import java.io.PrintWriter
+import org.jetbrains.kotlin.codegen.ImplementationBodyCodegen
+import org.jetbrains.kotlin.codegen.extensions.ExpressionCodegenExtension
 
 class MMockExpressionCodegenExtension(private val codegenDir: String) : ExpressionCodegenExtension {
     override fun generateClassSyntheticParts(codegen: ImplementationBodyCodegen) {
@@ -27,7 +27,7 @@ class MMockExpressionCodegenExtension(private val codegenDir: String) : Expressi
 
                 val printWriter = PrintWriter(output)
                 printWriter.use {
-                    it.println(mockClassCodeTemplate.generate(CodeBuilder()))
+                    it.print(mockClassCodeTemplate.generate(CodeBuilder()))
                 }
             }
         }

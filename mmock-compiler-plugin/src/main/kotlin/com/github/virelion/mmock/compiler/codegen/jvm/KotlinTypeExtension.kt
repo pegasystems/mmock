@@ -16,7 +16,7 @@ fun KotlinType?.generateCode(): String {
                 ?: throw IllegalStateException("TypeParameter with empty name")
     }
 
-    val fqString = getJetTypeFqName(false)!!
+    val fqString = getJetTypeFqName(false)
     val typeArguments = if (arguments.isNotEmpty()) {
         arguments.joinToString(separator = ", ", prefix = "<", postfix = ">") { it.type.generateCode() }
     } else {

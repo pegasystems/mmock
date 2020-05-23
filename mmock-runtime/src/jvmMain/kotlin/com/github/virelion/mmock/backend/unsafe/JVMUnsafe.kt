@@ -1,7 +1,7 @@
 package com.github.virelion.mmock.backend.unsafe
 
-import sun.misc.Unsafe
 import java.lang.reflect.Field
+import sun.misc.Unsafe
 
 object JVMUnsafe {
     val unsafe: Unsafe

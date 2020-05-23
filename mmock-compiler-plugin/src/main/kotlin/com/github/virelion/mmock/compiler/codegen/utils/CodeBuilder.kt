@@ -15,8 +15,14 @@ internal class CodeBuilder(private val indentationBase: String = "    ") {
             }.toString()
         }
 
-    fun appendln(line: String = "") {
-        builder.appendln(indentationString + line)
+    fun appendln(line: String) {
+        if (line.isNotBlank()) {
+            builder.appendln(indentationString + line.trim())
+        }
+    }
+
+    fun emptyLine() {
+        builder.appendln()
     }
 
     fun lineOf(vararg codePart: String) {

@@ -7,7 +7,6 @@ import com.github.virelion.mmock.dsl.twice
 import com.github.virelion.mmock.withMMock
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 import kotlin.test.assertSame
 
 class ExampleInterfaceTest {
