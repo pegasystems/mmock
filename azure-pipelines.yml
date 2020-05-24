@@ -13,7 +13,7 @@ stages:
             inputs:
               workingDirectory: ''
               gradleWrapperFile: 'gradlew'
-              gradleOptions: '-Xmx3072m'
+              gradleOptions: '-Xmx4g'
               javaHomeOption: 'JDKVersion'
               jdkVersionOption: '1.8'
               jdkArchitectureOption: 'x64'
@@ -24,7 +24,7 @@ stages:
             inputs:
               workingDirectory: 'demo-project'
               gradleWrapperFile: 'gradlew'
-              gradleOptions: '-Xmx3072m'
+              gradleOptions: '-Xmx4g'
               javaHomeOption: 'JDKVersion'
               jdkVersionOption: '1.8'
               jdkArchitectureOption: 'x64'
@@ -42,7 +42,7 @@ stages:
             inputs:
               workingDirectory: ''
               gradleWrapperFile: 'gradlew'
-              gradleOptions: '-Xmx3072m'
+              gradleOptions: '-Xmx4g'
               javaHomeOption: 'JDKVersion'
               jdkVersionOption: '1.8'
               jdkArchitectureOption: 'x64'
@@ -53,7 +53,7 @@ stages:
             inputs:
               workingDirectory: ''
               gradleWrapperFile: 'gradlew'
-              gradleOptions: '-Xmx3072m'
+              gradleOptions: '-Xmx4g'
               javaHomeOption: 'JDKVersion'
               jdkVersionOption: '1.8'
               jdkArchitectureOption: 'x64'
@@ -64,7 +64,7 @@ stages:
             inputs:
               workingDirectory: ''
               gradleWrapperFile: 'gradlew'
-              gradleOptions: '-Xmx3072m'
+              gradleOptions: '-Xmx4g'
               javaHomeOption: 'JDKVersion'
               jdkVersionOption: '1.8'
               jdkArchitectureOption: 'x64'
@@ -75,7 +75,7 @@ stages:
             inputs:
               workingDirectory: 'demo-project'
               gradleWrapperFile: 'gradlew'
-              gradleOptions: '-Xmx3072m'
+              gradleOptions: '-Xmx4g'
               javaHomeOption: 'JDKVersion'
               jdkVersionOption: '1.8'
               jdkArchitectureOption: 'x64'
@@ -93,7 +93,7 @@ stages:
             inputs:
               workingDirectory: ''
               gradleWrapperFile: 'gradlew'
-              gradleOptions: '-Xmx3072m'
+              gradleOptions: '-Xmx4g'
               javaHomeOption: 'JDKVersion'
               jdkVersionOption: '1.8'
               jdkArchitectureOption: 'x64'
@@ -104,7 +104,7 @@ stages:
             inputs:
               workingDirectory: ''
               gradleWrapperFile: 'gradlew'
-              gradleOptions: '-Xmx3072m'
+              gradleOptions: '-Xmx4g'
               javaHomeOption: 'JDKVersion'
               jdkVersionOption: '1.8'
               jdkArchitectureOption: 'x64'
@@ -115,7 +115,7 @@ stages:
             inputs:
               workingDirectory: ''
               gradleWrapperFile: 'gradlew'
-              gradleOptions: '-Xmx3072m'
+              gradleOptions: '-Xmx4g'
               javaHomeOption: 'JDKVersion'
               jdkVersionOption: '1.8'
               jdkArchitectureOption: 'x64'
@@ -126,7 +126,7 @@ stages:
             inputs:
               workingDirectory: 'demo-project'
               gradleWrapperFile: 'gradlew'
-              gradleOptions: '-Xmx3072m'
+              gradleOptions: '-Xmx4g'
               javaHomeOption: 'JDKVersion'
               jdkVersionOption: '1.8'
               jdkArchitectureOption: 'x64'
