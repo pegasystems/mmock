@@ -14,17 +14,17 @@ class MockContainer(
     val regular: FunctionRegistry<FunctionMock<*>> = FunctionRegistry()
 
     fun <T> invoke(name: String, vararg args: Any? = arrayOf()): T {
-        when (context.state) {
-            MMockContext.State.RECORDING -> {
-                context.recordingStack?.add(MethodElement(name, objectMock, args))
+        when (context.recordingContext.state) {
+            RecordingContextImpl.State.RECORDING -> {
+                context.recordingContext.recordingStack?.add(MethodElement(name, objectMock, args))
                 throw RecordingDoneMarker()
             }
-            MMockContext.State.INVOKING -> {
+            RecordingContextImpl.State.INVOKING -> {
                 val functionMock = regular[name]
                         .firstOrNull { it.verificationFunction.verify(args) }
                         ?: throw NoMethodStubException()
 
-                context.invocationLogRecord.add(
+                context.recording.log.add(
                         InvocationLogRecord(
                                 objectMock = objectMock,
                                 methodName = name,

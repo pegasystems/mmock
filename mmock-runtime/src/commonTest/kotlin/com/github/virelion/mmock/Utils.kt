@@ -6,6 +6,6 @@ import kotlin.test.assertFailsWith
 
 suspend fun MMockContext.verifyFailed(block: suspend VerificationContext.() -> Unit) {
     assertFailsWith<MMockVerificationException> {
-        verify(block)
+        verify { block() }
     }
 }
