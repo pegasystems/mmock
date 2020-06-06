@@ -2,7 +2,6 @@ package com.github.virelion.mmock.compiler.util
 
 import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
 import org.jetbrains.kotlin.cli.common.messages.MessageCollector
-import org.jetbrains.kotlin.com.intellij.psi.PsiElement
 
 fun MessageCollector.p(message: Any?) {
     report(CompilerMessageSeverity.WARNING, "[${System.nanoTime()}] $message")
@@ -23,12 +22,4 @@ fun <T> MessageCollector.report(label: String, array: Array<out T>, action: Mess
         action(it)
     }
     p("</$label>")
-}
-
-fun MessageCollector.showChildren(parent: PsiElement) {
-    p("<${parent.javaClass}>")
-    report("children", parent.children) {
-        p(it.javaClass)
-    }
-    p("</${parent.javaClass}>")
 }

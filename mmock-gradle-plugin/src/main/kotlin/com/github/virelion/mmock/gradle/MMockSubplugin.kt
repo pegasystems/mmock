@@ -33,5 +33,12 @@ class MMockSubplugin : KotlinGradleSubplugin<AbstractCompile> {
             version = "1.3.72"
         )
 
-    override fun isApplicable(project: Project, task: AbstractCompile): Boolean = true
+    override fun getNativeCompilerPluginArtifact(): SubpluginArtifact? =
+            SubpluginArtifact(
+                    groupId = "com.github.virelion.mmock",
+                    artifactId = "mmock-compiler-plugin-native",
+                    version = "1.3.72"
+            )
+
+    override fun isApplicable(project: Project, task: AbstractCompile): Boolean = project.plugins.hasPlugin(MMockPlugin::class.java)
 }

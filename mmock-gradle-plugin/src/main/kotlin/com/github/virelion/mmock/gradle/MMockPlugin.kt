@@ -16,11 +16,11 @@ class MMockPlugin : Plugin<Project> {
             project.logger.info("MMock codegen directory: $codegenTargetDirectory")
             commonTest.kotlin.srcDir(codegenTargetDirectory)
 
-            val jvmMainClassesName = multiplatformExtension.targets.filter {
-                it.platformType == KotlinPlatformType.jvm || it.platformType == KotlinPlatformType.androidJvm
-            }.firstOrNull()?.compilations?.getByName("main")?.compileKotlinTask?.name
+            val nativeTargetNames = multiplatformExtension.targets.filter {
+                it.platformType == KotlinPlatformType.native
+            }.mapNotNull { it?.compilations?.getByName("main")?.compileKotlinTask?.name }
 
-            if (jvmMainClassesName != null) {
+            if (nativeTargetNames.isNotEmpty()) {
                 multiplatformExtension.targets
                         .fold(mutableListOf<KotlinCompilation<*>>()) { acc, next ->
                             acc += next.compilations
@@ -28,10 +28,10 @@ class MMockPlugin : Plugin<Project> {
                         }
                         .filter { it.compilationName.contains("test", ignoreCase = true) }
                         .forEach {
-                            project.tasks.getByName(it.compileKotlinTask.name).dependsOn(jvmMainClassesName)
+                            project.tasks.getByName(it.compileKotlinTask.name).dependsOn(nativeTargetNames)
                         }
             } else {
-                project.logger.error("MMock cannot generate classes for projects with no jvm/android platforms")
+                project.logger.error("MMock cannot generate classes for projects with no native targets")
             }
         }
     }

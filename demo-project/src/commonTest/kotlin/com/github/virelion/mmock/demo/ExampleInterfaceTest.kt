@@ -8,6 +8,7 @@ import com.github.virelion.mmock.withMMock
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertSame
+import kotlin.test.assertTrue
 
 class ExampleInterfaceTest {
     @Test
@@ -81,6 +82,17 @@ class ExampleInterfaceTest {
 
         verify {
             invocation { myMock.property } called once
+        }
+    }
+
+    @Test
+    fun withAsterix() = withMMock {
+        val myMock: ExampleInterface = mock.ExampleInterface()
+        every { myMock.withAsterix(any()) } returns listOf<Any>()
+        assertTrue(myMock.withAsterix(listOf<Any>()).isEmpty())
+
+        verify {
+            invocation { myMock.withAsterix(any()) } called once
         }
     }
 }
