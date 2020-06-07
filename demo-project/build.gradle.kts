@@ -1,20 +1,8 @@
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        jcenter()
-    }
-    dependencies {
-        classpath("com.github.virelion.mmock:mmock-gradle-plugin:0.0.0-SNAPSHOT")
-    }
-}
-
 plugins {
     kotlin("multiplatform") version "1.3.72"
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
+    id("com.github.virelion.mmock") version "0.0.0-SNAPSHOT"
 }
-
-apply<com.github.virelion.mmock.gradle.MMockPlugin>()
 
 repositories {
     mavenLocal()

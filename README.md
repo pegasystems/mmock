@@ -13,13 +13,11 @@
 1\. Add plugin to gradle:
 
 ```build.gradle.kts
-buildscript {
-    dependencies {
-        classpath("com.github.virelion.mmock:mmock-gradle-plugin:$mmockVersion")
-    }
+plugins {
+    // ...
+    id("com.github.virelion.mmock") version <plugin-version>
 }
 
-apply<com.github.virelion.mmock.gradle.MMockPlugin>()
 
 // ...
 

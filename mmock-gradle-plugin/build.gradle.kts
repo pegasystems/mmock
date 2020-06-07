@@ -2,10 +2,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm")
-    id("java-gradle-plugin")
     kotlin("kapt")
-    `maven-publish`
+    id("java-gradle-plugin")
     id("org.jlleitschuh.gradle.ktlint")
+    id("com.gradle.plugin-publish")
+    `maven-publish`
 }
 
 repositories {
@@ -14,7 +15,7 @@ repositories {
 
 gradlePlugin {
     plugins {
-        creating {
+        register("MMockGradlePlugin") {
             id = "com.github.virelion.mmock"
             implementationClass = "com.github.virelion.mmock.gradle.MMockPlugin"
         }
