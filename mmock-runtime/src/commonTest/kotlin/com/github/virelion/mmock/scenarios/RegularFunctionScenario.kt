@@ -34,4 +34,15 @@ class RegularFunctionScenario {
             assertEquals("Mock invoked outside of `invocation { }`", e.message)
         }
     }
+
+    @Test
+    @JsName("Mock_can_throw_exception")
+    fun `Mock can throw exception`() = withMMock {
+        val myMock = mock.ExampleInterface()
+        every { myMock.function(any()) } throws IllegalStateException()
+
+        assertFailsWith<IllegalStateException> {
+            myMock.function(1)
+        }
+    }
 }

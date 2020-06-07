@@ -11,7 +11,7 @@ class MockContainer(
     val context: MMockContext
         get() = objectMock.mMockContext
 
-    val regular: FunctionRegistry<FunctionMock<*>> = FunctionRegistry()
+    val regular: FunctionRegistry<FunctionMockBase<*>> = FunctionRegistry()
 
     fun <T> invoke(name: String, vararg args: Any? = arrayOf()): T {
         when (context.recordingContext.state) {

@@ -6,6 +6,7 @@ import com.github.virelion.mmock.backend.FunctionMock
 import com.github.virelion.mmock.backend.RecordLog
 import com.github.virelion.mmock.backend.RecordingContextImpl
 import com.github.virelion.mmock.backend.StubbingContext
+import com.github.virelion.mmock.backend.ThrowingFunctionMock
 
 class MMockContext {
     internal val recording = RecordLog()
@@ -29,6 +30,14 @@ class MMockContext {
         val name = requireNotNull(invocation.name)
 
         objectMock.mocks.regular[name].add(FunctionMock(invocation.args, value))
+    }
+
+    @MMockDSL
+    infix fun <R> StubbingContext<R>.throws(value: Exception) {
+        val objectMock = requireNotNull(invocation.objectMock)
+        val name = requireNotNull(invocation.name)
+
+        objectMock.mocks.regular[name].add(ThrowingFunctionMock(invocation.args, value))
     }
 
     @MMockDSL

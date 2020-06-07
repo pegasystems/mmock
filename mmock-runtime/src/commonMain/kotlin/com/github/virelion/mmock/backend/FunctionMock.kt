@@ -1,10 +1,10 @@
 package com.github.virelion.mmock.backend
 
-class FunctionMock<R>(
-    val verificationFunction: ArgumentsConstraints,
+open class FunctionMock<R>(
+    verificationFunction: ArgumentsConstraints,
     private val result: R
-) {
-    operator fun invoke(): R {
+) : FunctionMockBase<R>(verificationFunction) {
+    override fun invoke(): R {
         return result
     }
 }

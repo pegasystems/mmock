@@ -86,6 +86,23 @@ class ExampleTest {
 }
 ```
 
+## Throwing exceptions
+Use `throws` DSL to define exception thrown out of mock.
+
+```kotlin
+import com.example.MyInterface
+import com.github.virelion.mmock.withMMock
+
+class ExampleTest {
+    @Test
+    fun example() = withMMock {
+        val myInterface = mock.MyInterface()
+        
+        every { myInterface.exampleSuspendFunction(any()) } throws IllegalStateException()
+    }   
+}
+```
+
 ## Matchers
 To define equality matchers use `eq(<value>)` matcher. 
 It can also be accomplished by using value directly.
