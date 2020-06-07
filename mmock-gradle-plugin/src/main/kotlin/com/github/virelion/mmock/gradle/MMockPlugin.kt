@@ -1,10 +1,13 @@
 package com.github.virelion.mmock.gradle
 
+import org.apache.tools.ant.taskdefs.condition.Os
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
+import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
+import org.jetbrains.kotlin.konan.target.Family
 
 class MMockPlugin : Plugin<Project> {
     override fun apply(project: Project) {
@@ -16,9 +19,16 @@ class MMockPlugin : Plugin<Project> {
             project.logger.info("MMock codegen directory: $codegenTargetDirectory")
             commonTest.kotlin.srcDir(codegenTargetDirectory)
 
-            val nativeTargetNames = multiplatformExtension.targets.filter {
-                it.platformType == KotlinPlatformType.native
-            }.mapNotNull { it?.compilations?.getByName("main")?.compileKotlinTask?.name }
+            val nativeTargetNames = multiplatformExtension.targets
+                    .filter { it.platformType == KotlinPlatformType.native && it.publishable }
+                    .filter {
+                        // For some reason linux targets are publishable even in other OS
+                        val compilation = it.compilations.getByName("main").compileKotlinTask as KotlinNativeCompile
+
+                        return@filter compilation.compilation.konanTarget.family != Family.LINUX ||
+                                (Os.isFamily(Os.FAMILY_UNIX) && !Os.isFamily(Os.FAMILY_MAC))
+                    }
+                    .mapNotNull { it?.compilations?.getByName("main")?.compileKotlinTask?.name }
 
             if (nativeTargetNames.isNotEmpty()) {
                 multiplatformExtension.targets
