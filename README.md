@@ -1,13 +1,15 @@
 # MMock - mocking library for Kotlin Multiplatform
 
+<!-- TODO replace badge with new build pipeline
 [![Build Status](https://dev.azure.com/mziemba95/mziemba95/_apis/build/status/Virelion.MMock?branchName=master)](https://dev.azure.com/mziemba95/mziemba95/_build/latest?definitionId=2&branchName=master)
-
+-->
 ![badge](https://img.shields.io/badge/platform-JVM-orange)
 ![badge](https://img.shields.io/badge/platform-JS-red)
-![badge](https://img.shields.io/badge/platform-Android-yellowgreen)
 ![badge](https://img.shields.io/badge/platform-iOS--64-yellow)
 ![badge](https://img.shields.io/badge/platform-Linux--64-blue)
 ![badge](https://img.shields.io/badge/platform-MinGW--64-blueviolet)
+
+Multiplatform Kotlin library for mocking. 
 
 ## How to use
 1\. Add plugin to gradle:
@@ -15,7 +17,7 @@
 ```build.gradle.kts
 plugins {
     // ...
-    id("com.github.virelion.mmock") version <plugin-version>
+    id("com.pega.mmock") version <plugin-version>
 }
 
 
@@ -27,7 +29,7 @@ kotlin {
         val commonMain by gettting {
             dependencies {
                 // ...
-                implementation("com.github.virelion.mmock:mmock-runtime:$mmockVersion")
+                implementation("com.pega.mmock:mmock-runtime:$mmockVersion")
             }
         }
     }
@@ -38,7 +40,7 @@ kotlin {
 ```kotlin
 package com.example
 
-import com.github.virelion.mmock.GenerateMock
+import com.pega.mmock.GenerateMock
 
 @GenerateMock
 interface MyInteface {
@@ -51,9 +53,9 @@ interface MyInteface {
 ```kotlin
 package com.example
 
-import com.github.virelion.mmock.dsl.any
-import com.github.virelion.mmock.dsl.once
-import com.github.virelion.mmock.withMMock
+import com.pega.mmock.dsl.any
+import com.pega.mmock.dsl.once
+import com.pega.mmock.withMMock
 
 class TestClass {
     @Test

@@ -4,7 +4,7 @@ To create mock annotate interface with `GenerateMock` annotation.
 ```kotlin
 package com.example
 
-import com.github.virelion.mmock.GenerateMock
+import com.pega.mmock.GenerateMock
 
 @GenerateMock
 interface MyInterface
@@ -15,7 +15,7 @@ You can use it in test
 
 ```kotlin
 import com.example.MyInterface
-import com.github.virelion.mmock.withMMock
+import com.pega.mmock.withMMock
 
 class ExampleTest {
     @Test
@@ -37,7 +37,7 @@ interface MyInterface {
 
 ```kotlin
 import com.example.MyInterface
-import com.github.virelion.mmock.withMMock
+import com.pega.mmock.withMMock
 
 class ExampleTest {
     @Test
@@ -71,7 +71,7 @@ interface MyInterface {
 
 ```kotlin
 import com.example.MyInterface
-import com.github.virelion.mmock.withMMock
+import com.pega.mmock.withMMock
 
 class ExampleTest {
     @Test
@@ -91,7 +91,7 @@ Use `throws` DSL to define exception thrown out of mock.
 
 ```kotlin
 import com.example.MyInterface
-import com.github.virelion.mmock.withMMock
+import com.pega.mmock.withMMock
 
 class ExampleTest {
     @Test
