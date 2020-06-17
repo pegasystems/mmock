@@ -16,8 +16,8 @@ repositories {
 gradlePlugin {
     plugins {
         register("MMockGradlePlugin") {
-            id = "com.github.virelion.mmock"
-            implementationClass = "com.github.virelion.mmock.gradle.MMockPlugin"
+            id = "com.pega.mmock"
+            implementationClass = "com.pega.mmock.gradle.MMockPlugin"
         }
     }
 }
