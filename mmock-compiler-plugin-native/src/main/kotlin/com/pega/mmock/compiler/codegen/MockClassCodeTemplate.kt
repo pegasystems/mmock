@@ -12,6 +12,7 @@ internal data class MockClassCodeTemplate(
     val imports: List<String>,
     val typeParameters: List<TypeParameterCodeTemplate>,
     val originalName: String,
+    val constructor: ConstructorCodeTemplate?,
     val methods: List<CodeTemplate>,
     val properties: List<PropertyTemplate>
 ) : CodeTemplate {
@@ -26,9 +27,9 @@ internal data class MockClassCodeTemplate(
                 appendln("import $it")
             }
             emptyLine()
-            lineOf("fun", typeParametersNames(), "MockInitializer.$originalName():", originalName + typeParametersNames(), "=", "$mockName(context)")
+            lineOf("fun", typeParametersNames(), "MockInitializer.$originalName():", originalName + typeParametersNames(), "=", "$mockName(context${constructorParametersOnlyNames()})")
             emptyLine()
-            appendln("class ${mockName}${typeParametersNamesWithVariance()}(override val mMockContext: MMockContext) : $originalName${typeParametersNames()}, ObjectMock { ")
+            appendln("class ${mockName}${typeParametersNamesWithVariance()}(override val mMockContext: MMockContext${childConstructorParameters()}) : $originalName${typeParametersNames()}${parentConstructorParameters()}, ObjectMock { ")
             indent {
                 builder.appendln("override val mocks: MockContainer = MockContainer(this)")
                 emptyLine()
@@ -57,6 +58,42 @@ internal data class MockClassCodeTemplate(
     fun typeParametersNamesWithVariance(): String {
         return if (typeParameters.isNotEmpty()) {
             typeParameters.joinToString(prefix = "<", postfix = ">", separator = ", ") { it.toString() }
+        } else {
+            ""
+        }
+    }
+
+    fun childConstructorParameters(): String {
+        if(constructor == null)
+            return ""
+
+        val filteredParameters = constructor.parameters.filter { !it.hasDefaultValue }
+        return if (filteredParameters.isNotEmpty()) {
+            constructor.parameters.joinToString(prefix = ", ", separator = ", ") { it.toString() }
+        } else {
+            ""
+        }
+    }
+
+    fun parentConstructorParameters(): String {
+        if (constructor == null)
+            return ""
+
+        val filteredParameters = constructor.parameters.filter { !it.hasDefaultValue }
+        return if (filteredParameters.isNotEmpty()) {
+            constructor.parameters.joinToString(prefix = ", ", separator = ", ") { it.name }
+        } else {
+            "()"
+        }
+    }
+
+    fun constructorParametersOnlyNames(): String {
+        if(constructor == null)
+            return ""
+
+        val filteredParameters = constructor.parameters.filter { !it.hasDefaultValue }
+        return if (filteredParameters.isNotEmpty()) {
+            constructor.parameters.joinToString(prefix = ", ", separator = ", ") { it.name }
         } else {
             ""
         }

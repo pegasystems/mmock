@@ -13,11 +13,13 @@ import org.jetbrains.kotlin.ir.declarations.IrClass
 import org.jetbrains.kotlin.ir.declarations.IrProperty
 import org.jetbrains.kotlin.ir.declarations.IrSimpleFunction
 import org.jetbrains.kotlin.ir.util.getPackageFragment
+import org.jetbrains.kotlin.ir.util.primaryConstructor
 
 internal fun IrClass.toCodeTemplate(): CodeTemplate {
     return MockClassCodeTemplate(
             pkg = this.getPackageFragment()?.fqName?.asString() ?: throw IllegalStateException("No package"),
             originalName = this.name.asString(),
+            constructor = this.primaryConstructor?.toPrimaryCodeTemplate(),
             imports = listOf(
                     "com.pega.mmock.dsl.MMockContext",
                     "com.pega.mmock.dsl.MockInitializer",

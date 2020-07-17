@@ -5,6 +5,10 @@
 
 package com.pega.mmock.demo
 
-interface NotMocked {
-    val property: Int
+class NotMocked() : BaseInterface {
+    val property: Int = 4
+
+    override fun baseFunction(): Int {
+        return 7
+    }
 }
