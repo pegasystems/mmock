@@ -2,12 +2,17 @@ plugins {
     kotlin("multiplatform") version "1.3.72"
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
     id("com.pega.mmock") version "0.0.0-SNAPSHOT"
+    id("org.jetbrains.kotlin.plugin.noarg") version "1.3.72"
 }
 
 repositories {
     mavenLocal()
     mavenCentral()
     jcenter()
+}
+
+noArg {
+    annotation("com.pega.mmock.GenerateMock")
 }
 
 val mmockRuntimeVersion = "0.0.0-SNAPSHOT"

@@ -16,6 +16,7 @@ import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
 class ExampleClassTest {
+
     @Test
     fun simple() = withMMock {
         val myMock = mock.ExampleClass()

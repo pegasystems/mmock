@@ -8,35 +8,35 @@ package com.pega.mmock.demo
 import com.pega.mmock.GenerateMock
 
 @GenerateMock
-open class ExampleClass(open val test: Int = 7) : BaseInterface {
-    open val property: BaseInterface = NotMocked()
-    open var mutableProperty: BaseInterface? = NotMocked()
+class ExampleClass() : BaseInterface {
+    val property: BaseInterface = NotMocked()
+    var mutableProperty: BaseInterface? = NotMocked()
 
-    open fun simple() {
+    fun simple() {
         return
     }
 
-    open fun function(arg: Int): Int? {
+    fun function(arg: Int): Int? {
         return 3
     }
 
-    open suspend fun suspendFunction(arg: Int?): Int? {
+    suspend fun suspendFunction(arg: Int?): Int? {
         return 4
     }
 
-    open fun <T> genericFunction(arg: T): T {
+    fun <T> genericFunction(arg: T): T {
         return arg
     }
 
-    open fun <A, B, C> complicatedGenericFunction(map: Map<A, List<out List<C>>>) {
+    fun <A, B, C> complicatedGenericFunction(map: Map<A, List<out List<C>>>) {
         return
     }
 
-    open fun withAsterix(list: List<*>): List<*> {
+    fun withAsterix(list: List<*>): List<*> {
         return list
     }
 
-    open fun functionWithTypeOutsideOfProject(arg: BaseInterface): BaseInterface {
+    fun functionWithTypeOutsideOfProject(arg: BaseInterface): BaseInterface {
         return arg
     }
 
