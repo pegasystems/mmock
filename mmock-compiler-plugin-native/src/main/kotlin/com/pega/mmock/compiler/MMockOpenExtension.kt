@@ -1,10 +1,8 @@
 package com.pega.mmock.compiler
 
-import com.pega.mmock.compiler.util.p
 import org.jetbrains.kotlin.descriptors.ClassDescriptor
 import org.jetbrains.kotlin.descriptors.DeclarationDescriptor
 import org.jetbrains.kotlin.descriptors.Modality
-import org.jetbrains.kotlin.extensions.AnnotationBasedExtension
 import org.jetbrains.kotlin.extensions.DeclarationAttributeAltererExtension
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.KtModifierListOwner
@@ -21,9 +19,8 @@ class MMockOpenExtension : DeclarationAttributeAltererExtension {
 
         if (currentModality != Modality.FINAL) return null
 
-        if(descriptor.annotations.hasAnnotation(FqName("com.pega.mmock.GenerateMock"))) {
+        if (descriptor.annotations.hasAnnotation(FqName("com.pega.mmock.GenerateMock")))
             return Modality.OPEN
-        }
 
         return null
     }

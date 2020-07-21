@@ -5,5 +5,5 @@
 
 package com.pega.mmock
 
-@Target(allowedTargets = [AnnotationTarget.CLASS, AnnotationTarget.PROPERTY])
+@Target(allowedTargets = [AnnotationTarget.CLASS])
 annotation class GenerateMock

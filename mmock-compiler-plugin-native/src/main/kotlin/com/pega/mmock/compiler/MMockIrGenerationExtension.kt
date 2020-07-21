@@ -8,12 +8,10 @@ package com.pega.mmock.compiler
 import com.pega.mmock.compiler.codegen.MockClassCodeTemplate
 import com.pega.mmock.compiler.codegen.PackageStreamer
 import com.pega.mmock.compiler.codegen.ir.toCodeTemplate
-import com.pega.mmock.compiler.util.p
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.ir.declarations.IrClass
 import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
-import org.jetbrains.kotlin.ir.util.constructors
 import org.jetbrains.kotlin.name.FqName
 
 class MMockIrGenerationExtension(val codegenDir: String) : IrGenerationExtension {
@@ -25,16 +23,9 @@ class MMockIrGenerationExtension(val codegenDir: String) : IrGenerationExtension
                     irClass.descriptor.annotations
                             .hasAnnotation(FqName("com.pega.mmock.GenerateMock"))
                 }
-
-        mockClasses.forEach {
-            messageCollector.p(it.constructors.count())
-        }
-
-        val temp = mockClasses.map { irClass -> irClass.toCodeTemplate() }
+                .map { irClass -> irClass.toCodeTemplate() }
                 .filterIsInstance<MockClassCodeTemplate>()
 
-
-
-        PackageStreamer(codegenDir).stream(temp)
+        PackageStreamer(codegenDir).stream(mockClasses)
     }
 }

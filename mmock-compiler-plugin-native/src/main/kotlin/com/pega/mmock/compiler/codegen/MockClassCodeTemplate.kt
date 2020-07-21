@@ -64,7 +64,7 @@ internal data class MockClassCodeTemplate(
     }
 
     fun childConstructorParameters(): String {
-        if(constructor == null)
+        if (constructor == null)
             return ""
 
         val filteredParameters = constructor.parameters.filter { !it.hasDefaultValue }
@@ -88,7 +88,7 @@ internal data class MockClassCodeTemplate(
     }
 
     fun constructorParametersOnlyNames(): String {
-        if(constructor == null)
+        if (constructor == null)
             return ""
 
         val filteredParameters = constructor.parameters.filter { !it.hasDefaultValue }
