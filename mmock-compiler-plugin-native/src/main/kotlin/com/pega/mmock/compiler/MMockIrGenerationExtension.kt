@@ -7,6 +7,7 @@ package com.pega.mmock.compiler
 
 import com.pega.mmock.compiler.codegen.MockClassCodeTemplate
 import com.pega.mmock.compiler.codegen.PackageStreamer
+import com.pega.mmock.compiler.codegen.ir.checkConstraints
 import com.pega.mmock.compiler.codegen.ir.toCodeTemplate
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
@@ -16,15 +17,21 @@ import org.jetbrains.kotlin.name.FqName
 
 class MMockIrGenerationExtension(val codegenDir: String) : IrGenerationExtension {
     override fun generate(moduleFragment: IrModuleFragment, pluginContext: IrPluginContext) {
-        val mockClasses = moduleFragment.files
+        val annotatedClasses = moduleFragment.files
                 .flatMap { irFile -> irFile.declarations }
                 .filterIsInstance<IrClass>()
                 .filter { irClass ->
                     irClass.descriptor.annotations
                             .hasAnnotation(FqName("com.pega.mmock.GenerateMock"))
                 }
-                .map { irClass -> irClass.toCodeTemplate() }
-                .filterIsInstance<MockClassCodeTemplate>()
+
+        annotatedClasses.forEach {
+            it.checkConstraints()
+        }
+
+        val mockClasses = annotatedClasses
+            .map { irClass -> irClass.toCodeTemplate() }
+            .filterIsInstance<MockClassCodeTemplate>()
 
         PackageStreamer(codegenDir).stream(mockClasses)
     }

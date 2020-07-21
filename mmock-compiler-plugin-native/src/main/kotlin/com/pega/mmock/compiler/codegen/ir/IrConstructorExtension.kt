@@ -7,7 +7,11 @@ package com.pega.mmock.compiler.codegen.ir
 
 import com.pega.mmock.compiler.codegen.ConstructorCodeTemplate
 import com.pega.mmock.compiler.codegen.ConstructorParameterCodeTemplate
+import com.pega.mmock.compiler.messageCollector
+import org.jetbrains.kotlin.cli.common.messages.CompilerMessageLocation
+import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
 import org.jetbrains.kotlin.ir.declarations.IrConstructor
+import org.jetbrains.kotlin.ir.types.isPrimitiveType
 import org.jetbrains.kotlin.ir.util.hasDefaultValue
 
 internal fun IrConstructor.toPrimaryCodeTemplate(): ConstructorCodeTemplate {
@@ -16,4 +20,15 @@ internal fun IrConstructor.toPrimaryCodeTemplate(): ConstructorCodeTemplate {
     )
 }
 
+internal fun IrConstructor.checkConstraints() {
+    val arguments = this.valueParameters
 
+    if (arguments.isEmpty()) return
+
+    arguments.forEach {
+        if (!it.hasDefaultValue()) {
+            if (!it.type.isPrimitiveType())
+                messageCollector.report(CompilerMessageSeverity.ERROR, "test", CompilerMessageLocation.Companion.create("najs", 10, 20, "xd"))
+        }
+    }
+}
