@@ -27,6 +27,7 @@ class MockClassCodeTemplateTest {
                 originalName = "TestClass",
                 imports = listOf("test.Test"),
                 methods = listOf(methodSource),
+                constructor = null,
                 typeParameters = listOf(),
                 properties = listOf(PropertyTemplate("property", "Int", true))
         )
