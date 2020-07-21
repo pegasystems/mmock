@@ -15,5 +15,3 @@ internal fun IrConstructor.toPrimaryCodeTemplate(): ConstructorCodeTemplate {
         this.valueParameters.map { ConstructorParameterCodeTemplate(it.name.toString(), it.type.generateCode(), it.hasDefaultValue()) }
     )
 }
-
-
