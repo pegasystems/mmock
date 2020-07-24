@@ -7,12 +7,14 @@ package com.pega.mmock.compiler.codegen.ir
 
 import com.pega.mmock.compiler.codegen.ConstructorCodeTemplate
 import com.pega.mmock.compiler.codegen.ConstructorParameterCodeTemplate
+import com.pega.mmock.compiler.codegen.utils.INVALID_CONSTRUCTOR_ARGS
 import com.pega.mmock.compiler.messageCollector
 import org.jetbrains.kotlin.cli.common.messages.CompilerMessageLocation
 import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
 import org.jetbrains.kotlin.ir.declarations.IrConstructor
+import org.jetbrains.kotlin.ir.declarations.path
 import org.jetbrains.kotlin.ir.types.isPrimitiveType
-import org.jetbrains.kotlin.ir.util.hasDefaultValue
+import org.jetbrains.kotlin.ir.util.*
 
 internal fun IrConstructor.toPrimaryCodeTemplate(): ConstructorCodeTemplate {
     return ConstructorCodeTemplate(
@@ -28,7 +30,12 @@ internal fun IrConstructor.checkConstraints() {
     arguments.forEach {
         if (!it.hasDefaultValue()) {
             if (!it.type.isPrimitiveType())
-                messageCollector.report(CompilerMessageSeverity.ERROR, "test", CompilerMessageLocation.Companion.create("najs", 10, 20, "xd"))
+                messageCollector.report(CompilerMessageSeverity.ERROR, INVALID_CONSTRUCTOR_ARGS, CompilerMessageLocation.Companion.create(
+                    this.file.path,
+                    this.fileEntry.getLineNumber(this.startOffset) + 1,
+                    this.fileEntry.getColumnNumber(this.startOffset) + 1,
+                    null)
+                )
         }
     }
 }

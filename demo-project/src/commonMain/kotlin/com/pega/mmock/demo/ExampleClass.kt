@@ -8,7 +8,7 @@ package com.pega.mmock.demo
 import com.pega.mmock.GenerateMock
 
 @GenerateMock
-class ExampleClass() : BaseInterface {
+class ExampleClass(val arg: Int, val arg2: Short, val arg3: Long) : BaseInterface {
     val property: BaseInterface = NotMocked()
     var mutableProperty: BaseInterface? = NotMocked()
 

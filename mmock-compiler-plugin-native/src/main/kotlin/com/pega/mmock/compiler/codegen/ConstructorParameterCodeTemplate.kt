@@ -6,6 +6,6 @@ data class ConstructorParameterCodeTemplate(
     val hasDefaultValue: Boolean
 ) {
     override fun toString(): String {
-        return "val $name: $type"
+        return "override val $name: $type"
     }
 }

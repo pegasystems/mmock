@@ -25,6 +25,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("compiler"))
     implementation(project(":mmock-annotations"))
+    implementation(project(":mmock-runtime"))
     compileOnly("com.google.auto.service:auto-service:1.0-rc6")
     kapt("com.google.auto.service:auto-service:1.0-rc6")
 
