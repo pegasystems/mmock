@@ -13,8 +13,9 @@ import org.jetbrains.kotlin.cli.common.messages.CompilerMessageLocation
 import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
 import org.jetbrains.kotlin.ir.declarations.IrConstructor
 import org.jetbrains.kotlin.ir.declarations.path
-import org.jetbrains.kotlin.ir.types.isPrimitiveType
-import org.jetbrains.kotlin.ir.util.*
+import org.jetbrains.kotlin.ir.util.file
+import org.jetbrains.kotlin.ir.util.fileEntry
+import org.jetbrains.kotlin.ir.util.hasDefaultValue
 
 internal fun IrConstructor.toPrimaryCodeTemplate(): ConstructorCodeTemplate {
     return ConstructorCodeTemplate(
@@ -29,8 +30,8 @@ internal fun IrConstructor.checkConstraints() {
 
     arguments.forEach {
         if (!it.hasDefaultValue()) {
-            if (!it.type.isPrimitiveType())
-                messageCollector.report(CompilerMessageSeverity.ERROR, INVALID_CONSTRUCTOR_ARGS, CompilerMessageLocation.Companion.create(
+            if (!it.type.isMmockDefaultInstanceSupported())
+                messageCollector.report(CompilerMessageSeverity.WARNING, INVALID_CONSTRUCTOR_ARGS, CompilerMessageLocation.Companion.create(
                     this.file.path,
                     this.fileEntry.getLineNumber(this.startOffset) + 1,
                     this.fileEntry.getColumnNumber(this.startOffset) + 1,

@@ -23,6 +23,21 @@ inline fun <reified T> defaultInstance(): T {
         Double::class -> 0.0 as T
         Char::class -> '\n' as T
         String::class -> "" as T
+
+        // Primitive arrays
+        BooleanArray::class -> booleanArrayOf() as T
+        IntArray::class -> intArrayOf() as T
+        ShortArray::class -> shortArrayOf() as T
+        LongArray::class -> longArrayOf() as T
+        FloatArray::class -> floatArrayOf() as T
+        ByteArray::class -> byteArrayOf() as T
+        DoubleArray::class -> doubleArrayOf() as T
+        CharArray::class -> charArrayOf() as T
+        UIntArray::class -> uintArrayOf() as T
+        UShortArray::class -> ushortArrayOf() as T
+        ULongArray::class -> ulongArrayOf() as T
+        UByteArray::class -> ubyteArrayOf() as T
+
         else -> createUnsafe()
     }
 }

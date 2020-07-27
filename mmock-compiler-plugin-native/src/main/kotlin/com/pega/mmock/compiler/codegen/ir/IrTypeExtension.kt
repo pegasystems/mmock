@@ -5,6 +5,8 @@
 
 package com.pega.mmock.compiler.codegen.ir
 
+import com.pega.mmock.compiler.messageCollector
+import com.pega.mmock.compiler.util.p
 import org.jetbrains.kotlin.ir.types.IrSimpleType
 import org.jetbrains.kotlin.ir.types.IrStarProjection
 import org.jetbrains.kotlin.ir.types.IrType
@@ -12,12 +14,41 @@ import org.jetbrains.kotlin.ir.types.IrTypeAbbreviation
 import org.jetbrains.kotlin.ir.types.IrTypeArgument
 import org.jetbrains.kotlin.ir.types.IrTypeProjection
 import org.jetbrains.kotlin.ir.types.classOrNull
+import org.jetbrains.kotlin.ir.types.classifierOrFail
+import org.jetbrains.kotlin.ir.types.isPrimitiveType
+import org.jetbrains.kotlin.ir.types.isString
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 
 fun IrType.generateCode(): String {
     return when (this) {
         is IrSimpleType -> this.generateCode()
         else -> TODO()
+    }
+}
+
+fun IrType.isMmockDefaultInstanceSupported(): Boolean {
+    // There is IrType#isPrimitiveArray() method but it doesn't support U-types like ULongArray
+    // and seems to have unexpected behaviour with the rest of primitive arrays
+    return isPrimitiveType() || isString() || isPrimitiveArrayCustom()
+}
+
+fun IrType.isPrimitiveArrayCustom(): Boolean {
+    val fqName = this.classOrNull?.descriptor?.fqNameSafe?.asString() ?: this.classifierOrFail.descriptor.name.toString()
+    messageCollector.p(fqName)
+    return when (fqName) {
+        "kotlin.UIntArray" -> true
+        "kotlin.UShortArray" -> true
+        "kotlin.UByteArray" -> true
+        "kotlin.ULongArray" -> true
+        "kotlin.BooleanArray" -> true
+        "kotlin.IntArray" -> true
+        "kotlin.ShortArray" -> true
+        "kotlin.ByteArray" -> true
+        "kotlin.LongArray" -> true
+        "kotlin.DoubleArray" -> true
+        "kotlin.FloatArray" -> true
+        "kotlin.CharArray" -> true
+        else -> false
     }
 }
 

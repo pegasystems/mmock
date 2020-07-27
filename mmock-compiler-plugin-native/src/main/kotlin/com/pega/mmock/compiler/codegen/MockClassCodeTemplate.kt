@@ -20,7 +20,7 @@ internal data class MockClassCodeTemplate(
         get() = "${originalName}_Mock"
 
     init {
-        if(constructor != null) imports.add("com.pega.mmock.backend.unsafe.defaultInstance")
+        if (constructor != null) imports.add("com.pega.mmock.backend.unsafe.defaultInstance")
     }
 
     override fun generate(builder: CodeBuilder): String {
