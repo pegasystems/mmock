@@ -22,7 +22,7 @@ internal fun IrClass.toCodeTemplate(): CodeTemplate {
             pkg = this.getPackageFragment()?.fqName?.asString() ?: throw IllegalStateException("No package"),
             originalName = this.name.asString(),
             constructor = this.primaryConstructor?.toPrimaryCodeTemplate(),
-            imports = arrayListOf(
+            imports = mutableListOf(
                     "com.pega.mmock.dsl.MMockContext",
                     "com.pega.mmock.dsl.MockInitializer",
                     "com.pega.mmock.backend.ObjectMock",

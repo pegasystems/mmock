@@ -9,7 +9,7 @@ import com.pega.mmock.compiler.codegen.utils.CodeBuilder
 
 internal data class MockClassCodeTemplate(
     val pkg: String,
-    val imports: ArrayList<String>,
+    val imports: MutableList<String>,
     val typeParameters: List<TypeParameterCodeTemplate>,
     val originalName: String,
     val constructor: ConstructorCodeTemplate?,

@@ -25,7 +25,7 @@ class MockClassCodeTemplateTest {
         val mockClassSource = MockClassCodeTemplate(
                 pkg = "my.test",
                 originalName = "TestClass",
-                imports = arrayListOf("test.Test"),
+                imports = mutableListOf("test.Test"),
                 methods = listOf(methodSource),
                 constructor = null,
                 typeParameters = listOf(),
