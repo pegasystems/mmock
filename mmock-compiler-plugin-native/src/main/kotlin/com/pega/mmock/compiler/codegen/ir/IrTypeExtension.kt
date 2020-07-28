@@ -5,6 +5,7 @@
 
 package com.pega.mmock.compiler.codegen.ir
 
+import com.pega.mmock.compiler.codegen.utils.MMockCollectionEnum
 import com.pega.mmock.compiler.messageCollector
 import com.pega.mmock.compiler.util.p
 import org.jetbrains.kotlin.ir.types.IrSimpleType
@@ -29,7 +30,7 @@ fun IrType.generateCode(): String {
 fun IrType.isMmockDefaultInstanceSupported(): Boolean {
     // There is IrType#isPrimitiveArray() method but it doesn't support U-types like ULongArray
     // and seems to have unexpected behaviour with the rest of primitive arrays
-    return isPrimitiveType() || isString() || isPrimitiveArrayCustom()
+    return isPrimitiveType() || isString() || isPrimitiveArrayCustom() || isCollectionInterface()
 }
 
 fun IrType.isPrimitiveArrayCustom(): Boolean {
@@ -49,6 +50,32 @@ fun IrType.isPrimitiveArrayCustom(): Boolean {
         "kotlin.FloatArray" -> true
         "kotlin.CharArray" -> true
         else -> false
+    }
+}
+
+fun IrType.isCollectionInterface(): Boolean {
+    return when (this.classOrNull?.descriptor?.fqNameSafe?.asString() ?: this.classifierOrFail.descriptor.name.toString()) {
+        "kotlin.Array" -> true
+        "kotlin.collections.List" -> true
+        "kotlin.collections.MutableList" -> true
+        "kotlin.collections.Set" -> true
+        "kotlin.collections.MutableSet" -> true
+        "kotlin.collections.Map" -> true
+        "kotlin.collections.MutableMap" -> true
+        else -> false
+    }
+}
+
+fun IrType.determineCollectionEnum(): MMockCollectionEnum {
+    return when (this.classOrNull?.descriptor?.fqNameSafe?.asString() ?: this.classifierOrFail.descriptor.name.toString()) {
+        "kotlin.Array" -> MMockCollectionEnum.ARRAY
+        "kotlin.collections.List" -> MMockCollectionEnum.LIST
+        "kotlin.collections.MutableList" -> MMockCollectionEnum.MUTABLE_LIST
+        "kotlin.collections.Set" -> MMockCollectionEnum.SET
+        "kotlin.collections.MutableSet" -> MMockCollectionEnum.MUTABLE_SET
+        "kotlin.collections.Map" -> MMockCollectionEnum.MAP
+        "kotlin.collections.MutableMap" -> MMockCollectionEnum.MUTABLE_MAP
+        else -> MMockCollectionEnum.NONE
     }
 }
 

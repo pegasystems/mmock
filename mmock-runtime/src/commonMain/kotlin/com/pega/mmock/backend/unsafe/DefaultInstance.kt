@@ -41,3 +41,17 @@ inline fun <reified T> defaultInstance(): T {
         else -> createUnsafe()
     }
 }
+
+inline fun <reified T> defaultArrayInstance(): Array<T> = arrayOf()
+
+inline fun <reified T> defaultListInstance(): List<T> = listOf()
+
+inline fun <reified T> defaultMutableListInstance(): MutableList<T> = mutableListOf()
+
+inline fun <reified T> defaultSetInstance(): Set<T> = setOf()
+
+inline fun <reified T, reified E> defaultMapInstance(): Map<T, E> = mapOf()
+
+inline fun <reified T, reified E> defaultMutableMapInstance(): MutableMap<T, E> = mutableMapOf()
+
+inline fun <reified T> defaultMutableSetInstance(): MutableSet<T> = mutableSetOf()

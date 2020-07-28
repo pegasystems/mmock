@@ -20,7 +20,7 @@ internal data class MockClassCodeTemplate(
         get() = "${originalName}_Mock"
 
     init {
-        if (constructor != null) imports.add("com.pega.mmock.backend.unsafe.defaultInstance")
+        updateImports()
     }
 
     override fun generate(builder: CodeBuilder): String {
@@ -73,9 +73,17 @@ internal data class MockClassCodeTemplate(
 
         val filteredParameters = constructor.parameters.filter { !it.hasDefaultValue }
         return if (filteredParameters.isNotEmpty()) {
-            constructor.parameters.joinToString(prefix = "(", separator = ", ", postfix = ")") { "defaultInstance()" }
+            filteredParameters.joinToString(prefix = "(", separator = ", ", postfix = ")") { it.getDefaultInstanceFunction() }
         } else {
             "()"
+        }
+    }
+
+    private fun updateImports() {
+        val params = constructor?.parameters ?: return
+        params.forEach {
+            if (!(imports.contains(it.getDefaultInstanceImport()) || it.hasDefaultValue))
+                imports.add(it.getDefaultInstanceImport())
         }
     }
 }

@@ -28,8 +28,8 @@ class DefaultInstanceTest {
     @Test
     @JsName("Can_be_created")
     fun `Can be created`() {
-        defaultInstance<Boolean>()
-        defaultInstance<Int>()
+        defaultInstance<Boolean?>()
+        defaultInstance<Int?>()
         defaultInstance<Short>()
         defaultInstance<Long>()
         defaultInstance<Byte>()
@@ -42,6 +42,30 @@ class DefaultInstanceTest {
         defaultInstance<String>()
         defaultInstance<A>()
         defaultInstance<B>()
+    }
+
+    @Test
+    @JsName("Can_be_created_primitive_arrays_and_collections")
+    fun `Can be created primitve_arrays_and_collections`() {
+        defaultInstance<IntArray>()
+        defaultInstance<BooleanArray?>()
+        defaultInstance<FloatArray>()
+        defaultInstance<ShortArray>()
+        defaultInstance<LongArray>()
+        defaultInstance<ByteArray>()
+        defaultInstance<DoubleArray>()
+        defaultInstance<CharArray>()
+        defaultInstance<UByteArray>()
+        defaultInstance<UShortArray>()
+        defaultInstance<UIntArray>()
+        defaultInstance<ULongArray>()
+        defaultArrayInstance<A>()
+        defaultMapInstance<A, B>()
+        defaultListInstance<Int?>()
+        defaultSetInstance<A?>()
+        defaultMutableListInstance<String>()
+        defaultMutableMapInstance<Float?, Char?>()
+        defaultMutableSetInstance<B?>()
     }
 
     @Test
@@ -61,6 +85,25 @@ class DefaultInstanceTest {
         regularFunction(defaultInstance<String>())
         regularFunction(defaultInstance<A>())
         regularFunction(defaultInstance<B>())
+        regularFunction(defaultInstance<IntArray>())
+        regularFunction(defaultInstance<BooleanArray>())
+        regularFunction(defaultInstance<FloatArray>())
+        regularFunction(defaultInstance<ShortArray>())
+        regularFunction(defaultInstance<LongArray>())
+        regularFunction(defaultInstance<ByteArray>())
+        regularFunction(defaultInstance<DoubleArray>())
+        regularFunction(defaultInstance<CharArray>())
+        regularFunction(defaultInstance<UByteArray>())
+        regularFunction(defaultInstance<UShortArray>())
+        regularFunction(defaultInstance<UIntArray>())
+        regularFunction(defaultInstance<ULongArray>())
+        regularFunction(defaultArrayInstance<A>())
+        regularFunction(defaultMapInstance<A, B>())
+        regularFunction(defaultListInstance<Int?>())
+        regularFunction(defaultSetInstance<A?>())
+        regularFunction(defaultMutableListInstance<String>())
+        regularFunction(defaultMutableMapInstance<Float?, Char?>())
+        regularFunction(defaultMutableSetInstance<B?>())
     }
 
     @Test
@@ -80,5 +123,24 @@ class DefaultInstanceTest {
         suspendFunction(defaultInstance<String>())
         suspendFunction(defaultInstance<A>())
         suspendFunction(defaultInstance<B>())
+        suspendFunction(defaultInstance<IntArray>())
+        suspendFunction(defaultInstance<BooleanArray>())
+        suspendFunction(defaultInstance<FloatArray>())
+        suspendFunction(defaultInstance<ShortArray>())
+        suspendFunction(defaultInstance<LongArray>())
+        suspendFunction(defaultInstance<ByteArray>())
+        suspendFunction(defaultInstance<DoubleArray>())
+        suspendFunction(defaultInstance<CharArray>())
+        suspendFunction(defaultInstance<UByteArray>())
+        suspendFunction(defaultInstance<UShortArray>())
+        suspendFunction(defaultInstance<UIntArray>())
+        suspendFunction(defaultInstance<ULongArray>())
+        suspendFunction(defaultArrayInstance<A>())
+        suspendFunction(defaultMapInstance<A, B>())
+        suspendFunction(defaultListInstance<Int?>())
+        suspendFunction(defaultSetInstance<A?>())
+        suspendFunction(defaultMutableListInstance<String>())
+        suspendFunction(defaultMutableMapInstance<Float?, Char?>())
+        suspendFunction(defaultMutableSetInstance<B?>())
     }
 }

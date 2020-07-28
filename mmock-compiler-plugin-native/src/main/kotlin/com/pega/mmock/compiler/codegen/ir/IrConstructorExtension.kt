@@ -19,7 +19,13 @@ import org.jetbrains.kotlin.ir.util.hasDefaultValue
 
 internal fun IrConstructor.toPrimaryCodeTemplate(): ConstructorCodeTemplate {
     return ConstructorCodeTemplate(
-        this.valueParameters.map { ConstructorParameterCodeTemplate(it.name.toString(), it.type.generateCode(), it.hasDefaultValue()) }
+        this.valueParameters.map { ConstructorParameterCodeTemplate(
+            it.name.toString(),
+            it.type.generateCode(),
+            it.hasDefaultValue(),
+            it.type.determineCollectionEnum()
+        )
+        }
     )
 }
 
