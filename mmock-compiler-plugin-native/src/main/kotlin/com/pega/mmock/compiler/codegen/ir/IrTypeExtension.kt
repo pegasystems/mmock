@@ -6,8 +6,6 @@
 package com.pega.mmock.compiler.codegen.ir
 
 import com.pega.mmock.compiler.codegen.utils.MMockCollectionEnum
-import com.pega.mmock.compiler.messageCollector
-import com.pega.mmock.compiler.util.p
 import org.jetbrains.kotlin.ir.types.IrSimpleType
 import org.jetbrains.kotlin.ir.types.IrStarProjection
 import org.jetbrains.kotlin.ir.types.IrType
@@ -34,36 +32,39 @@ fun IrType.isMmockDefaultInstanceSupported(): Boolean {
 }
 
 fun IrType.isPrimitiveArrayCustom(): Boolean {
-    val fqName = this.classOrNull?.descriptor?.fqNameSafe?.asString() ?: this.classifierOrFail.descriptor.name.toString()
-    messageCollector.p(fqName)
-    return when (fqName) {
-        "kotlin.UIntArray" -> true
-        "kotlin.UShortArray" -> true
-        "kotlin.UByteArray" -> true
-        "kotlin.ULongArray" -> true
-        "kotlin.BooleanArray" -> true
-        "kotlin.IntArray" -> true
-        "kotlin.ShortArray" -> true
-        "kotlin.ByteArray" -> true
-        "kotlin.LongArray" -> true
-        "kotlin.DoubleArray" -> true
-        "kotlin.FloatArray" -> true
-        "kotlin.CharArray" -> true
-        else -> false
-    }
+    val fqName = this.classOrNull?.descriptor?.fqNameSafe?.asString()
+        ?: this.classifierOrFail.descriptor.name.toString()
+    val primitiveArrays = setOf(
+        "kotlin.UIntArray",
+        "kotlin.UShortArray",
+        "kotlin.UByteArray",
+        "kotlin.ULongArray",
+        "kotlin.BooleanArray",
+        "kotlin.IntArray",
+        "kotlin.ShortArray",
+        "kotlin.ByteArray",
+        "kotlin.LongArray",
+        "kotlin.DoubleArray",
+        "kotlin.FloatArray",
+        "kotlin.CharArray"
+    )
+
+    return fqName in primitiveArrays
 }
 
 fun IrType.isCollectionInterface(): Boolean {
-    return when (this.classOrNull?.descriptor?.fqNameSafe?.asString() ?: this.classifierOrFail.descriptor.name.toString()) {
-        "kotlin.Array" -> true
-        "kotlin.collections.List" -> true
-        "kotlin.collections.MutableList" -> true
-        "kotlin.collections.Set" -> true
-        "kotlin.collections.MutableSet" -> true
-        "kotlin.collections.Map" -> true
-        "kotlin.collections.MutableMap" -> true
-        else -> false
-    }
+    val fqName = this.classOrNull?.descriptor?.fqNameSafe?.asString() ?: this.classifierOrFail.descriptor.name.toString()
+    val collectionInterfaces = setOf(
+        "kotlin.Array",
+        "kotlin.collections.List",
+        "kotlin.collections.MutableList",
+        "kotlin.collections.Set",
+        "kotlin.collections.MutableSet",
+        "kotlin.collections.Map",
+        "kotlin.collections.MutableMap"
+    )
+
+    return fqName in collectionInterfaces
 }
 
 fun IrType.determineCollectionEnum(): MMockCollectionEnum {

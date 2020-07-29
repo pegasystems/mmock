@@ -17,21 +17,16 @@ import org.jetbrains.kotlin.name.FqName
 
 class MMockIrGenerationExtension(val codegenDir: String) : IrGenerationExtension {
     override fun generate(moduleFragment: IrModuleFragment, pluginContext: IrPluginContext) {
-        val annotatedClasses = moduleFragment.files
+        val mockClasses = moduleFragment.files
                 .flatMap { irFile -> irFile.declarations }
                 .filterIsInstance<IrClass>()
                 .filter { irClass ->
                     irClass.descriptor.annotations
                             .hasAnnotation(FqName("com.pega.mmock.GenerateMock"))
                 }
-
-        annotatedClasses.forEach {
-            it.checkConstraints()
-        }
-
-        val mockClasses = annotatedClasses
-            .map { irClass -> irClass.toCodeTemplate() }
-            .filterIsInstance<MockClassCodeTemplate>()
+                .apply { forEach { it.checkConstraints() } }
+                .map { irClass -> irClass.toCodeTemplate() }
+                .filterIsInstance<MockClassCodeTemplate>()
 
         PackageStreamer(codegenDir).stream(mockClasses)
     }
