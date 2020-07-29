@@ -8,7 +8,16 @@ package com.pega.mmock.demo
 import com.pega.mmock.GenerateMock
 
 @GenerateMock
-class ExampleClass() : BaseInterface {
+class ExampleClass(
+    val arg1: Array<Int>?,
+    val arg2: List<Int>?,
+    val arg3: MutableList<Int> = mutableListOf(),
+    val arg5: Set<Int>,
+    val arg6: MutableSet<Int>,
+    val arg9: Map<Int, Int>,
+    val arg13: BaseInterface = NotMocked(),
+    val arg10: MutableMap<Int, Int>
+) : BaseInterface {
     val property: BaseInterface = NotMocked()
     var mutableProperty: BaseInterface? = NotMocked()
 

@@ -23,6 +23,35 @@ inline fun <reified T> defaultInstance(): T {
         Double::class -> 0.0 as T
         Char::class -> '\n' as T
         String::class -> "" as T
+
+        // Primitive arrays
+        BooleanArray::class -> booleanArrayOf() as T
+        IntArray::class -> intArrayOf() as T
+        ShortArray::class -> shortArrayOf() as T
+        LongArray::class -> longArrayOf() as T
+        FloatArray::class -> floatArrayOf() as T
+        ByteArray::class -> byteArrayOf() as T
+        DoubleArray::class -> doubleArrayOf() as T
+        CharArray::class -> charArrayOf() as T
+        UIntArray::class -> uintArrayOf() as T
+        UShortArray::class -> ushortArrayOf() as T
+        ULongArray::class -> ulongArrayOf() as T
+        UByteArray::class -> ubyteArrayOf() as T
+
         else -> createUnsafe()
     }
 }
+
+inline fun <reified T> defaultArrayInstance(): Array<T> = arrayOf()
+
+inline fun <reified T> defaultListInstance(): List<T> = listOf()
+
+inline fun <reified T> defaultMutableListInstance(): MutableList<T> = mutableListOf()
+
+inline fun <reified T> defaultSetInstance(): Set<T> = setOf()
+
+inline fun <reified T, reified E> defaultMapInstance(): Map<T, E> = mapOf()
+
+inline fun <reified T, reified E> defaultMutableMapInstance(): MutableMap<T, E> = mutableMapOf()
+
+inline fun <reified T> defaultMutableSetInstance(): MutableSet<T> = mutableSetOf()

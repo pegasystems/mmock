@@ -9,7 +9,7 @@ import com.pega.mmock.compiler.codegen.utils.CodeBuilder
 
 internal data class MockClassCodeTemplate(
     val pkg: String,
-    val imports: List<String>,
+    val imports: MutableList<String>,
     val typeParameters: List<TypeParameterCodeTemplate>,
     val originalName: String,
     val constructor: ConstructorCodeTemplate?,
@@ -19,6 +19,10 @@ internal data class MockClassCodeTemplate(
     val mockName: String
         get() = "${originalName}_Mock"
 
+    init {
+        updateImports()
+    }
+
     override fun generate(builder: CodeBuilder): String {
         return builder.build {
             appendln("package $pkg")
@@ -27,9 +31,9 @@ internal data class MockClassCodeTemplate(
                 appendln("import $it")
             }
             emptyLine()
-            lineOf("fun", typeParametersNames(), "MockInitializer.$originalName():", originalName + typeParametersNames(), "=", "$mockName(context${constructorParametersOnlyNames()})")
+            lineOf("fun", typeParametersNames(), "MockInitializer.$originalName():", originalName + typeParametersNames(), "=", "$mockName(context)")
             emptyLine()
-            appendln("class ${mockName}${typeParametersNamesWithVariance()}(override val mMockContext: MMockContext${childConstructorParameters()}) : $originalName${typeParametersNames()}${parentConstructorParameters()}, ObjectMock { ")
+            appendln("class ${mockName}${typeParametersNamesWithVariance()}(override val mMockContext: MMockContext) : $originalName${typeParametersNames()}${parentConstructorParameters()}, ObjectMock { ")
             indent {
                 builder.appendln("override val mocks: MockContainer = MockContainer(this)")
                 emptyLine()
@@ -63,39 +67,23 @@ internal data class MockClassCodeTemplate(
         }
     }
 
-    fun childConstructorParameters(): String {
-        if (constructor == null)
-            return ""
-
-        val filteredParameters = constructor.parameters.filter { !it.hasDefaultValue }
-        return if (filteredParameters.isNotEmpty()) {
-            constructor.parameters.joinToString(prefix = ", ", separator = ", ") { it.toString() }
-        } else {
-            ""
-        }
-    }
-
     fun parentConstructorParameters(): String {
         if (constructor == null)
             return ""
 
         val filteredParameters = constructor.parameters.filter { !it.hasDefaultValue }
         return if (filteredParameters.isNotEmpty()) {
-            constructor.parameters.joinToString(prefix = ", ", separator = ", ") { it.name }
+            filteredParameters.joinToString(prefix = "(", separator = ", ", postfix = ")") { it.getDefaultInstanceFunction() }
         } else {
             "()"
         }
     }
 
-    fun constructorParametersOnlyNames(): String {
-        if (constructor == null)
-            return ""
-
-        val filteredParameters = constructor.parameters.filter { !it.hasDefaultValue }
-        return if (filteredParameters.isNotEmpty()) {
-            constructor.parameters.joinToString(prefix = ", ", separator = ", ") { it.name }
-        } else {
-            ""
+    private fun updateImports() {
+        val params = constructor?.parameters ?: return
+        params.forEach {
+            if (!(imports.contains(it.getDefaultInstanceImport()) || it.hasDefaultValue))
+                imports.add(it.getDefaultInstanceImport())
         }
     }
 }
