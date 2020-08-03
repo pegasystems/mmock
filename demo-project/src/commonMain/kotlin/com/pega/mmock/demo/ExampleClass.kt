@@ -15,6 +15,7 @@ class ExampleClass(
     val arg5: Set<Int>,
     val arg6: MutableSet<Int>,
     val arg9: Map<Int, Int>,
+    val arg11: Int,
     val arg13: BaseInterface = NotMocked(),
     val arg10: MutableMap<Int, Int>
 ) : BaseInterface {
@@ -27,6 +28,18 @@ class ExampleClass(
 
     fun function(arg: Int): Int? {
         return 3
+    }
+
+    fun functionWithList(arg: List<Int>): Int {
+        return 7
+    }
+
+    fun functionWithSet(arg: Set<Int>): Int {
+        return 10
+    }
+
+    suspend fun functionWithMap(arg: Map<Int, String>): Int {
+        return 11
     }
 
     suspend fun suspendFunction(arg: Int?): Int? {

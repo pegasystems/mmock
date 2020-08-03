@@ -37,14 +37,8 @@ inline fun <reified T> defaultInstance(): T {
         UShortArray::class -> ushortArrayOf() as T
         ULongArray::class -> ulongArrayOf() as T
         UByteArray::class -> ubyteArrayOf() as T
-        List::class -> listOf<Nothing>() as T
-        Map::class -> mapOf<Nothing, Nothing>() as T
-        Set::class -> setOf<Nothing>() as T
-        MutableList::class -> mutableMapOf<Nothing, Nothing>() as T
-        MutableMap::class -> mutableMapOf<Nothing, Nothing>() as T
-        MutableSet::class -> mutableSetOf<Nothing>() as T
 
-        else -> throw Exception()
+        else -> createUnsafe()
     }
 }
 

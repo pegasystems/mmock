@@ -8,7 +8,11 @@ package com.pega.mmock.dsl
 import com.pega.mmock.backend.stack.ArgumentStackElement
 import com.pega.mmock.backend.stack.Invocation
 import com.pega.mmock.backend.stack.StackElement
+import com.pega.mmock.backend.unsafe.defaultArrayInstance
 import com.pega.mmock.backend.unsafe.defaultInstance
+import com.pega.mmock.backend.unsafe.defaultMutableListInstance
+import com.pega.mmock.backend.unsafe.defaultMutableMapInstance
+import com.pega.mmock.backend.unsafe.defaultMutableSetInstance
 
 interface RecordingContext {
     val recordingStack: MutableList<StackElement>?
@@ -18,8 +22,32 @@ interface RecordingContext {
 
 @MMockDSL
 inline fun <reified T> RecordingContext.any(): T {
-    recordingStack?.add(ArgumentStackElement { true })
+    recordingStack?.add(ArgumentStackElement { it is T })
     return defaultInstance()
+}
+
+@MMockDSL
+inline fun <reified T> RecordingContext.anyArray(): Array<T> {
+    recordingStack?.add(ArgumentStackElement { it is Array<*> })
+    return defaultArrayInstance()
+}
+
+@MMockDSL
+inline fun <reified T : List<R>, reified R> RecordingContext.anyList(): T {
+    recordingStack?.add(ArgumentStackElement { it is T })
+    return defaultMutableListInstance<R>() as T
+}
+
+@MMockDSL
+inline fun <reified T : Set<R>, reified R> RecordingContext.anySet(): T {
+    recordingStack?.add(ArgumentStackElement { it is T })
+    return defaultMutableSetInstance<R>() as T
+}
+
+@MMockDSL
+inline fun <reified T : Map<R, E>, reified R, reified E> RecordingContext.anyMap(): T {
+    recordingStack?.add(ArgumentStackElement { it is T })
+    return defaultMutableMapInstance<R, E>() as T
 }
 
 @MMockDSL

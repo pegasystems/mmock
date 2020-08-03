@@ -73,7 +73,7 @@ class DefaultInstanceTest {
         defaultMapInstance<A, B>()
         defaultListInstance<Int>()
         defaultSetInstance<A>()
-        defaultMutableListInstance<String>()
+        // defaultMutableListInstance()
         defaultMutableMapInstance<Float, Char>()
         defaultMutableSetInstance<B>()
     }
@@ -112,7 +112,7 @@ class DefaultInstanceTest {
         regularFunction(defaultMapInstance<A, B>())
         regularFunction(defaultListInstance<Int>())
         regularFunction(defaultSetInstance<A>())
-        regularFunction(defaultMutableListInstance<String>())
+        // regularFunction(defaultMutableListInstance())
         regularFunction(defaultMutableMapInstance<Float, Char>())
         regularFunction(defaultMutableSetInstance<B>())
     }
@@ -151,7 +151,7 @@ class DefaultInstanceTest {
         suspendFunction(defaultMapInstance<A, B>())
         suspendFunction(defaultListInstance<Int>())
         suspendFunction(defaultSetInstance<A>())
-        suspendFunction(defaultMutableListInstance<String>())
+        // suspendFunction(defaultMutableListInstance())
         suspendFunction(defaultMutableMapInstance<Float, Char>())
         suspendFunction(defaultMutableSetInstance<B>())
     }
@@ -197,7 +197,7 @@ class DefaultInstanceTest {
         defaultMapInstance<A?, B?>()
         defaultListInstance<Int?>()
         defaultSetInstance<A?>()
-        defaultMutableListInstance<String?>()
+        // defaultMutableListInstance()
         defaultMutableMapInstance<Float?, Char?>()
         defaultMutableSetInstance<B?>()
     }
