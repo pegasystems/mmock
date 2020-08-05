@@ -7,7 +7,6 @@ package com.pega.mmock.samples
 
 import com.pega.mmock.dsl.any
 import com.pega.mmock.dsl.eq
-import com.pega.mmock.dsl.instanceOf
 import com.pega.mmock.withMMock
 
 class DSLSample {
@@ -16,7 +15,7 @@ class DSLSample {
 
         every { exampleInterface.noArgsFunction() } returns 1
         every { exampleInterface.function(any()) } returns 1
-        every { exampleInterface.function(instanceOf<Int>()) } returns 1
+        every { exampleInterface.function(any<Int>()) } returns 1
         every { exampleInterface.function(eq(1)) } returns 1
     }
 }

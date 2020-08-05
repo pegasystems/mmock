@@ -16,8 +16,13 @@ interface ExampleInterface {
 
     fun noArgsFunction(): Int
     fun function(arg1: Int): Int
+    fun functionArray(arg1: Array<Int>): Int
+    fun functionList(arg1: List<Int>): Int
+    fun functionMap(arg1: Map<Int, Int>): Int
+    fun functionSet(arg1: Set<Int>): Int
     fun functionAny(arg1: Any): Any
     fun multipleArgs(arg1: Any, arg2: Any, arg3: Any): Any
+    fun multipleCollectionArgs(arg1: List<Int>, arg2: Set<String>, arg3: Map<Int, String>): String
 
     suspend fun suspendNoArgsFunction(): Int
     suspend fun suspendFunction(arg1: Int): Int
@@ -46,12 +51,32 @@ class ExampleMock(override val mMockContext: MMockContext) : ObjectMock, Example
         return mocks.invoke<Int>("function", arg1)
     }
 
+    override fun functionArray(arg1: Array<Int>): Int {
+        return mocks.invoke("functionArray", arg1)
+    }
+
+    override fun functionList(arg1: List<Int>): Int {
+        return mocks.invoke("functionList", arg1)
+    }
+
+    override fun functionMap(arg1: Map<Int, Int>): Int {
+        return mocks.invoke("functionMap", arg1)
+    }
+
+    override fun functionSet(arg1: Set<Int>): Int {
+        return mocks.invoke("functionSet", arg1)
+    }
+
     override fun functionAny(arg1: Any): Any {
         return mocks.invoke("functionAny", arg1)
     }
 
     override fun multipleArgs(arg1: Any, arg2: Any, arg3: Any): Any {
         return mocks.invoke("multipleArgs", arg1, arg2, arg3)
+    }
+
+    override fun multipleCollectionArgs(arg1: List<Int>, arg2: Set<String>, arg3: Map<Int, String>): String {
+        return mocks.invoke("multipleCollectionArgs", arg1, arg2, arg3)
     }
 
     override suspend fun suspendNoArgsFunction(): Int {
