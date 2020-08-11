@@ -7,7 +7,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.5.1")
+        classpath("com.android.tools.build:gradle:3.5.0")
     }
 }
 
@@ -125,7 +125,6 @@ kotlin {
         }
 
         val androidMain by getting {
-            dependsOn(nativeMain)
             dependencies {
             }
         }
