@@ -7,12 +7,12 @@ buildscript {
         google()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.5.0")
+        classpath("com.android.tools.build:gradle:4.0.1")
     }
 }
 
 plugins {
-    kotlin("multiplatform") version "1.3.72"
+    kotlin("multiplatform") version "1.4.0-rc"
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
     id("com.pega.mmock") version "0.0.0-SNAPSHOT"
 }
@@ -48,9 +48,8 @@ kotlin {
             dependencies {
                 implementation(project(":sub-module"))
 
-                implementation(kotlin("stdlib-common"))
                 implementation("com.pega.mmock:mmock-runtime:$mmockRuntimeVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.3.5")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8-1.4.0-rc")
             }
         }
 
@@ -63,9 +62,7 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
-                implementation(kotlin("stdlib-jdk8"))
                 implementation(kotlin("reflect"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5")
             }
         }
 
@@ -78,7 +75,6 @@ kotlin {
 
         val jsMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.3.5")
             }
         }
 
@@ -90,7 +86,6 @@ kotlin {
 
         val nativeMain by creating {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.5")
             }
         }
 

@@ -1,5 +1,12 @@
 # Guide
-To create mock annotate interface with `GenerateMock` annotation.
+To create mock annotate interface or class with `GenerateMock` annotation.
+
+In order to mock the class, the constructor has to fulfill following requirements:
+- it has to be empty or;
+- all arguments have either default value or are:
+    - primitive types
+    - collections
+- if mocked class is a sub-class, its parent class constructor has to meet the above as well
 
 ```kotlin
 package com.example
@@ -8,6 +15,16 @@ import com.pega.mmock.GenerateMock
 
 @GenerateMock
 interface MyInterface
+```
+or
+
+```kotlin
+package com.example
+
+import com.pega.mmock.GenerateMock
+
+@GenerateMock
+class MyClass(val arg1: Int, val arg2: AnotherClass = AnotherClass())
 ```
 
 This will cause extension function for creating mocks.
@@ -21,6 +38,7 @@ class ExampleTest {
     @Test
     fun example() = withMMock {
         val myInterface = mock.MyInterface()
+        val myClass = mock.MyClass()
     }   
 }
 ```
@@ -109,7 +127,37 @@ It can also be accomplished by using value directly.
 
 To define any argument matcher use `any()` matcher.
 
-To check for instance use `isInstance<MyClass>()` matcher.
+To define any collection argument matcher use one that is applicable from:
+- `anyArray<>()`, `anyList<>()`, `anyMap<>()`, `anySet<>()`
+
+```kotlin
+@GenerateMock
+interface MyInterface {
+    fun exampleFunction(arg: List<Int>): Int
+}
+```
+
+```kotlin
+import com.example.MyInterface
+import com.pega.mmock.withMMock
+
+class ExampleTest {
+
+    class DelegatedList<T>(private val delegate: List<T> = listOf()) : List<T> by delegate
+    class DelegatedMutableList<T>(private val delegate: MutableList<T> = mutableListOf()) : MutableList<T> by delegate
+
+    @Test
+    fun example() = withMMock {
+        val myInterface = mock.MyInterface()
+        
+        every { myInterface.exampleFunction(anyList()) } returns 2
+        every { myInterface.exampleFunction(anyList<MutableList<Int>, Int>()) } returns 3
+
+        assertEquals(2, myInterface.exampleFunction(DelegatedList(listOf(1, 2, 3))))
+        assertEquals(3, myInterface.exampleFunction(DelegatedMutableList(mutableListOf(1, 2, 3))))
+    }   
+}
+```
 
 Mixing direct value notation and matcher notation results in 
 `MMockRecordingException`. To fix that replace all direct value matchers with `eq(<value>)`

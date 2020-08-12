@@ -7,7 +7,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
 }
 
-version = "1.3.72"
+version = "1.4.0-rc"
 
 publishing {
     publications {
