@@ -1,4 +1,4 @@
-package ksp
+package com.pega.mmock.ksp
 
 import org.jetbrains.kotlin.ksp.symbol.KSType
 import org.jetbrains.kotlin.ksp.symbol.KSTypeParameter

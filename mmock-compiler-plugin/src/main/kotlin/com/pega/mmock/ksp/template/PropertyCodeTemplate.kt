@@ -3,9 +3,9 @@
  * Use of this source code is governed by a Apache 2.0 license that can be found in the LICENSE file.
  */
 
-package ksp.template
+package com.pega.mmock.ksp.template
 
-import ksp.utils.CodeBuilder
+import com.pega.mmock.ksp.utils.CodeBuilder
 
 internal class PropertyCodeTemplate(
     val name: String,

@@ -1,6 +1,6 @@
-package ksp
+package com.pega.mmock.ksp
 
-import ksp.template.PropertyCodeTemplate
+import com.pega.mmock.ksp.template.PropertyCodeTemplate
 import org.jetbrains.kotlin.ksp.symbol.KSPropertyDeclaration
 
 internal fun KSPropertyDeclaration.toCodeTemplate(): PropertyCodeTemplate {

@@ -1,9 +1,8 @@
-package ksp
+package com.pega.mmock.ksp
 
-import ksp.exception.InvalidConstructorException
-import ksp.template.CodeTemplate
-import ksp.template.MockClassCodeTemplate
-import ksp.template.TypeParameterCodeTemplate
+import com.pega.mmock.ksp.template.CodeTemplate
+import com.pega.mmock.ksp.template.MockClassCodeTemplate
+import com.pega.mmock.ksp.template.TypeParameterCodeTemplate
 import org.jetbrains.kotlin.ksp.getDeclaredProperties
 import org.jetbrains.kotlin.ksp.isAbstract
 import org.jetbrains.kotlin.ksp.symbol.ClassKind
@@ -26,19 +25,10 @@ internal fun KSClassDeclaration.toCodeTemplate(): CodeTemplate {
     )
 }
 
-fun KSClassDeclaration.hasGenerateMockAnnotation(): Boolean {
-    annotations.forEach {
-        if (it.shortName.asString() == "GenerateMock" && it.annotationType.resolve()?.declaration?.qualifiedName?.asString() == "com.pega.mmock.GenerateMock")
-            return true
-    }
-
-    return false
-}
-
 fun KSClassDeclaration.checkConstraints() {
     if (this.isAbstract() || this.classKind == ClassKind.INTERFACE) return
 
-    if(this.primaryConstructor != null){
+    if (this.primaryConstructor != null) {
         primaryConstructor!!.checkConstructorConstraints()
     }
 }

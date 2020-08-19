@@ -17,7 +17,7 @@ class ExampleClass(
     val arg6: MutableSet<Int>,
     val arg9: Map<Int, Int>,
     val arg11: Int,
-    val arg12: ULong,
+    val arg12: Long,
     val arg10: MutableMap<Int, Int>
 ) {
 

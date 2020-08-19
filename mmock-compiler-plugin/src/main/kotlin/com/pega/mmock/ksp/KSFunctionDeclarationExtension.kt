@@ -1,17 +1,11 @@
-package ksp
+package com.pega.mmock.ksp
 
-import ksp.exception.InvalidConstructorException
-import ksp.template.CodeTemplate
-import ksp.template.ConstructorCodeTemplate
-import ksp.template.ConstructorParameterCodeTemplate
-import ksp.template.MethodCodeTemplate
-import ksp.template.ParameterCodeTemplate
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageLocation
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
-import org.jetbrains.kotlin.ir.declarations.path
-import org.jetbrains.kotlin.ir.util.file
-import org.jetbrains.kotlin.ir.util.fileEntry
-import org.jetbrains.kotlin.ir.util.hasDefaultValue
+import com.pega.mmock.ksp.exception.InvalidConstructorException
+import com.pega.mmock.ksp.template.CodeTemplate
+import com.pega.mmock.ksp.template.ConstructorCodeTemplate
+import com.pega.mmock.ksp.template.ConstructorParameterCodeTemplate
+import com.pega.mmock.ksp.template.MethodCodeTemplate
+import com.pega.mmock.ksp.template.ParameterCodeTemplate
 import org.jetbrains.kotlin.ksp.symbol.KSFunctionDeclaration
 import org.jetbrains.kotlin.ksp.symbol.Modifier
 

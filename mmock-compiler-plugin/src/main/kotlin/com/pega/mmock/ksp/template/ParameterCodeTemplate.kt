@@ -1,4 +1,4 @@
-package ksp.template
+package com.pega.mmock.ksp.template
 
 data class ParameterCodeTemplate(
     val name: String,

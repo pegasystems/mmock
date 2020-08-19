@@ -1,15 +1,15 @@
+package com.pega.mmock
+
 import com.google.auto.service.AutoService
-import ksp.checkConstraints
-import ksp.exception.InvalidConstructorException
-import ksp.toCodeTemplate
-import ksp.utils.CodeBuilder
-import ksp.utils.streamAndClose
+import com.pega.mmock.ksp.checkConstraints
+import com.pega.mmock.ksp.toCodeTemplate
+import com.pega.mmock.ksp.utils.CodeBuilder
+import com.pega.mmock.ksp.utils.streamAndClose
 import org.jetbrains.kotlin.ksp.processing.CodeGenerator
 import org.jetbrains.kotlin.ksp.processing.KSPLogger
 import org.jetbrains.kotlin.ksp.processing.Resolver
 import org.jetbrains.kotlin.ksp.processing.SymbolProcessor
 import org.jetbrains.kotlin.ksp.symbol.KSClassDeclaration
-import kotlin.concurrent.thread
 
 @AutoService(SymbolProcessor::class)
 class MMockSymbolProcessor : SymbolProcessor {
@@ -18,7 +18,6 @@ class MMockSymbolProcessor : SymbolProcessor {
     lateinit var logger: KSPLogger
 
     override fun finish() {
-
     }
 
     override fun init(options: Map<String, String>, kotlinVersion: KotlinVersion, codeGenerator: CodeGenerator, logger: KSPLogger) {

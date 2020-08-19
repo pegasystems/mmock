@@ -1,6 +1,6 @@
-package ksp
+package com.pega.mmock.ksp
 
-import ksp.utils.MMockCollectionEnum
+import com.pega.mmock.ksp.utils.MMockCollectionEnum
 import org.jetbrains.kotlin.ksp.symbol.KSTypeReference
 
 internal fun KSTypeReference.getReferenceName(): String {

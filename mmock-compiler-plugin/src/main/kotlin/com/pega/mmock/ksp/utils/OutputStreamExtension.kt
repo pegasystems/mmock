@@ -1,4 +1,4 @@
-package ksp.utils
+package com.pega.mmock.ksp.utils
 
 import java.io.OutputStream
 

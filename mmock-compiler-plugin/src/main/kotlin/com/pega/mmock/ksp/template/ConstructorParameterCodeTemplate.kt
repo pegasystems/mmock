@@ -1,6 +1,6 @@
-package ksp.template
+package com.pega.mmock.ksp.template
 
-import ksp.utils.MMockCollectionEnum
+import com.pega.mmock.ksp.utils.MMockCollectionEnum
 
 class ConstructorParameterCodeTemplate(
     val name: String,
