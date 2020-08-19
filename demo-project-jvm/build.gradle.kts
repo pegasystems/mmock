@@ -5,9 +5,10 @@ plugins {
     id("kotlin-ksp") version "1.4.0-rc-dev-experimental-20200814"
     id("com.pega.mmock") version "0.0.1-SNAPSHOT"
 }
-group = "me.rogok"
+
 version = "1.0-SNAPSHOT"
 
+val mmockKspCodegenVersion = "0.0.2"
 val mmockRuntimeVersion = "0.0.1-SNAPSHOT"
 
 repositories {
@@ -18,8 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-ksp:1.4.0-rc-dev-experimental-20200814")
-    implementation("com.pega.mmock:mmock-compiler-plugin:4.2.1")
+    implementation("com.pega.mmock:mmock-compiler-plugin:$mmockKspCodegenVersion")
     implementation("com.pega.mmock:mmock-runtime:$mmockRuntimeVersion")
     ksp("com.pega.mmock:mmock-compiler-plugin:4.2.1")
     testImplementation(kotlin("test-junit"))
