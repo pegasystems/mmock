@@ -13,6 +13,7 @@ import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.ir.declarations.IrClass
 import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
+import org.jetbrains.kotlin.ir.util.hasAnnotation
 import org.jetbrains.kotlin.name.FqName
 
 class MMockIrGenerationExtension(val codegenDir: String) : IrGenerationExtension {
@@ -21,7 +22,7 @@ class MMockIrGenerationExtension(val codegenDir: String) : IrGenerationExtension
                 .flatMap { irFile -> irFile.declarations }
                 .filterIsInstance<IrClass>()
                 .filter { irClass ->
-                    irClass.descriptor.annotations
+                    irClass.annotations
                             .hasAnnotation(FqName("com.pega.mmock.GenerateMock"))
                 }
                 .apply { forEach { it.checkConstraints() } }

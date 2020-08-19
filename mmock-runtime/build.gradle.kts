@@ -7,7 +7,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.5.0")
+        classpath("com.android.tools.build:gradle:3.6.2")
     }
 }
 
@@ -24,6 +24,7 @@ repositories {
     mavenCentral()
     jcenter()
     google()
+    maven("https://dl.bintray.com/kotlin/kotlin-eap")
 }
 
 val coroutinesVersion: String by project

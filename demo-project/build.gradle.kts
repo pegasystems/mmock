@@ -7,12 +7,13 @@ buildscript {
         google()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:4.0.1")
+        classpath("com.android.tools.build:gradle:3.6.2")
     }
 }
 
 plugins {
-    kotlin("multiplatform") version "1.4.0-rc"
+    kotlin("multiplatform") version "1.4.0"
+    id("kotlin-ksp") version "1.4.0-rc-dev-experimental-20200814"
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
     id("com.pega.mmock") version "0.0.0-SNAPSHOT"
 }

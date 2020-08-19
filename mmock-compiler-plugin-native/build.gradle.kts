@@ -19,12 +19,14 @@ publishing {
 
 repositories {
     mavenCentral()
+    google()
 }
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("compiler"))
     implementation(project(":mmock-annotations"))
+    implementation("org.jetbrains.kotlin:kotlin-symbol-processing-api:1.4.0-rc-dev-experimental-20200731")
     compileOnly("com.google.auto.service:auto-service:1.0-rc6")
     kapt("com.google.auto.service:auto-service:1.0-rc6")
 

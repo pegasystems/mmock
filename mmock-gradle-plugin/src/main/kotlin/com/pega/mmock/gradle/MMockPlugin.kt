@@ -5,26 +5,20 @@
 
 package com.pega.mmock.gradle
 
-import org.apache.tools.ant.taskdefs.condition.Os
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
-import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
-import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
-import org.jetbrains.kotlin.konan.target.Family
 
 class MMockPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.afterEvaluate {
-            val multiplatformExtension = project.extensions.getByType(KotlinMultiplatformExtension::class.java)
-            val commonTest = multiplatformExtension.sourceSets.getByName("commonTest")
+            // val multiplatformExtension = project.extensions.getByType(KotlinMultiplatformExtension::class.java)
+            // val commonTest = multiplatformExtension.sourceSets.getByName("commonTest")
             val codegenTargetDirectory = CodegenDestination.getDirectoryAbsolutePath(project)
 
             project.logger.info("MMock codegen directory: $codegenTargetDirectory")
-            commonTest.kotlin.srcDir(codegenTargetDirectory)
+            // commonTest.kotlin.srcDir(codegenTargetDirectory)
 
-            val nativeTargetNames = multiplatformExtension.targets
+            /* val nativeTargetNames = multiplatformExtension.targets
                     .filter { it.platformType == KotlinPlatformType.native && it.publishable }
                     .filter {
                         // For some reason linux targets are publishable even in other OS
@@ -47,7 +41,7 @@ class MMockPlugin : Plugin<Project> {
                         }
             } else {
                 project.logger.error("MMock cannot generate classes for projects with no native targets")
-            }
+            } */
         }
     }
 }

@@ -3,7 +3,7 @@
  * Use of this source code is governed by a Apache 2.0 license that can be found in the LICENSE file.
  */
 
-package com.pega.mmock.compiler.codegen.utils
+package ksp.utils
 
 internal class CodeBuilder(private val indentationBase: String = "    ") {
     val builder = StringBuilder()
