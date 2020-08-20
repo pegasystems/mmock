@@ -14,6 +14,7 @@ import kotlinx.coroutines.delay
 class DefaultInstanceTest {
     private interface A
     private class B
+    abstract class C
 
     @Suppress("unused_parameter")
     fun regularFunction(arg: Any) {
@@ -52,6 +53,7 @@ class DefaultInstanceTest {
         defaultInstance<String>()
         defaultInstance<A>()
         defaultInstance<B>()
+        defaultInstance<C>()
     }
 
     @Test
@@ -115,6 +117,7 @@ class DefaultInstanceTest {
         regularFunction(defaultMutableListInstance<Int>())
         regularFunction(defaultMutableMapInstance<Float, Char>())
         regularFunction(defaultMutableSetInstance<B>())
+        regularFunction(defaultInstance<C>())
     }
 
     @Test
@@ -154,6 +157,7 @@ class DefaultInstanceTest {
         suspendFunction(defaultMutableListInstance<Int>())
         suspendFunction(defaultMutableMapInstance<Float, Char>())
         suspendFunction(defaultMutableSetInstance<B>())
+        suspendFunction(defaultInstance<C>())
     }
 
     @Test
@@ -173,6 +177,7 @@ class DefaultInstanceTest {
         defaultInstance<String?>()
         defaultInstance<A?>()
         defaultInstance<B?>()
+        defaultInstance<C?>()
     }
 
     @Test
@@ -231,6 +236,7 @@ class DefaultInstanceTest {
         suspendFunctionWithNullableArgument(defaultInstance<UShortArray?>())
         suspendFunctionWithNullableArgument(defaultInstance<UIntArray?>())
         suspendFunctionWithNullableArgument(defaultInstance<ULongArray?>())
+        suspendFunctionWithNullableArgument(defaultInstance<C?>())
     }
 
     @Test
@@ -262,5 +268,6 @@ class DefaultInstanceTest {
         regularFunctionWithNullableArgument(defaultInstance<UShortArray?>())
         regularFunctionWithNullableArgument(defaultInstance<UIntArray?>())
         regularFunctionWithNullableArgument(defaultInstance<ULongArray?>())
+        regularFunctionWithNullableArgument(defaultInstance<C?>())
     }
 }

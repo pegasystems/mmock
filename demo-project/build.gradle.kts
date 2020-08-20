@@ -126,6 +126,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
+                implementation(kotlin("stdlib"))
             }
         }
 

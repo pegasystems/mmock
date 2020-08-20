@@ -66,6 +66,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
                 implementation(kotlin("reflect"))
+                implementation("cglib:cglib:3.3.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
             }
         }
@@ -117,6 +118,8 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
+                implementation(kotlin("reflect"))
+                implementation("cglib:cglib:3.3.0")
                 implementation("com.implimentz:unsafe:0.0.6")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
             }
