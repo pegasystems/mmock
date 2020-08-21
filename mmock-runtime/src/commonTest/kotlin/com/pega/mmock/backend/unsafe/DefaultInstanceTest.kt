@@ -13,8 +13,11 @@ import kotlinx.coroutines.delay
 @OptIn(ExperimentalUnsignedTypes::class)
 class DefaultInstanceTest {
     private interface A
-    private class B
-    abstract class C
+    private class B(val arg1: Int, val arg2: String)
+    private abstract class C(val arg1: Float, val arg2: B)
+    private sealed class D(val arg1: Short, val arg2: A) {
+        class DChild(arg1: Short, arg2: A) : D(arg1, arg2)
+    }
 
     @Suppress("unused_parameter")
     fun regularFunction(arg: Any) {
@@ -54,6 +57,7 @@ class DefaultInstanceTest {
         defaultInstance<A>()
         defaultInstance<B>()
         defaultInstance<C>()
+        defaultInstance<D>()
     }
 
     @Test
@@ -118,6 +122,7 @@ class DefaultInstanceTest {
         regularFunction(defaultMutableMapInstance<Float, Char>())
         regularFunction(defaultMutableSetInstance<B>())
         regularFunction(defaultInstance<C>())
+        regularFunction(defaultInstance<D>())
     }
 
     @Test
@@ -158,6 +163,7 @@ class DefaultInstanceTest {
         suspendFunction(defaultMutableMapInstance<Float, Char>())
         suspendFunction(defaultMutableSetInstance<B>())
         suspendFunction(defaultInstance<C>())
+        suspendFunction(defaultInstance<D>())
     }
 
     @Test
@@ -178,6 +184,7 @@ class DefaultInstanceTest {
         defaultInstance<A?>()
         defaultInstance<B?>()
         defaultInstance<C?>()
+        defaultInstance<D?>()
     }
 
     @Test
@@ -237,6 +244,7 @@ class DefaultInstanceTest {
         suspendFunctionWithNullableArgument(defaultInstance<UIntArray?>())
         suspendFunctionWithNullableArgument(defaultInstance<ULongArray?>())
         suspendFunctionWithNullableArgument(defaultInstance<C?>())
+        suspendFunctionWithNullableArgument(defaultInstance<D?>())
     }
 
     @Test
@@ -269,5 +277,6 @@ class DefaultInstanceTest {
         regularFunctionWithNullableArgument(defaultInstance<UIntArray?>())
         regularFunctionWithNullableArgument(defaultInstance<ULongArray?>())
         regularFunctionWithNullableArgument(defaultInstance<C?>())
+        regularFunctionWithNullableArgument(defaultInstance<D?>())
     }
 }
