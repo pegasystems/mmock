@@ -21,6 +21,12 @@ interface RecordingContext {
 }
 
 @MMockDSL
+inline fun <reified T> RecordingContext.on(crossinline block: (arg: T) -> Boolean): T {
+    recordingStack?.add(ArgumentStackElement { block(it as T) })
+    return defaultInstance() as T
+}
+
+@MMockDSL
 inline fun <reified T> RecordingContext.any(): T {
     recordingStack?.add(ArgumentStackElement { it is T })
     return defaultInstance()

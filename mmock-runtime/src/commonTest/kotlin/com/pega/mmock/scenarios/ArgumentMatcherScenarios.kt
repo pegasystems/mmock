@@ -14,6 +14,7 @@ import com.pega.mmock.dsl.anyMap
 import com.pega.mmock.dsl.anySet
 import com.pega.mmock.dsl.eq
 import com.pega.mmock.dsl.never
+import com.pega.mmock.dsl.on
 import com.pega.mmock.dsl.once
 import com.pega.mmock.dsl.times
 import com.pega.mmock.dsl.twice
@@ -508,5 +509,17 @@ class ArgumentMatcherScenarios {
         verify {
             invocation { myMock.property } called once
         }
+    }
+
+    @Test
+    fun test() = withMMock {
+        val myMock: ExampleInterface = mock.ExampleInterface()
+        every { myMock.function(on { it > 8 }) } returns 1
+        every { myMock.function(on { it > 4 }) } returns 2
+        every { myMock.functionString(on { it.split(" ").contains("test") }) } returns "Najs"
+
+        assertEquals(2, myMock.function(5))
+        assertEquals(1, myMock.function(10))
+        assertEquals("Najs", myMock.functionString("This is the test string"))
     }
 }

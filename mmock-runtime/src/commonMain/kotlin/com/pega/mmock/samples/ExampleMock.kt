@@ -16,6 +16,7 @@ interface ExampleInterface {
 
     fun noArgsFunction(): Int
     fun function(arg1: Int): Int
+    fun functionString(arg1: String): String
     fun functionArray(arg1: Array<Int>): Int
     fun functionList(arg1: List<Int>): Int
     fun functionMap(arg1: Map<Int, Int>): Int
@@ -49,6 +50,10 @@ class ExampleMock(override val mMockContext: MMockContext) : ObjectMock, Example
 
     override fun function(arg1: Int): Int {
         return mocks.invoke<Int>("function", arg1)
+    }
+
+    override fun functionString(arg1: String): String {
+        return mocks.invoke("function", arg1)
     }
 
     override fun functionArray(arg1: Array<Int>): Int {
