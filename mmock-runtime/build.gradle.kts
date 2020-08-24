@@ -7,7 +7,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.5.0")
+        classpath("com.android.tools.build:gradle:3.6.2")
     }
 }
 
@@ -27,6 +27,8 @@ repositories {
 }
 
 val coroutinesVersion: String by project
+val cglibVersion: String by project
+val objenesisVersion: String by project
 
 kotlin {
     jvm()
@@ -66,6 +68,8 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
                 implementation(kotlin("reflect"))
+                implementation("org.objenesis:objenesis:$objenesisVersion")
+                implementation("cglib:cglib:$cglibVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
             }
         }
@@ -117,6 +121,9 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
+                implementation(kotlin("reflect"))
+                implementation("cglib:cglib:$cglibVersion")
+                implementation("org.objenesis:objenesis:$objenesisVersion")
                 implementation("com.implimentz:unsafe:0.0.6")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
             }
@@ -178,7 +185,7 @@ fun Project.configureAndroid() {
         }
 
         sourceSets.getByName("androidTest").apply {
-            java.srcDirs("src/commonTest/kotlin")
+            java.srcDirs("src/commonTest/kotlin", "src/jvmTest/kotlin")
             res.srcDirs("src/androidTest/res")
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
             assets.srcDirs("src/commonMain/resources/assets")

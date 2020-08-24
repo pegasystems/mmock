@@ -7,7 +7,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.5.0")
+        classpath("com.android.tools.build:gradle:3.6.2")
     }
 }
 
@@ -126,6 +126,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
+                implementation(kotlin("stdlib"))
             }
         }
 
