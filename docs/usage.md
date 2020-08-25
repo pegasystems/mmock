@@ -109,7 +109,23 @@ It can also be accomplished by using value directly.
 
 To define any argument matcher use `any()` matcher.
 
-To check for instance use `isInstance<MyClass>()` matcher.
+To define custom matcher use `on { <custom boolean expression> }`
+
+```kotlin
+import com.example.MyInterface
+import com.pega.mmock.withMMock
+
+class ExampleTest {
+    @Test
+    fun example() = withMMock {
+        val myInterface = mock.MyInterface()
+        
+        every { myInterface.exampleFunction(on { it > 4 }) } returns 2
+        every { myInterface.exampleFunction(on { it > 1 }) } returns 1
+        every { myInterface.exampleFunction(any()) } returns 0
+    }   
+}
+```
 
 Mixing direct value notation and matcher notation results in 
 `MMockRecordingException`. To fix that replace all direct value matchers with `eq(<value>)`
@@ -148,6 +164,9 @@ class ExampleTest {
             invocation { myInterface.exampleFunction(4) }
 
             invocation { myInterface.exampleFunction(any()) } called times(5)
+
+            //you can use comparisons as well
+            invocation { myInterface.exampleFunction(any()) } called { it > 3 }
 
             order {
                 invocation { myInterface.exampleFunction(1) }

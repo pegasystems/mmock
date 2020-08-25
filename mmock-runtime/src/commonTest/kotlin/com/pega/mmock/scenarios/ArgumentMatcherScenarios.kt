@@ -6,6 +6,7 @@
 package com.pega.mmock.scenarios
 
 import com.pega.mmock.MMockRecordingException
+import com.pega.mmock.MMockVerificationException
 import com.pega.mmock.NoMethodStubException
 import com.pega.mmock.dsl.any
 import com.pega.mmock.dsl.anyArray
@@ -25,6 +26,7 @@ import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertNotEquals
 import kotlin.test.assertNull
 
 class ArgumentMatcherScenarios {
@@ -418,6 +420,8 @@ class ArgumentMatcherScenarios {
 
         verify {
             invocation { exampleInterface.multipleCollectionArgs(anyList(), anySet(), anyMap()) } called times(4)
+            invocation { exampleInterface.multipleCollectionArgs(anyList(), anySet(), anyMap()) } called { it > 2 }
+            invocation { exampleInterface.multipleCollectionArgs(anyList(), anySet(), anyMap()) } called { it >= 4 }
             invocation { exampleInterface.multipleCollectionArgs(anyList(), anySet<MutableSet<String>, String>(), anyMap()) } called times(3)
             invocation { exampleInterface.multipleCollectionArgs(anyList(), anySet<MutableSet<String>, String>(), anyMap<MutableMap<Int, String>, Int, String>()) } called twice
             invocation { exampleInterface.multipleCollectionArgs(anyList<MutableList<Int>, Int>(), anySet(), anyMap()) } called twice
@@ -453,6 +457,7 @@ class ArgumentMatcherScenarios {
         verifyFailed { invocation { exampleInterface.multipleArgs(1, 2, 3) } called never }
         verifyFailed { invocation { exampleInterface.multipleCollectionArgs(listOf(1, 2), setOf("Int", "String"), mapOf(Pair(1, "String"))) } called never }
         verifyFailed { invocation { exampleInterface.multipleArgs(3, 2, 1) } called once }
+        verifyFailed { invocation { exampleInterface.multipleArgs(3, 2, 1) } called { it > 0 } }
         verifyFailed { invocation { exampleInterface.multipleCollectionArgs(listOf(3, 4), setOf("NotInt", "NotString"), mapOf(Pair(2, "NotString"))) } called once }
     }
 
@@ -497,6 +502,12 @@ class ArgumentMatcherScenarios {
             invocation { myMock.mutableProperty } called twice
             invocation { myMock.mutableProperty = any() } called once
         }
+
+        assertFailsWith<MMockVerificationException> {
+            verify {
+                invocation { myMock.mutableProperty } called { it < 2 }
+            }
+        }
     }
 
     @Test
@@ -508,18 +519,26 @@ class ArgumentMatcherScenarios {
 
         verify {
             invocation { myMock.property } called once
+            invocation { myMock.property } called { it > 0 }
         }
     }
 
     @Test
-    fun test() = withMMock {
+    @JsName("Test_on_matcher")
+    fun `Test on matcher`() = withMMock {
         val myMock: ExampleInterface = mock.ExampleInterface()
         every { myMock.function(on { it > 8 }) } returns 1
         every { myMock.function(on { it > 4 }) } returns 2
-        every { myMock.functionString(on { it.split(" ").contains("test") }) } returns "Najs"
+        every { myMock.function(on { it <= 0 }) } returns -1
+        every { myMock.functionString(on { it.split(" ").contains("test") }) } returns 3
+        every { myMock.functionString(any()) } returns 4
 
         assertEquals(2, myMock.function(5))
         assertEquals(1, myMock.function(10))
-        assertEquals("Najs", myMock.functionString("This is the test string"))
+        assertEquals(-1, myMock.function(0))
+        assertEquals(-1, myMock.function(-10))
+        assertEquals(3, myMock.functionString("This is the test string"))
+        assertNotEquals(3, myMock.functionString("String without the required part"))
+        assertFailsWith<NoMethodStubException> { myMock.function(2) }
     }
 }

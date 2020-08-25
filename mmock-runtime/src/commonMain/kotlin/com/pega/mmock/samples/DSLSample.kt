@@ -17,5 +17,9 @@ class DSLSample {
         every { exampleInterface.function(any()) } returns 1
         every { exampleInterface.function(any<Int>()) } returns 1
         every { exampleInterface.function(eq(1)) } returns 1
+
+        verify {
+            invocation { exampleInterface.noArgsFunction() } called { it > 2 }
+        }
     }
 }
