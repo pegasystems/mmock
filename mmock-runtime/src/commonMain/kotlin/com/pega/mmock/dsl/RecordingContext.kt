@@ -21,6 +21,61 @@ interface RecordingContext {
 }
 
 @MMockDSL
+inline fun <reified T> RecordingContext.on(crossinline block: (arg: T) -> Boolean): T {
+    recordingStack?.add(ArgumentStackElement { block(it as T) })
+    return defaultInstance() as T
+}
+
+@Suppress("UNCHECKED_CAST")
+@MMockDSL
+inline fun <reified T> RecordingContext.onArray(crossinline block: (arg: Array<T>) -> Boolean): Array<T> {
+    recordingStack?.add(ArgumentStackElement {
+        try {
+            block(it as Array<T>)
+        } catch (e: ClassCastException) {
+            false
+        }
+    })
+    return defaultArrayInstance()
+}
+
+@MMockDSL
+inline fun <reified T : List<R>, reified R> RecordingContext.onList(crossinline block: (arg: T) -> Boolean): T {
+    recordingStack?.add(ArgumentStackElement {
+        try {
+            block(it as T)
+        } catch (e: ClassCastException) {
+            false
+        }
+    })
+    return defaultMutableListInstance<R>() as T
+}
+
+@MMockDSL
+inline fun <reified T : Set<R>, reified R> RecordingContext.onSet(crossinline block: (arg: T) -> Boolean): T {
+    recordingStack?.add(ArgumentStackElement {
+        try {
+            block(it as T)
+        } catch (e: ClassCastException) {
+            false
+        }
+    })
+    return defaultMutableSetInstance<R>() as T
+}
+
+@MMockDSL
+inline fun <reified T : Map<R, E>, reified R, reified E> RecordingContext.onMap(crossinline block: (arg: T) -> Boolean): T {
+    recordingStack?.add(ArgumentStackElement {
+        try {
+            block(it as T)
+        } catch (e: ClassCastException) {
+            false
+        }
+    })
+    return defaultMutableMapInstance<R, E>() as T
+}
+
+@MMockDSL
 inline fun <reified T> RecordingContext.any(): T {
     recordingStack?.add(ArgumentStackElement { it is T })
     return defaultInstance()
