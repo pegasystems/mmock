@@ -8,12 +8,30 @@ package com.pega.mmock.scenarios
 import com.pega.mmock.MMockRecordingException
 import com.pega.mmock.MMockVerificationException
 import com.pega.mmock.NoMethodStubException
-import com.pega.mmock.dsl.*
+import com.pega.mmock.dsl.any
+import com.pega.mmock.dsl.anyArray
+import com.pega.mmock.dsl.anyList
+import com.pega.mmock.dsl.anyMap
+import com.pega.mmock.dsl.anySet
+import com.pega.mmock.dsl.eq
+import com.pega.mmock.dsl.never
+import com.pega.mmock.dsl.on
+import com.pega.mmock.dsl.onArray
+import com.pega.mmock.dsl.onList
+import com.pega.mmock.dsl.onMap
+import com.pega.mmock.dsl.onSet
+import com.pega.mmock.dsl.once
+import com.pega.mmock.dsl.times
+import com.pega.mmock.dsl.twice
 import com.pega.mmock.samples.ExampleInterface
 import com.pega.mmock.verifyFailed
 import com.pega.mmock.withMMock
 import kotlin.js.JsName
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertNotEquals
+import kotlin.test.assertNull
 
 class ArgumentMatcherScenarios {
     class DelegatedList<T>(private val delegate: List<T> = listOf()) : List<T> by delegate
