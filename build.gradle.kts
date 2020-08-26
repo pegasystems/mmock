@@ -36,5 +36,6 @@ allprojects {
 tasks.register("printVersion") {
     doLast {
         println("${project.version}")
+        println("${project.version}")
     }
 }
