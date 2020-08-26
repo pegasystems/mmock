@@ -17,6 +17,9 @@ interface ExampleInterface {
     fun noArgsFunction(): Int
     fun function(arg1: Int): Int
     fun functionString(arg1: String): Int
+    fun functionMutableList(arg1: MutableList<Int>): Int
+    fun functionMutableSet(arg1: MutableSet<Int>): Int
+    fun functionMutableMap(arg1: MutableMap<Int, String>): Int
     fun functionArray(arg1: Array<Int>): Int
     fun functionList(arg1: List<Int>): Int
     fun functionMap(arg1: Map<Int, Int>): Int
@@ -54,6 +57,18 @@ class ExampleMock(override val mMockContext: MMockContext) : ObjectMock, Example
 
     override fun functionString(arg1: String): Int {
         return mocks.invoke("functionString", arg1)
+    }
+
+    override fun functionMutableList(arg1: MutableList<Int>): Int {
+        return mocks.invoke("functionMutableList", arg1)
+    }
+
+    override fun functionMutableSet(arg1: MutableSet<Int>): Int {
+        return mocks.invoke("functionMutableSet", arg1)
+    }
+
+    override fun functionMutableMap(arg1: MutableMap<Int, String>): Int {
+        return mocks.invoke("functionMutableMap", arg1)
     }
 
     override fun functionArray(arg1: Array<Int>): Int {

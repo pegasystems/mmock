@@ -109,7 +109,46 @@ It can also be accomplished by using value directly.
 
 To define any argument matcher use `any()` matcher.
 
+To define any collection argument matcher use one that is applicable from:
+- `anyArray<>()`, `anyList<>()`, `anyMap<>()`, `anySet<>()`
+
+```kotlin
+@GenerateMock
+interface MyInterface {
+    fun exampleFunction(arg: List<Int>): Int
+}
+```
+
+```kotlin
+import com.example.MyInterface
+import com.pega.mmock.withMMock
+
+class ExampleTest {
+
+    class DelegatedList<T>(private val delegate: List<T> = listOf()) : List<T> by delegate
+    class DelegatedMutableList<T>(private val delegate: MutableList<T> = mutableListOf()) : MutableList<T> by delegate
+
+    @Test
+    fun example() = withMMock {
+        val myInterface = mock.MyInterface()
+        
+        every { myInterface.exampleFunction(anyList()) } returns 2
+        every { myInterface.exampleFunction(anyList<MutableList<Int>, Int>()) } returns 3
+
+        assertEquals(2, myInterface.exampleFunction(DelegatedList(listOf(1, 2, 3))))
+        assertEquals(3, myInterface.exampleFunction(DelegatedMutableList(mutableListOf(1, 2, 3))))
+    }   
+}
+```
+
 To define custom matcher use `on { <custom boolean expression> }`
+
+```kotlin
+@GenerateMock
+interface MyInterface {
+    fun exampleFunction(arg: Int): Int
+}
+```
 
 ```kotlin
 import com.example.MyInterface
@@ -126,6 +165,8 @@ class ExampleTest {
     }   
 }
 ```
+
+You can use ```onArray<> {}```, ```onList<> {}```, ```onSet<> {}``` and ```onMap<> {}``` to define custom matcher for collections.
 
 Mixing direct value notation and matcher notation results in 
 `MMockRecordingException`. To fix that replace all direct value matchers with `eq(<value>)`
