@@ -13,6 +13,12 @@ repositories {
     mavenCentral()
 }
 
+val artifactoryURL: String by project
+val artifactoryUser: String by project
+val artifactoryPassword: String by project
+val snapshotRepository: String by project
+val releaseRepository: String by project
+
 gradlePlugin {
     plugins {
         register("MMockGradlePlugin") {
@@ -32,4 +38,18 @@ dependencies {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+if (artifactoryURL.isNotEmpty()) {
+    publishing {
+        repositories {
+            val url = if (version.toString().endsWith("SNAPSHOT")) "$artifactoryURL/$snapshotRepository" else "$artifactoryURL/$releaseRepository"
+            maven(url = url) {
+                credentials {
+                    username = artifactoryUser
+                    password = artifactoryPassword
+                }
+            }
+        }
+    }
 }
