@@ -6,6 +6,12 @@ plugins {
 
 val coroutinesVersion: String by project
 
+val artifactoryURL: String by project
+val artifactoryUser: String by project
+val artifactoryPassword: String by project
+val snapshotRepository: String by project
+val releaseRepository: String by project
+
 kotlin {
     jvm()
     js {
@@ -79,6 +85,20 @@ kotlin {
 
         val iosArm64Main by getting {
             dependsOn(nativeMain)
+        }
+    }
+}
+
+if (artifactoryURL.isNotEmpty()) {
+    publishing {
+        repositories {
+            val url = if (version.toString().endsWith("SNAPSHOT")) "$artifactoryURL/$snapshotRepository" else "$artifactoryURL/$releaseRepository"
+            maven(url = url) {
+                credentials {
+                    username = artifactoryUser
+                    password = artifactoryPassword
+                }
+            }
         }
     }
 }

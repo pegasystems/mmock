@@ -26,6 +26,12 @@ repositories {
     google()
 }
 
+val artifactoryURL: String by project
+val artifactoryUser: String by project
+val artifactoryPassword: String by project
+val snapshotRepository: String by project
+val releaseRepository: String by project
+
 val coroutinesVersion: String by project
 val cglibVersion: String by project
 val objenesisVersion: String by project
@@ -155,6 +161,26 @@ tasks {
         kotlinOptions {
             freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
         }
+    }
+}
+
+if (artifactoryURL.isNotEmpty()) {
+    publishing {
+        repositories {
+            val url = if (version.toString().endsWith("SNAPSHOT")) "$artifactoryURL/$snapshotRepository" else "$artifactoryURL/$releaseRepository"
+            maven(url = url) {
+                credentials {
+                    username = artifactoryUser
+                    password = artifactoryPassword
+                }
+            }
+        }
+    }
+}
+
+tasks.withType<PublishToMavenRepository> {
+    doFirst {
+        println("Publishing ${publication.groupId}:${publication.artifactId}:${publication.version} to ${repository.url}")
     }
 }
 
