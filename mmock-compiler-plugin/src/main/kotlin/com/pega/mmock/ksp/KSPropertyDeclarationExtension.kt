@@ -7,6 +7,6 @@ internal fun KSPropertyDeclaration.toCodeTemplate(): PropertyCodeTemplate {
     return PropertyCodeTemplate(
             name = this.simpleName.getShortName(),
             type = this.type!!.resolve()!!.getQualifiedName(),
-            mutable = this.getter != null
+            mutable = this.isMutable
     )
 }

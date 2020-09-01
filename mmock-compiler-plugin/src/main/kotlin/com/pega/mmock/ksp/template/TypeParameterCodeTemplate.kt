@@ -12,14 +12,6 @@ class TypeParameterCodeTemplate(
     val variance: Variance
 ) {
     override fun toString(): String {
-        return (getVarianceLabel() + " " + name).trim()
-    }
-
-    private fun getVarianceLabel(): String {
-        return when (variance) {
-            Variance.COVARIANT -> "out"
-            Variance.CONTRAVARIANT -> "in"
-            else -> variance.label
-        }
+        return (variance.label + " " + name).trim()
     }
 }
