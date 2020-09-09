@@ -36,6 +36,11 @@ dependencies {
     kapt("com.google.auto.service:auto-service:1.0-rc6")
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
