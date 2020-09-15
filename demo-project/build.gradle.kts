@@ -65,9 +65,10 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("reflect"))
-                implementation("com.pega.mmock:mmock-compiler-plugin:$mmockKspCodegenVersion")
+                //implementation("com.pega.mmock:mmock-compiler-plugin:$mmockKspCodegenVersion")
+                configurations["ksp"].dependencies.add(project.dependencies.create("com.pega.mmock:mmock-compiler-plugin:$mmockKspCodegenVersion"))
                 //configurations.get("ksp").dependencies.add("com.pega.mmock:mmock-compiler-plugin:$mmockKspCodegenVersion")
-                ksp("com.pega.mmock:mmock-compiler-plugin:$mmockKspCodegenVersion")
+                //ksp("com.pega.mmock:mmock-compiler-plugin:$mmockKspCodegenVersion")
                 //configurations.get("ksp").dependencies.add(DefaultExternalModuleDependency("com.pega.mmock", "mmock-compiler-plugin", "$mmockKspCodegenVersion"))
             }
         }
