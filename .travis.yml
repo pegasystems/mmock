@@ -1,8 +1,4 @@
-language: java
-java:
-  - "1.8"
-
-install:
+install: skip
 
 jobs:
   include:
