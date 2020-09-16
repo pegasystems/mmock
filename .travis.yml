@@ -1,0 +1,8 @@
+language: kotlin
+kotlin:
+  - "1.3.72"
+cache:
+  directories:
+install: skip
+script:
+  - ./gradlew clean check
