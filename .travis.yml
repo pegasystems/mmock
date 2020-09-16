@@ -3,30 +3,40 @@ install: skip
 jobs:
   include:
     - stage: test
-      name: "MacOS"
+      name: "MacOS unit tests"
       os: osx
       osx_image: xcode11
       language: java
-      script: "./gradlew clean macosX64Test iosX64Test"
+      script: "./gradlew macosX64Test iosX64Test"
 
     - stage: test
-      name: "Linux"
+      name: "MacOS intergration tests"
+      os: osx
+      osx_image: xcode11
+      language: java
+      before_script: "./gradlew -Pversion=0.0.0-SNAPSHOT publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishJvmPublicationToMavenLocal publishMacosX64PublicationToMavenLocal publishIosX64PublicationToMavenLocal publishIosArm64PublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
+      script:
+        - "cd demo-project"
+        - "./gradlew clean macosX64Test iosX64Test"
+
+    - stage: test
+      name: "Linux unit test"
       os: linux
       language: java
       script: "./gradlew clean linuxX64Test"
 
     - stage: test
-      name: "JavaScript"
+      name: "JavaScript unit test"
       language: java
       script: "./gradlew clean jsTest jsNodeTest"
 
     - stage: test
-      name: "JVM"
+      name: "JVM unit tests"
       language: java
       script: "./gradlew clean jvmTest"
 
     - stage: test
-      name: "Android"
+      name: "Android unit tests"
       language: android
       dist: trusty
       android:
