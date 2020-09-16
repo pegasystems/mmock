@@ -5,6 +5,7 @@ jobs:
     - stage: test
       name: "Windows"
       os: windows
+      language: shell
       before_install:
         - choco install jdk8
         - export PATH=$PATH:"/c/Program Files/Java/jdk1.8.0_191/bin"
@@ -14,19 +15,24 @@ jobs:
     - stage: test
       name: "MacOS"
       os: osx
+      osx_image: xcode11
+      language: java
       script: "./gradlew clean macosX64Test iosX64Test"
 
     - stage: test
       name: "Linux"
       os: linux
+      language: java
       script: "./gradlew clean linuxX64Test"
 
     - stage: test
       name: "JS"
+      language: java
       script: "./gradlew clean jsTest jsNodeTest"
 
     - stage: test
       name: "JVM"
+      language: java
       script: "./gradlew clean jvmTest"
 
     - stage: test
