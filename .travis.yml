@@ -7,30 +7,22 @@ jobs:
       os: osx
       osx_image: xcode11
       language: java
-      jdk:
-        - openjdk8
       script: "./gradlew clean macosX64Test iosX64Test"
 
     - stage: test
       name: "Linux"
       os: linux
       language: java
-      jdk:
-        - openjdk8
       script: "./gradlew clean linuxX64Test"
 
     - stage: test
       name: "JavaScript"
       language: java
-      jdk:
-        - openjdk8
       script: "./gradlew clean jsTest jsNodeTest"
 
     - stage: test
       name: "JVM"
       language: java
-      jdk:
-        - openjdk8
       script: "./gradlew clean jvmTest"
 
     - stage: test
@@ -41,6 +33,4 @@ jobs:
         components:
           - build-tools-29.0.2
           - android-29
-      jdk:
-        - openjdk8
       script: "./gradlew clean testDebugUnitTest"
