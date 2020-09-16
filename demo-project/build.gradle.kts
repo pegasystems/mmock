@@ -1,4 +1,5 @@
 import com.android.build.gradle.AppExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
@@ -137,6 +138,10 @@ kotlin {
             }
         }
     }
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
 }
 
 fun Project.configureAndroid() {

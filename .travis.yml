@@ -10,11 +10,11 @@ jobs:
       script: "./gradlew macosX64Test iosX64Test"
 
     - stage: test
-      name: "MacOS intergration tests"
+      name: "MacOS integration tests"
       os: osx
       osx_image: xcode11
       language: java
-      before_script: "./gradlew -Pversion=0.0.0-SNAPSHOT publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishJvmPublicationToMavenLocal publishMacosX64PublicationToMavenLocal publishIosX64PublicationToMavenLocal publishIosArm64PublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
+      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishJvmPublicationToMavenLocal publishMacosX64PublicationToMavenLocal publishIosX64PublicationToMavenLocal publishIosArm64PublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
       script:
         - "cd demo-project"
         - "./gradlew clean macosX64Test iosX64Test"

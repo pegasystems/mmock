@@ -1,5 +1,5 @@
 #!/bin/bash
 
-./gradlew publishToMavenLocal -Pversion=0.0.0-SNAPSHOT
+./gradlew publishToMavenLocal -Prelease.version=0.0.0-SNAPSHOT
 cd demo-project
 ./gradlew clean check
