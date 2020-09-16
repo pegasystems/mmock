@@ -3,35 +3,38 @@ install: skip
 jobs:
   include:
     - stage: test
-      name: "Windows"
-      os: windows
-      language: shell
-      before_install:
-        - choco install jdk8
-        - export PATH=$PATH:"C:\Program Files\Java\jdk1.8.0_191\bin"
-        - java -version
-      script: "./gradlew clean mingwX64Test"
-
-    - stage: test
       name: "MacOS"
       os: osx
       osx_image: xcode11
+      language: java
+      jdk:
+        - oraclejdk8
+        - openjdk8
       script: "./gradlew clean macosX64Test iosX64Test"
 
     - stage: test
       name: "Linux"
       os: linux
       language: java
+      jdk:
+        - oraclejdk8
+        - openjdk8
       script: "./gradlew clean linuxX64Test"
 
     - stage: test
       name: "JavaScript"
       language: java
+      jdk:
+        - oraclejdk8
+        - openjdk8
       script: "./gradlew clean jsTest jsNodeTest"
 
     - stage: test
       name: "JVM"
       language: java
+      jdk:
+        - oraclejdk8
+        - openjdk8
       script: "./gradlew clean jvmTest"
 
     - stage: test
@@ -42,4 +45,7 @@ jobs:
         components:
           - build-tools-29.0.2
           - android-29
+      jdk:
+        - oraclejdk8
+        - openjdk8
       script: "./gradlew clean testDebugUnitTest"
