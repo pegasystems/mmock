@@ -8,7 +8,6 @@ jobs:
       osx_image: xcode11
       language: java
       jdk:
-        - oraclejdk8
         - openjdk8
       script: "./gradlew clean macosX64Test iosX64Test"
 
@@ -17,7 +16,6 @@ jobs:
       os: linux
       language: java
       jdk:
-        - oraclejdk8
         - openjdk8
       script: "./gradlew clean linuxX64Test"
 
@@ -25,7 +23,6 @@ jobs:
       name: "JavaScript"
       language: java
       jdk:
-        - oraclejdk8
         - openjdk8
       script: "./gradlew clean jsTest jsNodeTest"
 
@@ -33,7 +30,6 @@ jobs:
       name: "JVM"
       language: java
       jdk:
-        - oraclejdk8
         - openjdk8
       script: "./gradlew clean jvmTest"
 
@@ -46,6 +42,5 @@ jobs:
           - build-tools-29.0.2
           - android-29
       jdk:
-        - oraclejdk8
         - openjdk8
       script: "./gradlew clean testDebugUnitTest"
