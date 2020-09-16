@@ -1,8 +1,43 @@
-language: kotlin
-kotlin:
-  - "1.3.72"
-cache:
-  directories:
+language: java
+java:
+  - "1.8"
+
 install: skip
+
+jobs:
+  include:
+    - stage: test
+      name: "Windows"
+      os: windows
+      script: "./gradlew clean mingwX64Test"
+
+    - stage: test
+      name: "MacOS"
+      os: osx
+      script: "./gradlew clean macosX64Test iosX64Test"
+
+    - stage: test
+      name: "Linux"
+      os: linux
+      script: "./gradlew clean linuxX64Test"
+
+    - stage: test
+      name: "JS"
+      script: "./gradlew clean jsTest jsNodeTest"
+
+    - stage: test
+      name: "JVM"
+      script: "./gradlew clean jvmTest"
+
+    - stage: test
+      name: "Android"
+      language: android
+      dist: trusty
+      android:
+        components:
+          - build-tools-29.0.2
+          - android-29
+      script: "./gradlew clean "
+
 script:
   - ./gradlew clean check
