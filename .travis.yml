@@ -12,7 +12,7 @@ jobs:
       language: shell
       before_install:
         - choco install openjdk8
-        - refreshenv
+        - cmd.exe //c "RefreshEnv.cmd"
         - java -version
 
     - stage: test
