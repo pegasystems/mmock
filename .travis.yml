@@ -3,79 +3,46 @@ install: skip
 jobs:
   include:
     - stage: test
-      name: "MacOS unit"
-      os: osx
-      osx_image: xcode11
-      language: java
-      env:
-        - TEST_SUITE=macosX64Test
-        - TEST_SUITE=iosX64Test
-      script:
-        - "./gradlew $TEST_SUITE"
-
-    - stage: test
-      name: "Linux"
-      os: linux
-      language: java
-      script: "./gradlew clean linuxX64Test"
-
-    - stage: test
-      name: "JavaScript unit"
-      language: java
-      script: "./gradlew clean jsTest jsNodeTest"
-
-    - stage: test
-      name: "JVM unit"
-      language: java
-      script: "./gradlew clean jvmTest"
-
-    - stage: test
-      name: "Android unit"
-      language: android
-      dist: trusty
-      android:
-        components:
-          - build-tools-29.0.2
-          - android-29
-      script: "./gradlew clean testDebugUnitTest"
-
-    - stage: test
-      name: "MacOS integration"
+      name: "MacOS"
       os: osx
       osx_image: xcode11
       language: java
       before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishMacosX64PublicationToMavenLocal publishIosX64PublicationToMavenLocal publishIosArm64PublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
       script:
+        - "./gradlew macosX64Test iosX64Test"
         - "cd demo-project"
         - "./gradlew clean macosX64Test iosX64Test"
 
     - stage: test
-      name: "Linux integration"
+      name: "Linux"
       os: linux
       language: java
       before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishLinuxX64PublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
       script:
+        - "./gradlew clean linuxX64Test"
         - "cd demo-project"
         - "./gradlew clean linuxX64Test"
 
     - stage: test
-      name: "JavaScript integration"
+      name: "JavaScript"
       language: java
       before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishLinuxX64PublicationToMavenLocal publishJsPublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
       script:
+        - "./gradlew clean jsTest jsNodeTest"
         - "cd demo-project"
         - "./gradlew clean jsTest jsNodeTest"
 
     - stage: test
-      name: "JVM integration"
+      name: "JVM"
       language: java
       before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishLinuxX64PublicationToMavenLocal publishJvmPublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
       script:
+        - "./gradlew clean jvmTest"
         - "cd demo-project"
         - "./gradlew clean jvmTest"
 
     - stage: test
-      name: "Android integration"
+      name: "Android"
       language: android
       dist: trusty
       android:
@@ -84,5 +51,6 @@ jobs:
           - android-29
       before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishLinuxX64PublicationToMavenLocal publishJvmPublicationToMavenLocal publishAndroidDebugPublicationToMavenLocal publishAndroidReleasePublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
       script:
-        - "cd demo-project"
         - "./gradlew clean testDebugUnitTest"
+        - "cd demo-project"
+        - "./gradlew clean compileKotlinLinuxX64 testDebugUnitTest"
