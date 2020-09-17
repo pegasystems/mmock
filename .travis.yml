@@ -7,8 +7,11 @@ jobs:
       os: osx
       osx_image: xcode11
       language: java
+      env:
+        - TEST_SUITE=macosX64Test
+        - TEST_SUITE=iosX64Test
       script:
-        - "./gradlew macosX64Test iosX64Test"
+        - "./gradlew $TEST_SUITE"
 
     - stage: test
       name: "Linux"
