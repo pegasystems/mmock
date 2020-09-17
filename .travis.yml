@@ -1,36 +1,33 @@
 install: skip
 
-stages:
-  - "Unit test"
-  - "Integration test"
-
 jobs:
   include:
-    - stage: "Unit test"
-      name: "MacOS"
+    - stage: test
+      name: "MacOS unit"
       os: osx
       osx_image: xcode11
       language: java
-      script: "./gradlew macosX64Test iosX64Test"
+      script:
+        - "./gradlew macosX64Test iosX64Test"
 
-    - stage: "Unit test"
+    - stage: test
       name: "Linux"
       os: linux
       language: java
       script: "./gradlew clean linuxX64Test"
 
-    - stage: "Unit test"
-      name: "JavaScript unit test"
+    - stage: test
+      name: "JavaScript unit"
       language: java
       script: "./gradlew clean jsTest jsNodeTest"
 
-    - stage: "Unit test"
-      name: "JVM unit tests"
+    - stage: test
+      name: "JVM unit"
       language: java
       script: "./gradlew clean jvmTest"
 
-    - stage: "Unit test"
-      name: "Android"
+    - stage: test
+      name: "Android unit"
       language: android
       dist: trusty
       android:
@@ -39,8 +36,8 @@ jobs:
           - android-29
       script: "./gradlew clean testDebugUnitTest"
 
-    - stage: "Integration test"
-      name: "MacOS"
+    - stage: test
+      name: "MacOS integration"
       os: osx
       osx_image: xcode11
       language: java
@@ -49,8 +46,8 @@ jobs:
         - "cd demo-project"
         - "./gradlew clean macosX64Test iosX64Test"
 
-    - stage: "Integration test"
-      name: "Linux"
+    - stage: test
+      name: "Linux integration"
       os: linux
       language: java
       before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishLinuxX64PublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
@@ -58,31 +55,31 @@ jobs:
         - "cd demo-project"
         - "./gradlew clean linuxX64Test"
 
-    - stage: "Integration test"
-      name: "JavaScript"
+    - stage: test
+      name: "JavaScript integration"
       language: java
       before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishLinuxX64PublicationToMavenLocal publishJsPublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
       script:
         - "cd demo-project"
         - "./gradlew clean jsTest jsNodeTest"
 
-    - stage: "Integration test"
-      name: "JVM"
+    - stage: test
+      name: "JVM integration"
       language: java
       before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishLinuxX64PublicationToMavenLocal publishJvmPublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
       script:
         - "cd demo-project"
         - "./gradlew clean jvmTest"
 
-    - stage: "Integration test"
-      name: "Android"
+    - stage: test
+      name: "Android integration"
       language: android
       dist: trusty
       android:
         components:
           - build-tools-29.0.2
           - android-29
-      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishLinuxX64PublicationToMavenLocal publishAndroidDebugPublicationToMavenLocal publishAndroidReleasePublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
+      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishLinuxX64PublicationToMavenLocal publishJvmPublicationToMavenLocal publishAndroidDebugPublicationToMavenLocal publishAndroidReleasePublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
       script:
         - "cd demo-project"
         - "./gradlew clean testDebugUnitTest"
