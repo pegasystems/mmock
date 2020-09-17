@@ -7,6 +7,15 @@ branches:
 jobs:
   include:
     - stage: test
+      name: "Windows"
+      os: windows
+      language: shell
+      before_install:
+        - choco install openjdk8
+        - export PATH=$PATH:"C:\Program Files\Java\jdk1.8.0_191\bin"
+        - java -version
+
+    - stage: test
       name: "MacOS & iOS"
       os: osx
       osx_image: xcode11
