@@ -3,26 +3,15 @@ install: skip
 jobs:
   include:
     - stage: test
-      name: "MacOS"
+      name: "MacOS & iOS"
       os: osx
       osx_image: xcode11
       language: java
-      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishMacosX64PublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
+      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishMacosX64PublicationToMavenLocal publishIosX64PublicationToMavenLocal publishIosArm64PublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
       script:
-        - "./gradlew macosX64Test"
+        - "./gradlew clean macosX64Test iosX64Test"
         - "cd demo-project"
-        - "./gradlew clean macosX64Test"
-
-    - stage: test
-      name: "iOS"
-      os: osx
-      osx_image: xcode11
-      language: java
-      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishIosX64PublicationToMavenLocal publishIosArm64PublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
-      script:
-        - "./gradlew iosX64Test"
-        - "cd demo-project"
-        - "./gradlew clean iosX64Test"
+        - "./gradlew clean macosX64Test iosX64Test"
 
     - stage: test
       name: "Linux"
