@@ -1,5 +1,12 @@
 install: skip
 
+env:
+  global:
+    - GRAVIS_REPO="https://github.com/DanySK/Gravis-CI.git"
+    - GRAVIS="$HOME/gravis"
+  matrix:
+    - JDK="adopt@1.8-0"
+
 branches:
   only:
     - master
@@ -11,8 +18,8 @@ jobs:
       os: windows
       language: shell
       before_install:
-        - choco install openjdk8
-        - cmd.exe //c "RefreshEnv.cmd"
+        - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
+        - source $GRAVIS/install-jdk
         - java -version
 
     - stage: test
