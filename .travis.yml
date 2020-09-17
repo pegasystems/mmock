@@ -1,5 +1,9 @@
 install: skip
 
+branches:
+  only:
+    - master
+
 jobs:
   include:
     - stage: test
