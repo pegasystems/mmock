@@ -1,8 +1,6 @@
 # MMock - mocking library for Kotlin Multiplatform
 
-<!-- TODO replace badge with new build pipeline
-[![Build Status](https://dev.azure.com/mziemba95/mziemba95/_apis/build/status/Virelion.MMock?branchName=master)](https://dev.azure.com/mziemba95/mziemba95/_build/latest?definitionId=2&branchName=master)
--->
+[![Build Status](https://travis-ci.org/pegasystems/mmock.svg?branch=master)](https://travis-ci.org/pegasystems/mmock)
 ![badge](https://img.shields.io/badge/platform-JVM-orange)
 ![badge](https://img.shields.io/badge/platform-JS-red)
 ![badge](https://img.shields.io/badge/platform-iOS--64-yellow)
