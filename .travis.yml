@@ -21,7 +21,7 @@ jobs:
         - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
         - source $GRAVIS/install-jdk
         - java -version
-      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishToMavenLocal"
+      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishMingwX64PublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
       script:
         - "./gradlew clean mingwX64Test"
         - "cd demo-project"
