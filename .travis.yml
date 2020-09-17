@@ -12,7 +12,7 @@ jobs:
       language: shell
       before_install:
         - choco install openjdk8
-        - export PATH=$PATH:"C:\Program Files\Java\jdk1.8.0_191\bin"
+        - refreshenv
         - java -version
 
     - stage: test
