@@ -5,5 +5,8 @@
 
 package com.pega.mmock.dsl
 
+/*
+ * Internal annotation class, it shouldn't be used by end-users. Used to annotate MMock DSL elements.
+ */
 @DslMarker
 annotation class MMockDSL

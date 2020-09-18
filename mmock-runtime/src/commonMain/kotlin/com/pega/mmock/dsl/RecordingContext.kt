@@ -20,12 +20,20 @@ interface RecordingContext {
     suspend fun <R> record(block: suspend RecordingContext.() -> R): List<Invocation<R>>
 }
 
+/*
+ * Allows creating custom argument matchers.
+ *
+ * For custom matchers with collections use [onArray], [onList], [onSet] or [onMap].
+ */
 @MMockDSL
 inline fun <reified T> RecordingContext.on(crossinline block: (arg: T) -> Boolean): T {
     recordingStack?.add(ArgumentStackElement { block(it as T) })
     return defaultInstance() as T
 }
 
+/*
+ * Allows creating custom argument matchers with Array.
+ */
 @Suppress("UNCHECKED_CAST")
 @MMockDSL
 inline fun <reified T> RecordingContext.onArray(crossinline block: (arg: Array<T>) -> Boolean): Array<T> {
@@ -39,6 +47,9 @@ inline fun <reified T> RecordingContext.onArray(crossinline block: (arg: Array<T
     return defaultArrayInstance()
 }
 
+/*
+ * Allows creating custom argument matchers with List.
+ */
 @MMockDSL
 inline fun <reified T : List<R>, reified R> RecordingContext.onList(crossinline block: (arg: T) -> Boolean): T {
     recordingStack?.add(ArgumentStackElement {
@@ -51,6 +62,9 @@ inline fun <reified T : List<R>, reified R> RecordingContext.onList(crossinline 
     return defaultMutableListInstance<R>() as T
 }
 
+/*
+ * Allows creating custom argument matchers with Set.
+ */
 @MMockDSL
 inline fun <reified T : Set<R>, reified R> RecordingContext.onSet(crossinline block: (arg: T) -> Boolean): T {
     recordingStack?.add(ArgumentStackElement {
@@ -63,6 +77,9 @@ inline fun <reified T : Set<R>, reified R> RecordingContext.onSet(crossinline bl
     return defaultMutableSetInstance<R>() as T
 }
 
+/*
+ * Allows creating custom argument matchers with Map.
+ */
 @MMockDSL
 inline fun <reified T : Map<R, E>, reified R, reified E> RecordingContext.onMap(crossinline block: (arg: T) -> Boolean): T {
     recordingStack?.add(ArgumentStackElement {
@@ -75,6 +92,11 @@ inline fun <reified T : Map<R, E>, reified R, reified E> RecordingContext.onMap(
     return defaultMutableMapInstance<R, E>() as T
 }
 
+/*
+ * Matches anything.
+ *
+ * Matches any object of given type if [T] specified.
+ */
 @MMockDSL
 inline fun <reified T> RecordingContext.any(): T {
     recordingStack?.add(ArgumentStackElement { it is T })
