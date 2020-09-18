@@ -4,6 +4,7 @@
 ![badge](https://img.shields.io/badge/platform-JVM-orange)
 ![badge](https://img.shields.io/badge/platform-JS-red)
 ![badge](https://img.shields.io/badge/platform-iOS--64-yellow)
+![badge](https://img.shields.io/badge/platform-Android-brightgreen)
 ![badge](https://img.shields.io/badge/platform-Linux--64-blue)
 ![badge](https://img.shields.io/badge/platform-MinGW--64-blueviolet)
 
