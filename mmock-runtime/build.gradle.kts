@@ -16,6 +16,7 @@ plugins {
     kotlin("multiplatform")
     `maven-publish`
     id("org.jlleitschuh.gradle.ktlint")
+    id("org.jetbrains.dokka") version "1.4.0"
 }
 
 configureAndroid()
@@ -160,6 +161,16 @@ tasks {
 
     withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "1.6"
+    }
+
+    withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
+        dokkaSourceSets {
+            configureEach {
+                if (platform.get() == org.jetbrains.dokka.Platform.native) {
+                    displayName.set("native")
+                }
+            }
+        }
     }
 }
 

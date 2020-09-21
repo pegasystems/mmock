@@ -20,7 +20,7 @@ class VerificationContext(
         recordingStack?.add(InvocationCountRuleElement(rule))
     }
 
-    /*
+    /**
      * Verify sequence of statements inside the [block].
      */
     @MMockDSL
@@ -28,7 +28,7 @@ class VerificationContext(
         SequenceVerificationContext(recordLog, recordingContext).verify(block)
     }
 
-    /*
+    /**
      * Verify order of statements inside the [block].
      */
     @MMockDSL

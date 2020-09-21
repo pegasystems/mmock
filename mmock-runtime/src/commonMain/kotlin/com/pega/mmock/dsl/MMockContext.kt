@@ -20,8 +20,8 @@ class MMockContext {
     @MMockDSL
     val mock = MockInitializer(this)
 
-    /*
-     * Record the invocation inside [block]. Should be followed with [returns] or [throws]
+    /**
+     * Records the invocation inside [block]. Should be followed with [returns] or [throws]
      */
     @MMockDSL
     suspend fun <R> every(block: suspend RecordingContext.() -> R): StubbingContext<R> {
@@ -32,8 +32,8 @@ class MMockContext {
         return StubbingContext(recording[0])
     }
 
-    /*
-     * Record that [com.pega.mmock.backend.StubbingContext.invocation] should return [value].
+    /**
+     * Records that invocation should return [value].
      */
     @MMockDSL
     infix fun <R> StubbingContext<R>.returns(value: R) {
@@ -43,8 +43,8 @@ class MMockContext {
         objectMock.mocks.regular[name].add(FunctionMock(invocation.args, value))
     }
 
-    /*
-     * Record that [com.pega.mmock.backend.StubbingContext.invocation] should throw [value].
+    /**
+     * Records that invocation should throw [value].
      */
     @MMockDSL
     infix fun <R> StubbingContext<R>.throws(value: Exception) {
@@ -54,7 +54,7 @@ class MMockContext {
         objectMock.mocks.regular[name].add(ThrowingFunctionMock(invocation.args, value))
     }
 
-    /*
+    /**
      * Verify statements inside [block].
      */
     @MMockDSL
