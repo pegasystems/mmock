@@ -573,4 +573,21 @@ class ArgumentMatcherScenarios {
         assertFailsWith<NoMethodStubException> { myMock.functionAny("String") }
         assertFailsWith<NoMethodStubException> { myMock.functionMap(DelegatedMap(mapOf(Pair(1, 1), Pair(2, 2)))) }
     }
+
+    @Test
+    @JsName("Test_any_matcher_with_null")
+    fun `Test any matcher with null`() = withMMock {
+        val myMock = mock.ExampleInterface()
+
+        every { myMock.functionStringNullable(any<String>()) } returns 1
+        every { myMock.functionStringNullable(any()) } returns 2
+
+        assertEquals(2, myMock.functionStringNullable(null))
+        assertEquals(1, myMock.functionStringNullable("String"))
+
+        verify {
+            invocation { myMock.functionStringNullable(any()) } called twice
+        }
+    }
+
 }
