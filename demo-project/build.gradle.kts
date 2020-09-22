@@ -12,7 +12,7 @@ buildscript {
 }
 
 plugins {
-    kotlin("multiplatform") version "1.4.0"
+    kotlin("multiplatform") version "1.4.10"
     id("kotlin-ksp") version "1.4.0-dev-experimental-20200828"
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
     id("com.pega.mmock") version "0.0.0-SNAPSHOT"
@@ -27,8 +27,8 @@ repositories {
     google()
 }
 
-val mmockRuntimeVersion = "0.0.1-SNAPSHOT"
-val mmockKspCodegenVersion = "0.0.2"
+val mmockRuntimeVersion = "0.0.0-SNAPSHOT"
+val mmockKspCodegenVersion = "0.0.0-SNAPSHOT"
 
 kotlin {
     jvm()
@@ -65,11 +65,11 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("reflect"))
-                //implementation("com.pega.mmock:mmock-compiler-plugin:$mmockKspCodegenVersion")
+                // implementation("com.pega.mmock:mmock-compiler-plugin:$mmockKspCodegenVersion")
                 configurations["ksp"].dependencies.add(project.dependencies.create("com.pega.mmock:mmock-compiler-plugin:$mmockKspCodegenVersion"))
-                //configurations.get("ksp").dependencies.add("com.pega.mmock:mmock-compiler-plugin:$mmockKspCodegenVersion")
-                //ksp("com.pega.mmock:mmock-compiler-plugin:$mmockKspCodegenVersion")
-                //configurations.get("ksp").dependencies.add(DefaultExternalModuleDependency("com.pega.mmock", "mmock-compiler-plugin", "$mmockKspCodegenVersion"))
+                // configurations.get("ksp").dependencies.add("com.pega.mmock:mmock-compiler-plugin:$mmockKspCodegenVersion")
+                // ksp("com.pega.mmock:mmock-compiler-plugin:$mmockKspCodegenVersion")
+                // configurations.get("ksp").dependencies.add(DefaultExternalModuleDependency("com.pega.mmock", "mmock-compiler-plugin", "$mmockKspCodegenVersion"))
             }
         }
 

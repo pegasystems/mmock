@@ -35,14 +35,14 @@ class MMockSubplugin : KotlinGradleSubplugin<AbstractCompile> {
         SubpluginArtifact(
             groupId = "com.pega.mmock",
             artifactId = "mmock-compiler-plugin",
-            version = "1.3.72"
+            version = "0.0.0-SNAPSHOT"
         )
 
     override fun getNativeCompilerPluginArtifact(): SubpluginArtifact? =
             SubpluginArtifact(
                     groupId = "com.pega.mmock",
                     artifactId = "mmock-compiler-plugin-native",
-                    version = "1.3.72"
+                    version = "0.0.0-SNAPSHOT"
             )
 
     override fun isApplicable(project: Project, task: AbstractCompile): Boolean = project.plugins.hasPlugin(MMockPlugin::class.java)
