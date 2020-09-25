@@ -20,11 +20,17 @@ class VerificationContext(
         recordingStack?.add(InvocationCountRuleElement(rule))
     }
 
+    /**
+     * Verify sequence of statements inside the [block].
+     */
     @MMockDSL
     suspend fun sequence(block: suspend SequenceVerificationContext.() -> Unit) {
         SequenceVerificationContext(recordLog, recordingContext).verify(block)
     }
 
+    /**
+     * Verify order of statements inside the [block].
+     */
     @MMockDSL
     suspend fun order(block: suspend OrderVerificationContext.() -> Unit) {
         OrderVerificationContext(recordLog, recordingContext).verify(block)
