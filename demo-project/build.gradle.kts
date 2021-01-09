@@ -2,6 +2,7 @@ import com.android.build.gradle.AppExtension
 
 buildscript {
     repositories {
+        gradlePluginPortal()
         jcenter()
         mavenCentral()
         google()
@@ -12,13 +13,16 @@ buildscript {
 }
 
 plugins {
-    kotlin("multiplatform") version "1.4.10"
-    id("kotlin-ksp") version "1.4.0-dev-experimental-20200828"
+    kotlin("multiplatform") version "1.4.21"
+    id("com.google.devtools.ksp") version "1.4.20-dev-experimental-20210110"
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
     id("com.pega.mmock") version "0.0.0-SNAPSHOT"
 }
 
-configureAndroid()
+val androidEnabled = System.getenv("ANDROID_HOME") != null
+if(androidEnabled) {
+    configureAndroid()
+}
 
 repositories {
     mavenLocal()
@@ -43,7 +47,9 @@ kotlin {
     macosX64()
     linuxX64()
     ios()
-    android()
+    if(androidEnabled) {
+        android()
+    }
 
     sourceSets {
         val commonMain by getting {
@@ -51,7 +57,7 @@ kotlin {
                 implementation(project(":sub-module"))
 
                 implementation("com.pega.mmock:mmock-runtime:$mmockRuntimeVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8-1.4.0-rc")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
             }
         }
 
@@ -65,11 +71,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("reflect"))
-                // implementation("com.pega.mmock:mmock-compiler-plugin:$mmockKspCodegenVersion")
-                configurations["ksp"].dependencies.add(project.dependencies.create("com.pega.mmock:mmock-compiler-plugin:$mmockKspCodegenVersion"))
-                // configurations.get("ksp").dependencies.add("com.pega.mmock:mmock-compiler-plugin:$mmockKspCodegenVersion")
-                // ksp("com.pega.mmock:mmock-compiler-plugin:$mmockKspCodegenVersion")
-                // configurations.get("ksp").dependencies.add(DefaultExternalModuleDependency("com.pega.mmock", "mmock-compiler-plugin", "$mmockKspCodegenVersion"))
+                configurations["ksp"].dependencies.add(project.dependencies.create("com.pega.mmock:mmock-ksp-plugin:$mmockKspCodegenVersion"))
             }
         }
 
@@ -125,16 +127,17 @@ kotlin {
             dependencies {
             }
         }
-
-        val androidMain by getting {
-            dependencies {
+        if(androidEnabled) {
+            val androidMain by getting {
+                dependencies {
+                }
             }
-        }
 
-        val androidTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(kotlin("test-junit"))
+            val androidTest by getting {
+                dependencies {
+                    implementation(kotlin("test"))
+                    implementation(kotlin("test-junit"))
+                }
             }
         }
     }

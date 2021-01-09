@@ -17,7 +17,10 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
 }
 
-configureAndroid()
+val androidEnabled = System.getenv("ANDROID_HOME") != null
+if (androidEnabled) {
+    configureAndroid()
+}
 
 repositories {
     mavenLocal()
@@ -42,8 +45,10 @@ kotlin {
     macosX64()
     linuxX64()
     ios()
-    android {
-        publishLibraryVariants("release", "debug")
+    if (androidEnabled) {
+        android {
+            publishLibraryVariants("release", "debug")
+        }
     }
 
     sourceSets {
@@ -106,16 +111,18 @@ kotlin {
             dependsOn(nativeMain)
         }
 
-        val androidMain by getting {
-            dependencies {
-                implementation("com.implimentz:unsafe:0.0.6")
+        if (androidEnabled) {
+            val androidMain by getting {
+                dependencies {
+                    implementation("com.implimentz:unsafe:0.0.6")
+                }
             }
-        }
 
-        val androidTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(kotlin("test-junit"))
+            val androidTest by getting {
+                dependencies {
+                    implementation(kotlin("test"))
+                    implementation(kotlin("test-junit"))
+                }
             }
         }
     }

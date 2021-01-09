@@ -6,27 +6,14 @@
 package com.pega.mmock.gradle
 
 import com.google.auto.service.AutoService
-import org.gradle.api.Project
-import org.gradle.api.tasks.compile.AbstractCompile
-import org.jetbrains.kotlin.gradle.dsl.KotlinCommonOptions
-import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
-import org.jetbrains.kotlin.gradle.plugin.KotlinGradleSubplugin
-import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
-import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
+import org.gradle.api.provider.Provider
+import org.jetbrains.kotlin.gradle.plugin.*
 
-@AutoService(KotlinGradleSubplugin::class)
-class MMockSubplugin : KotlinGradleSubplugin<AbstractCompile> {
-    override fun apply(
-        project: Project,
-        kotlinCompile: AbstractCompile,
-        javaCompile: AbstractCompile?,
-        variantData: Any?,
-        androidProjectHandler: Any?,
-        kotlinCompilation: KotlinCompilation<KotlinCommonOptions>?
-    ): List<SubpluginOption> {
-        return listOf(
-                SubpluginOption("codegenDir", CodegenDestination.getDirectoryAbsolutePath(project))
-        )
+@AutoService(KotlinCompilerPluginSupportPlugin::class)
+class MMockSubplugin : KotlinCompilerPluginSupportPlugin {
+    override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> {
+        val project = kotlinCompilation.target.project
+        return project.provider { emptyList() }
     }
 
     override fun getCompilerPluginId(): String = "mmock-codegen"
@@ -35,15 +22,18 @@ class MMockSubplugin : KotlinGradleSubplugin<AbstractCompile> {
         SubpluginArtifact(
             groupId = "com.pega.mmock",
             artifactId = "mmock-compiler-plugin",
-            version = "0.0.0-SNAPSHOT"
+            version = "1.4.21"
         )
 
-    override fun getNativeCompilerPluginArtifact(): SubpluginArtifact? =
-            SubpluginArtifact(
-                    groupId = "com.pega.mmock",
-                    artifactId = "mmock-compiler-plugin-native",
-                    version = "0.0.0-SNAPSHOT"
-            )
+    override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean {
+        return true
+    }
 
-    override fun isApplicable(project: Project, task: AbstractCompile): Boolean = project.plugins.hasPlugin(MMockPlugin::class.java)
+    override fun getPluginArtifactForNative(): SubpluginArtifact {
+        return SubpluginArtifact(
+            groupId = "com.pega.mmock",
+            artifactId = "mmock-compiler-plugin-native",
+            version = "1.4.21"
+        )
+    }
 }

@@ -7,7 +7,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
 }
 
-version = "1.4.21"
+version = "0.0.0-SNAPSHOT"
 
 publishing {
     publications {
@@ -18,12 +18,14 @@ publishing {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("compiler-embeddable"))
+    implementation("com.google.devtools.ksp:symbol-processing-api:1.4.20-dev-experimental-20210110")
     implementation(project(":mmock-annotations"))
     compileOnly("com.google.auto.service:auto-service:1.0-rc6")
     kapt("com.google.auto.service:auto-service:1.0-rc6")
