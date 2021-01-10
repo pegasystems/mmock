@@ -1,12 +1,12 @@
 package com.pega.mmock.ksp
 
-import com.pega.mmock.ksp.template.CodeTemplate
-import com.pega.mmock.ksp.template.MockClassCodeTemplate
-import com.pega.mmock.ksp.template.TypeParameterCodeTemplate
 import com.google.devtools.ksp.getDeclaredProperties
 import com.google.devtools.ksp.isAbstract
 import com.google.devtools.ksp.symbol.ClassKind
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.pega.mmock.ksp.template.CodeTemplate
+import com.pega.mmock.ksp.template.MockClassCodeTemplate
+import com.pega.mmock.ksp.template.TypeParameterCodeTemplate
 
 internal fun KSClassDeclaration.toCodeTemplate(): CodeTemplate {
     return MockClassCodeTemplate(

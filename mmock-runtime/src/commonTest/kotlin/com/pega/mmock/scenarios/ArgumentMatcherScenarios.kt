@@ -6,6 +6,7 @@
 package com.pega.mmock.scenarios
 
 import com.pega.mmock.MMockRecordingException
+import com.pega.mmock.MMockVerificationException
 import com.pega.mmock.NoMethodStubException
 import com.pega.mmock.dsl.any
 import com.pega.mmock.dsl.anyArray
@@ -14,6 +15,11 @@ import com.pega.mmock.dsl.anyMap
 import com.pega.mmock.dsl.anySet
 import com.pega.mmock.dsl.eq
 import com.pega.mmock.dsl.never
+import com.pega.mmock.dsl.on
+import com.pega.mmock.dsl.onArray
+import com.pega.mmock.dsl.onList
+import com.pega.mmock.dsl.onMap
+import com.pega.mmock.dsl.onSet
 import com.pega.mmock.dsl.once
 import com.pega.mmock.dsl.times
 import com.pega.mmock.dsl.twice
@@ -24,6 +30,7 @@ import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertNotEquals
 import kotlin.test.assertNull
 
 class ArgumentMatcherScenarios {
@@ -417,6 +424,8 @@ class ArgumentMatcherScenarios {
 
         verify {
             invocation { exampleInterface.multipleCollectionArgs(anyList(), anySet(), anyMap()) } called times(4)
+            invocation { exampleInterface.multipleCollectionArgs(anyList(), anySet(), anyMap()) } called { it > 2 }
+            invocation { exampleInterface.multipleCollectionArgs(anyList(), anySet(), anyMap()) } called { it >= 4 }
             invocation { exampleInterface.multipleCollectionArgs(anyList(), anySet<MutableSet<String>, String>(), anyMap()) } called times(3)
             invocation { exampleInterface.multipleCollectionArgs(anyList(), anySet<MutableSet<String>, String>(), anyMap<MutableMap<Int, String>, Int, String>()) } called twice
             invocation { exampleInterface.multipleCollectionArgs(anyList<MutableList<Int>, Int>(), anySet(), anyMap()) } called twice
@@ -452,6 +461,7 @@ class ArgumentMatcherScenarios {
         verifyFailed { invocation { exampleInterface.multipleArgs(1, 2, 3) } called never }
         verifyFailed { invocation { exampleInterface.multipleCollectionArgs(listOf(1, 2), setOf("Int", "String"), mapOf(Pair(1, "String"))) } called never }
         verifyFailed { invocation { exampleInterface.multipleArgs(3, 2, 1) } called once }
+        verifyFailed { invocation { exampleInterface.multipleArgs(3, 2, 1) } called { it > 0 } }
         verifyFailed { invocation { exampleInterface.multipleCollectionArgs(listOf(3, 4), setOf("NotInt", "NotString"), mapOf(Pair(2, "NotString"))) } called once }
     }
 
@@ -496,6 +506,12 @@ class ArgumentMatcherScenarios {
             invocation { myMock.mutableProperty } called twice
             invocation { myMock.mutableProperty = any() } called once
         }
+
+        assertFailsWith<MMockVerificationException> {
+            verify {
+                invocation { myMock.mutableProperty } called { it < 2 }
+            }
+        }
     }
 
     @Test
@@ -507,6 +523,70 @@ class ArgumentMatcherScenarios {
 
         verify {
             invocation { myMock.property } called once
+            invocation { myMock.property } called { it > 0 }
+        }
+    }
+
+    @Test
+    @JsName("Test_on_matcher")
+    fun `Test on matcher`() = withMMock {
+        val myMock: ExampleInterface = mock.ExampleInterface()
+        every { myMock.function(on { it > 8 }) } returns 1
+        every { myMock.function(on { it > 4 }) } returns 2
+        every { myMock.function(on { it <= 0 }) } returns -1
+        every { myMock.functionString(on { it.split(" ").contains("test") }) } returns 3
+        every { myMock.functionString(any()) } returns 4
+
+        assertEquals(2, myMock.function(5))
+        assertEquals(1, myMock.function(10))
+        assertEquals(-1, myMock.function(0))
+        assertEquals(-1, myMock.function(-10))
+        assertEquals(3, myMock.functionString("This is the test string"))
+        assertNotEquals(3, myMock.functionString("String without the required part"))
+        assertFailsWith<NoMethodStubException> { myMock.function(2) }
+    }
+
+    @Test
+    @JsName("Test_on_matcher_with_collections")
+    fun `Test on matcher with collections`() = withMMock {
+        val myMock: ExampleInterface = mock.ExampleInterface()
+
+        every { myMock.functionArray(onArray { it.isEmpty() }) } returns 1
+        every { myMock.functionMutableList(onList { it.contains(4) }) } returns 3
+        every { myMock.functionMutableList(anyList()) } returns 2
+        every { myMock.functionAny(onList<MutableList<String>, String> { it.size == 3 }) } returns 4
+        every { myMock.functionMutableSet(onSet { it.size == 3 }) } returns 5
+        every { myMock.functionAny(onSet<Set<String>, String> { it.contains("A") }) } returns 6
+        every { myMock.functionMap(onMap { it.containsKey(3) }) } returns 7
+        every { myMock.functionAny(onMap<MutableMap<Int, String>, Int, String> { it.containsValue("B") }) } returns 8
+
+        assertEquals(1, myMock.functionArray(emptyArray()))
+        assertEquals(2, myMock.functionMutableList(DelegatedMutableList(mutableListOf(1, 2, 3))))
+        assertEquals(3, myMock.functionMutableList(DelegatedMutableList(mutableListOf(3, 4))))
+        assertEquals(4, myMock.functionAny(DelegatedMutableList(mutableListOf("A", "B", "C"))))
+        assertEquals(5, myMock.functionMutableSet(DelegatedMutableSet(mutableSetOf(1, 2, 3))))
+        assertEquals(6, myMock.functionAny(DelegatedMutableSet(mutableSetOf("A", "B", "C"))))
+        assertEquals(7, myMock.functionMap(DelegatedMap(mapOf(Pair(1, 1), Pair(2, 2), Pair(3, 3)))))
+        assertEquals(8, myMock.functionAny(DelegatedMutableMap(mutableMapOf(Pair(1, "B"), Pair(2, "A")))))
+
+        assertFailsWith<NoMethodStubException> { myMock.functionMutableSet(DelegatedMutableSet(mutableSetOf())) }
+        assertFailsWith<NoMethodStubException> { myMock.functionAny("String") }
+        assertFailsWith<NoMethodStubException> { myMock.functionMap(DelegatedMap(mapOf(Pair(1, 1), Pair(2, 2)))) }
+    }
+
+    @Test
+    @JsName("Test_any_matcher_with_null")
+    fun `Test any matcher with null`() = withMMock {
+        val myMock = mock.ExampleInterface()
+
+        every { myMock.functionStringNullable(any<String>()) } returns 1
+        every { myMock.functionStringNullable(any()) } returns 2
+
+        assertEquals(2, myMock.functionStringNullable(null))
+        assertEquals(1, myMock.functionStringNullable("String"))
+
+        verify {
+            invocation { myMock.functionStringNullable(any()) } called twice
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.pega.mmock.ksp
 
-import com.pega.mmock.ksp.utils.MMockCollectionEnum
 import com.google.devtools.ksp.symbol.KSTypeReference
+import com.pega.mmock.ksp.utils.MMockCollectionEnum
 
 internal fun KSTypeReference.getReferenceName(): String {
     return "${this.resolve()!!.declaration.qualifiedName!!.getQualifier()}.${this.element}"

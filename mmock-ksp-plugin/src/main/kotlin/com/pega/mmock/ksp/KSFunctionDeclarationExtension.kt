@@ -1,13 +1,13 @@
 package com.pega.mmock.ksp
 
+import com.google.devtools.ksp.symbol.KSFunctionDeclaration
+import com.google.devtools.ksp.symbol.Modifier
 import com.pega.mmock.ksp.exception.InvalidConstructorException
 import com.pega.mmock.ksp.template.CodeTemplate
 import com.pega.mmock.ksp.template.ConstructorCodeTemplate
 import com.pega.mmock.ksp.template.ConstructorParameterCodeTemplate
 import com.pega.mmock.ksp.template.MethodCodeTemplate
 import com.pega.mmock.ksp.template.ParameterCodeTemplate
-import com.google.devtools.ksp.symbol.KSFunctionDeclaration
-import com.google.devtools.ksp.symbol.Modifier
 
 internal fun KSFunctionDeclaration.toCodeTemplate(): CodeTemplate {
     return MethodCodeTemplate(

@@ -1,12 +1,16 @@
 package com.pega.mmock
 
 import com.google.auto.service.AutoService
-import com.google.devtools.ksp.processing.*
+import com.google.devtools.ksp.processing.CodeGenerator
+import com.google.devtools.ksp.processing.Dependencies
+import com.google.devtools.ksp.processing.KSPLogger
+import com.google.devtools.ksp.processing.Resolver
+import com.google.devtools.ksp.processing.SymbolProcessor
+import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.pega.mmock.ksp.checkConstraints
 import com.pega.mmock.ksp.toCodeTemplate
 import com.pega.mmock.ksp.utils.CodeBuilder
 import com.pega.mmock.ksp.utils.streamAndClose
-import com.google.devtools.ksp.symbol.KSClassDeclaration
 
 @AutoService(SymbolProcessor::class)
 class MMockSymbolProcessor : SymbolProcessor {

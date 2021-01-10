@@ -1,4 +1,5 @@
 import com.android.build.gradle.LibraryExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
@@ -15,6 +16,7 @@ plugins {
     kotlin("multiplatform")
     `maven-publish`
     id("org.jlleitschuh.gradle.ktlint")
+    id("org.jetbrains.dokka") version "1.4.0"
 }
 
 val androidEnabled = System.getenv("ANDROID_HOME") != null
@@ -31,6 +33,8 @@ repositories {
 }
 
 val coroutinesVersion: String by project
+val cglibVersion: String by project
+val objenesisVersion: String by project
 
 kotlin {
     jvm()
@@ -70,6 +74,9 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("reflect"))
+                implementation("org.objenesis:objenesis:$objenesisVersion")
+                implementation("cglib:cglib:$cglibVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
             }
         }
 
@@ -114,7 +121,11 @@ kotlin {
         if (androidEnabled) {
             val androidMain by getting {
                 dependencies {
+                    implementation(kotlin("reflect"))
+                    implementation("cglib:cglib:$cglibVersion")
+                    implementation("org.objenesis:objenesis:$objenesisVersion")
                     implementation("com.implimentz:unsafe:0.0.6")
+                    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 }
             }
 
@@ -146,6 +157,20 @@ tasks {
             freeCompilerArgs = freeCompilerArgs + listOf("-Xopt-in=kotlin.RequiresOptIn")
         }
     }
+
+    withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = "1.6"
+    }
+
+    withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
+        dokkaSourceSets {
+            configureEach {
+                if (platform.get() == org.jetbrains.dokka.Platform.native) {
+                    displayName.set("native")
+                }
+            }
+        }
+    }
 }
 
 fun Project.configureAndroid() {
@@ -175,7 +200,7 @@ fun Project.configureAndroid() {
         }
 
         sourceSets.getByName("androidTest").apply {
-            java.srcDirs("src/commonTest/kotlin")
+            java.srcDirs("src/commonTest/kotlin", "src/jvmTest/kotlin")
             res.srcDirs("src/androidTest/res")
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
             assets.srcDirs("src/commonMain/resources/assets")

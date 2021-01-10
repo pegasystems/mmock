@@ -1,4 +1,5 @@
 import com.android.build.gradle.AppExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
@@ -130,6 +131,7 @@ kotlin {
         if(androidEnabled) {
             val androidMain by getting {
                 dependencies {
+                    implementation(kotlin("stdlib"))
                 }
             }
 
@@ -141,6 +143,10 @@ kotlin {
             }
         }
     }
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.6"
 }
 
 fun Project.configureAndroid() {

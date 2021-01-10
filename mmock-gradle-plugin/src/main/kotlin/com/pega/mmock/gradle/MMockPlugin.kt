@@ -11,7 +11,6 @@ import org.gradle.api.Project
 class MMockPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.afterEvaluate {
-
         }
     }
 }

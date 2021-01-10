@@ -3,7 +3,7 @@
  * Use of this source code is governed by a Apache 2.0 license that can be found in the LICENSE file.
  */
 
-package com.pega.mmock.compiler.codegen
+package com.pega.mmock.ksp.template
 
 import kotlin.test.assertEquals
 

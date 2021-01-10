@@ -1,7 +1,7 @@
 package com.pega.mmock.ksp
 
-import com.pega.mmock.ksp.template.PropertyCodeTemplate
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
+import com.pega.mmock.ksp.template.PropertyCodeTemplate
 
 internal fun KSPropertyDeclaration.toCodeTemplate(): PropertyCodeTemplate {
     return PropertyCodeTemplate(
