@@ -1,47 +1,41 @@
-package com.pega.mmock
+package com.pega.mmock.ksp
 
 import com.google.auto.service.AutoService
 import com.google.devtools.ksp.processing.CodeGenerator
-import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.symbol.KSClassDeclaration
-import com.pega.mmock.ksp.checkConstraints
-import com.pega.mmock.ksp.toCodeTemplate
-import com.pega.mmock.ksp.utils.CodeBuilder
-import com.pega.mmock.ksp.utils.streamAndClose
+import com.pega.mmock.ksp.template.MockClassCodeTemplate
 
 @AutoService(SymbolProcessor::class)
 class MMockSymbolProcessor : SymbolProcessor {
-
-    lateinit var codeGenerator: CodeGenerator
     lateinit var logger: KSPLogger
+    lateinit var mmockCodegenDir: String
 
     override fun finish() {
         logger.info("MMockSymbolProcessor codegeneration finished")
     }
 
     override fun init(options: Map<String, String>, kotlinVersion: KotlinVersion, codeGenerator: CodeGenerator, logger: KSPLogger) {
-        this.codeGenerator = codeGenerator
+        this.mmockCodegenDir = requireNotNull(options["mmockCodegenDir"]) {
+            "mmockCodegenDir ksp option should have correct path".apply { logger.error(this) }
+        }
         this.logger = logger
         logger.info("MMockSymbolProcessor initiated")
     }
 
     override fun process(resolver: Resolver) {
         logger.info("MMockSymbolProcessor processing started")
-        val files = resolver.getSymbolsWithAnnotation("com.pega.mmock.GenerateMock")
+        val mockClasses = resolver.getSymbolsWithAnnotation("com.pega.mmock.GenerateMock")
+                .asSequence()
                 .filterIsInstance<KSClassDeclaration>()
-                .forEach {
+                .map {
                     it.checkConstraints()
-                    val classFile = codeGenerator.createNewFile(
-                        dependencies = Dependencies.ALL_FILES,
-                        packageName = it.packageName.asString(),
-                        fileName = "${it.simpleName.getShortName()}_Mock",
-                        extensionName = "kt"
-                    )
-
-                    classFile.streamAndClose(it.toCodeTemplate().generate(CodeBuilder()))
+                    it.toCodeTemplate()
                 }
+                .filterIsInstance<MockClassCodeTemplate>()
+
+        PackageStreamer(mmockCodegenDir).stream(mockClasses)
     }
 }

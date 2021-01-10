@@ -7,8 +7,6 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
 }
 
-version = "1.4.21"
-
 publishing {
     publications {
         create<MavenPublication>("maven") {

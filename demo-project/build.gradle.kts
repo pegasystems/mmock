@@ -15,13 +15,12 @@ buildscript {
 
 plugins {
     kotlin("multiplatform") version "1.4.21"
-    id("com.google.devtools.ksp") version "1.4.20-dev-experimental-20210110"
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
     id("com.pega.mmock") version "0.0.0-SNAPSHOT"
 }
 
 val androidEnabled = System.getenv("ANDROID_HOME") != null
-if(androidEnabled) {
+if (androidEnabled) {
     configureAndroid()
 }
 
@@ -33,7 +32,6 @@ repositories {
 }
 
 val mmockRuntimeVersion = "0.0.0-SNAPSHOT"
-val mmockKspCodegenVersion = "0.0.0-SNAPSHOT"
 
 kotlin {
     jvm()
@@ -48,7 +46,7 @@ kotlin {
     macosX64()
     linuxX64()
     ios()
-    if(androidEnabled) {
+    if (androidEnabled) {
         android()
     }
 
@@ -72,7 +70,6 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("reflect"))
-                configurations["ksp"].dependencies.add(project.dependencies.create("com.pega.mmock:mmock-ksp-plugin:$mmockKspCodegenVersion"))
             }
         }
 
@@ -128,7 +125,7 @@ kotlin {
             dependencies {
             }
         }
-        if(androidEnabled) {
+        if (androidEnabled) {
             val androidMain by getting {
                 dependencies {
                     implementation(kotlin("stdlib"))

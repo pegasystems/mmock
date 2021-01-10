@@ -7,8 +7,6 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
 }
 
-version = "0.0.0-SNAPSHOT"
-
 publishing {
     publications {
         create<MavenPublication>("maven") {
@@ -22,10 +20,12 @@ repositories {
     mavenCentral()
 }
 
+val kspVersion: String by project
+
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("compiler-embeddable"))
-    implementation("com.google.devtools.ksp:symbol-processing-api:1.4.20-dev-experimental-20210110")
+    implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
     implementation(project(":mmock-annotations"))
     compileOnly("com.google.auto.service:auto-service:1.0-rc6")
     kapt("com.google.auto.service:auto-service:1.0-rc6")
