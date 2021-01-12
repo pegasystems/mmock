@@ -21,9 +21,9 @@ jobs:
         - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
         - source $GRAVIS/install-jdk
         - java -version
-      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishMingwX64PublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
+      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishPluginsToMavenLocal publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishMingwX64PublicationToMavenLocal"
       script:
-        - "./gradlew clean mingwX64Test"
+        - "./gradlew mingwX64Test"
         - "cd demo-project"
         - "./gradlew clean mingwX64Test"
 
@@ -32,9 +32,9 @@ jobs:
       os: osx
       osx_image: xcode11
       language: java
-      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishMacosX64PublicationToMavenLocal publishIosX64PublicationToMavenLocal publishIosArm64PublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
+      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishPluginsToMavenLocal publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishMacosX64PublicationToMavenLocal publishIosX64PublicationToMavenLocal publishIosArm64PublicationToMavenLocal"
       script:
-        - "./gradlew clean macosX64Test iosX64Test"
+        - "./gradlew macosX64Test iosX64Test"
         - "cd demo-project"
         - "./gradlew clean macosX64Test iosX64Test"
 
@@ -42,27 +42,27 @@ jobs:
       name: "Linux"
       os: linux
       language: java
-      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishLinuxX64PublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
+      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishPluginsToMavenLocal publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishLinuxX64PublicationToMavenLocal"
       script:
-        - "./gradlew clean linuxX64Test"
+        - "./gradlew linuxX64Test"
         - "cd demo-project"
         - "./gradlew clean linuxX64Test"
 
     - stage: test
       name: "JavaScript"
       language: java
-      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishLinuxX64PublicationToMavenLocal publishJsPublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
+      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishPluginsToMavenLocal publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishLinuxX64PublicationToMavenLocal publishJsPublicationToMavenLocal"
       script:
-        - "./gradlew clean jsTest jsNodeTest"
+        - "./gradlew jsTest jsNodeTest"
         - "cd demo-project"
         - "./gradlew clean jsTest jsNodeTest"
 
     - stage: test
       name: "JVM"
       language: java
-      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishLinuxX64PublicationToMavenLocal publishJvmPublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
+      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishPluginsToMavenLocal publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishLinuxX64PublicationToMavenLocal publishJvmPublicationToMavenLocal"
       script:
-        - "./gradlew clean jvmTest"
+        - "./gradlew jvmTest"
         - "cd demo-project"
         - "./gradlew clean jvmTest"
 
@@ -74,8 +74,8 @@ jobs:
         components:
           - build-tools-29.0.2
           - android-29
-      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishLinuxX64PublicationToMavenLocal publishJvmPublicationToMavenLocal publishAndroidDebugPublicationToMavenLocal publishAndroidReleasePublicationToMavenLocal mmock-compiler-plugin:publishToMavenLocal mmock-compiler-plugin-native:publishToMavenLocal mmock-gradle-plugin:publishToMavenLocal"
+      before_script: "./gradlew -Prelease.version=0.0.0-SNAPSHOT clean publishPluginsToMavenLocal publishMetadataPublicationToMavenLocal publishKotlinMultiplatformPublicationToMavenLocal publishLinuxX64PublicationToMavenLocal publishJvmPublicationToMavenLocal publishAndroidDebugPublicationToMavenLocal publishAndroidReleasePublicationToMavenLocal"
       script:
-        - "./gradlew clean testDebugUnitTest"
+        - "./gradlew testDebugUnitTest"
         - "cd demo-project"
         - "./gradlew clean compileKotlinLinuxX64 testDebugUnitTest"

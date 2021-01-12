@@ -1,5 +1,12 @@
 # Guide
-To create mock annotate interface with `GenerateMock` annotation.
+To create mock annotate interface or class with `GenerateMock` annotation.
+
+In order to mock the class, the constructor has to fulfill following requirements:
+- it has to be empty or;
+- all arguments have either default value or are:
+    - primitive types
+    - collections
+- if mocked class is a sub-class, its parent class constructor has to meet the above as well
 
 ```kotlin
 package com.example
@@ -8,6 +15,16 @@ import com.pega.mmock.GenerateMock
 
 @GenerateMock
 interface MyInterface
+```
+or
+
+```kotlin
+package com.example
+
+import com.pega.mmock.GenerateMock
+
+@GenerateMock
+class MyClass(val arg1: Int, val arg2: AnotherClass = AnotherClass())
 ```
 
 This will cause extension function for creating mocks.
@@ -21,6 +38,7 @@ class ExampleTest {
     @Test
     fun example() = withMMock {
         val myInterface = mock.MyInterface()
+        val myClass = mock.MyClass()
     }   
 }
 ```

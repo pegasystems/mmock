@@ -7,8 +7,6 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
 }
 
-version = "1.3.72"
-
 publishing {
     publications {
         create<MavenPublication>("maven") {
@@ -24,6 +22,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("compiler-embeddable"))
+    implementation(project(":mmock-annotations"))
     compileOnly("com.google.auto.service:auto-service:1.0-rc6")
     kapt("com.google.auto.service:auto-service:1.0-rc6")
 

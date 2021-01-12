@@ -2,6 +2,7 @@ rootProject.name = "mmock"
 
 include(":mmock-runtime")
 include(":mmock-annotations")
+include(":mmock-ksp-plugin")
 include(":mmock-compiler-plugin")
 include(":mmock-compiler-plugin-native")
 include(":mmock-gradle-plugin")

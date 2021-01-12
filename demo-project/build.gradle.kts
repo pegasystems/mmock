@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
+        gradlePluginPortal()
         jcenter()
         mavenCentral()
         google()
@@ -13,12 +14,15 @@ buildscript {
 }
 
 plugins {
-    kotlin("multiplatform") version "1.3.72"
+    kotlin("multiplatform") version "1.4.21"
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
     id("com.pega.mmock") version "0.0.0-SNAPSHOT"
 }
 
-configureAndroid()
+val androidEnabled = System.getenv("ANDROID_HOME") != null
+if (androidEnabled) {
+    configureAndroid()
+}
 
 repositories {
     mavenLocal()
@@ -42,16 +46,17 @@ kotlin {
     macosX64()
     linuxX64()
     ios()
-    android()
+    if (androidEnabled) {
+        android()
+    }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(project(":sub-module"))
 
-                implementation(kotlin("stdlib-common"))
                 implementation("com.pega.mmock:mmock-runtime:$mmockRuntimeVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.3.5")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
             }
         }
 
@@ -64,9 +69,7 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
-                implementation(kotlin("stdlib-jdk8"))
                 implementation(kotlin("reflect"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5")
             }
         }
 
@@ -79,7 +82,6 @@ kotlin {
 
         val jsMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.3.5")
             }
         }
 
@@ -91,7 +93,6 @@ kotlin {
 
         val nativeMain by creating {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.5")
             }
         }
 
@@ -124,17 +125,18 @@ kotlin {
             dependencies {
             }
         }
-
-        val androidMain by getting {
-            dependencies {
-                implementation(kotlin("stdlib"))
+        if (androidEnabled) {
+            val androidMain by getting {
+                dependencies {
+                    implementation(kotlin("stdlib"))
+                }
             }
-        }
 
-        val androidTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(kotlin("test-junit"))
+            val androidTest by getting {
+                dependencies {
+                    implementation(kotlin("test"))
+                    implementation(kotlin("test-junit"))
+                }
             }
         }
     }

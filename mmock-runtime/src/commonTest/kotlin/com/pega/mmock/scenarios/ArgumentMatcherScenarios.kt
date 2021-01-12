@@ -589,5 +589,4 @@ class ArgumentMatcherScenarios {
             invocation { myMock.functionStringNullable(any()) } called twice
         }
     }
-
 }

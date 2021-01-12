@@ -16,13 +16,16 @@ publishing {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
-    google()
 }
+
+val kspVersion: String by project
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation(kotlin("compiler"))
+    implementation(kotlin("compiler-embeddable"))
+    implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
     implementation(project(":mmock-annotations"))
     compileOnly("com.google.auto.service:auto-service:1.0-rc6")
     kapt("com.google.auto.service:auto-service:1.0-rc6")
@@ -31,5 +34,5 @@ dependencies {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.6"
+    kotlinOptions.jvmTarget = "1.8"
 }

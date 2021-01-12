@@ -19,13 +19,17 @@ plugins {
     id("org.jetbrains.dokka") version "1.4.0"
 }
 
-configureAndroid()
+val androidEnabled = System.getenv("ANDROID_HOME") != null
+if (androidEnabled) {
+    configureAndroid()
+}
 
 repositories {
     mavenLocal()
     mavenCentral()
     jcenter()
     google()
+    maven("https://dl.bintray.com/kotlin/kotlin-eap")
 }
 
 val coroutinesVersion: String by project
@@ -45,15 +49,16 @@ kotlin {
     macosX64()
     linuxX64()
     ios()
-    android {
-        publishLibraryVariants("release", "debug")
+    if (androidEnabled) {
+        android {
+            publishLibraryVariants("release", "debug")
+        }
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(kotlin("stdlib-common"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutinesVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
 
                 api(project(":mmock-annotations"))
             }
@@ -68,7 +73,6 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
-                implementation(kotlin("stdlib-jdk8"))
                 implementation(kotlin("reflect"))
                 implementation("org.objenesis:objenesis:$objenesisVersion")
                 implementation("cglib:cglib:$cglibVersion")
@@ -83,12 +87,6 @@ kotlin {
             }
         }
 
-        val jsMain by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$coroutinesVersion")
-            }
-        }
-
         val jsTest by getting {
             dependencies {
                 implementation(kotlin("test-js"))
@@ -97,7 +95,6 @@ kotlin {
 
         val nativeMain by creating {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$coroutinesVersion")
             }
         }
 
@@ -121,20 +118,22 @@ kotlin {
             dependsOn(nativeMain)
         }
 
-        val androidMain by getting {
-            dependencies {
-                implementation(kotlin("reflect"))
-                implementation("cglib:cglib:$cglibVersion")
-                implementation("org.objenesis:objenesis:$objenesisVersion")
-                implementation("com.implimentz:unsafe:0.0.6")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+        if (androidEnabled) {
+            val androidMain by getting {
+                dependencies {
+                    implementation(kotlin("reflect"))
+                    implementation("cglib:cglib:$cglibVersion")
+                    implementation("org.objenesis:objenesis:$objenesisVersion")
+                    implementation("com.implimentz:unsafe:0.0.6")
+                    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+                }
             }
-        }
 
-        val androidTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(kotlin("test-junit"))
+            val androidTest by getting {
+                dependencies {
+                    implementation(kotlin("test"))
+                    implementation(kotlin("test-junit"))
+                }
             }
         }
     }
