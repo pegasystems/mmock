@@ -25,3 +25,16 @@ allprojects {
         google()
     }
 }
+
+tasks {
+    val publishPluginsToMavenLocal by creating {
+        dependsOn(
+                ":mmock-runtime:publishJvmPublicationToMavenLocal", // required for kspKotlinJvm run
+                ":mmock-annotations:publishJvmPublicationToMavenLocal", // required for kspKotlinJvm run
+                ":mmock-ksp-plugin:publishToMavenLocal",
+                ":mmock-compiler-plugin:publishToMavenLocal",
+                ":mmock-compiler-plugin-native:publishToMavenLocal",
+                ":mmock-gradle-plugin:publishToMavenLocal"
+        )
+    }
+}
